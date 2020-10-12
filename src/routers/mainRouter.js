@@ -5,11 +5,11 @@ const dataRouter = require('./dataRouter');
 
 const router = express.Router();
 
-router.use('/api/auth', authRouter)
+router.use('/auth', authRouter)
 
-router.use('/api/data', dataRouter)
+router.use('/data', dataRouter)
 
-router.get('/api/getList', (req, res) => {
+router.get('/getList', (req, res) => {
     var list = ['item1', 'item2', 'item3'];
     res.json(list);
     console.log('sent list items');

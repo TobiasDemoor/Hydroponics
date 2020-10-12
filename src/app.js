@@ -2,9 +2,12 @@
 const express = require('express');
 const config = require('config');
 const path = require('path')
+const cookieParser = require('cookie-parser');
 const router = require('./routers/mainRouter');
 
 const app = express();
+
+app.use(cookieParser());
 
 app.use(express.static(config.get('client')));
 
