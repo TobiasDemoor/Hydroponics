@@ -2,9 +2,9 @@
   "name": "webapp",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node index.js",
     "test": "jest"
   },
   "keywords": [],
@@ -16,7 +16,9 @@
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "jwt-simple": "^0.5.6",
-    "moment": "^2.29.1"
+    "log-timestamp": "^0.3.0",
+    "moment": "^2.29.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

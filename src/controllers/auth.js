@@ -10,5 +10,6 @@ module.exports.userLogin = function(req, res) {
     res.cookie("token", token, {
         maxAge: moment.duration(...config.get("expTime")), SameSite: "Strict"
     })
+    console.log(`Usuario username:${user.username}`)
     return res.status(200).send({})
 }
