@@ -1,11 +1,11 @@
 "use strict";
 const express = require('express');
-const middleware = require('../controllers/middleware');
+const { ensureAuthenticated } = require('../controllers/middleware');
 const router = express.Router();
 
-router.get('/private', middleware.ensureAuthenticated, (req, res) => {
+router.get('/private', ensureAuthenticated, (req, res) => {
     // TODO: todo jeje
-    res.status(200);
+    return res.status(200);
 });
 
 module.exports = router

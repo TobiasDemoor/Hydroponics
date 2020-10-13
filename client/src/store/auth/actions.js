@@ -1,19 +1,13 @@
 import service from '../../services/authService'
+import {loginRequest,loginSuccess,loginError} from './typeDefs'
 
 export function login(username, password) {
-    return (dispatch, getState) => {
-        // dispatch({});
-
+    return dispatch => {
+        dispatch({type: loginRequest});
         service.login(username, password)
             .then(
-                (response) => {
-                    // const { token, exp } = response.token;
-                    // document.cookie = `token=${token};expires=${new Date(exp)};path=/`
-                    // const payload = { ...response };
-                    // payload.isLoggedIn = userToken != null;
-                    // dispatch({type:});
-                }
-                // err => dispatch({type: "HOla"}),
+                () => dispatch({type: loginSuccess}),
+                err => dispatch({type: loginError, payload: err})
             );
     };
 }

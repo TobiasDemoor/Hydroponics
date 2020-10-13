@@ -30,7 +30,7 @@ class Login extends Component {
 
     handleChange(e) {
         const { id, value } = e.target
-        this.setState((state) => {
+        this.setState(() => {
             return { [id]: value }
         })
     }
@@ -83,7 +83,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    login: body => dispatch(login(body))
+    login: (username, password) => dispatch(login(username, password))
 })
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(Login))
