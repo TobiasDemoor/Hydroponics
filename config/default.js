@@ -12,6 +12,5 @@ module.exports = {
     auth: {
         "routeUser": "user.dat",
         "default": "admin",
-        "errorLogin": "Usuario o contraseña incorrectos"
     }
 }

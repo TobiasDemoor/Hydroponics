@@ -1,39 +1,39 @@
 "use strict";
 const config = require('config');
 const AuthenticationError = require('../errors/AuthenticationError');
-const User = require('../models/User');
 const {login} = require('../services/authServices');
 
-function userLogin(req, res) {
+async function userLogin(req, res) {
     const {username, password} = req.body;
-    return login(username, password).then(id, token => {
+    login(username, password).then(id, token => {
         res.cookie("token", token, {
             maxAge: moment.duration(...config.get("expTime")), SameSite: "Strict"
         })
         console.log(`Usuario username:${user.username}`)
-        return res.status(200).send({id})
-    }).catch(e => {
-        if (e instanceof AuthenticationError) {
+        res.status(200).send({id})
+    }).catch(err => {
+        if (err instanceof AuthenticationError) {
             console.log(
-                `Intento de login con ${e.field} incorrecto`+
+                `Intento de login con ${err.field} incorrecto`+
                 `{usuario: ${username}, password: ${password}}`
                 )
-            return res.status(401).send({message: config.auth.errorLogin});
+            res.status(401).send({message: "Usuario o contraseña incorrectos"});
         } else {
-            return res.status(500).send(e.message);
+            console.error(err.stack);
+            res.status(500).send({message: "Error desconocido al loguearse"})
         }
     });
 }
 
-function userModify(req, res) {
+async function userModify(req, res) {
     const {username, password} = req.body;
     modifyUser(username, password).then (
         () => {
-            return res.status(200).send({})
+            res.status(200).send({})
         },
-        e => {
-            console.error(e.stack);
-            return res.status(500).send({message: "Error al modificar usuario"})
+        err => {
+            console.error(err.stack);
+            res.status(500).send({message: "Error al modificar usuario"})
         }
     )
 }
