@@ -1,5 +1,5 @@
 const tokenServices = require('../auth/tokenServices');
-const { getUser, saveUser } = require('../auth/user.repository');
+const { getUser, saveUser } = require('../auth/userRepository');
 const { verifySaltHashPassword } = require('../auth/hashServices');
 const config = require('config');
 const AuthenticationError = require('../errors/AuthenticationError');
@@ -15,24 +15,22 @@ const User = require('../models/User');
  * @returns {Number}
  */
 async function login(username, password) {
-    return new Promise((resolve, reject) => {
-        getUser()
+    return getUser()
         .catch(() => {
             const user = new User(config.auth.default, config.auth.default);
             saveUser(user).catch(console.error);
             return user;
         }).then(user => {
             if (user.username !== username) {
-                reject(new AuthenticationError("username"));
+                throw new AuthenticationError("username");
             }
             const candidatePassword = verifySaltHashPassword(password, user.salt)
             if (user.password !== candidatePassword) {
-                reject(new AuthenticationError("password"));
+                throw new AuthenticationError("password");
             }
             const token = tokenServices.createToken(user)
-            resolve({user, token});
+            return {user, token};
         })
-    });
 }
 
 async function modifyUser(username, password) {

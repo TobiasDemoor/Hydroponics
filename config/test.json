@@ -1,0 +1,10 @@
+{
+    "jwt": {
+        "TOKEN_SECRET": "tokensecreto",
+        "expTime": [1, "m"]
+    },
+    "auth": {
+        "routeUser": "user.test.json",
+        "default": "admin"
+    }
+}
