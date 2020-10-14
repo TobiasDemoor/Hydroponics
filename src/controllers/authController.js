@@ -1,16 +1,17 @@
 "use strict";
 const config = require('config');
+const moment = require('moment');
 const AuthenticationError = require('../errors/AuthenticationError');
 const {login} = require('../services/authServices');
 
 async function userLogin(req, res) {
     const {username, password} = req.body;
-    login(username, password).then(id, token => {
+    login(username, password).then(({user, token}) => {
         res.cookie("token", token, {
-            maxAge: moment.duration(...config.get("expTime")), SameSite: "Strict"
+            maxAge: moment.duration(...config.jwt.expTime), SameSite: "Strict"
         })
-        console.log(`Usuario username:${user.username}`)
-        res.status(200).send({id})
+        console.log(`Usuario username:${user.username}`);
+        res.status(200).send({id: user.id})
     }).catch(err => {
         if (err instanceof AuthenticationError) {
             console.log(

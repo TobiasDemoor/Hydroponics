@@ -10,7 +10,7 @@ module.exports = {
         "expTime": [1, 'd'],
     },
     auth: {
-        "routeUser": "user.dat",
+        "routeUser": "user.json",
         "default": "admin",
     }
 }

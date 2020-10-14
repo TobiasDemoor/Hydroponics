@@ -7,7 +7,7 @@ export function login(username, password) {
         service.login(username, password)
             .then(
                 () => dispatch({ type: loginSuccess }),
-                err => dispatch({ type: loginError, payload: err })
+                err => dispatch({ type: loginError, error: err })
             );
     };
 }

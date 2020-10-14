@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextField, Typography, Card, Container, Button, CardContent } from '@material-ui/core'
+import { TextField, Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { login } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
+import isLoggedIn from '../helpers/isLoggedIn';
 
 const styles = theme => ({
     form: {
@@ -12,8 +13,14 @@ const styles = theme => ({
     card: {
         padding: theme.spacing(4)
     },
+    error: {
+        marginBottom: theme.spacing(4)
+    },
     input: {
         marginBottom: theme.spacing(4)
+    },
+    cardActions: {
+        justifyContent: 'center'
     }
 })
 
@@ -39,19 +46,26 @@ class Login extends Component {
     handleSubmit(e) {
         e.preventDefault()
         const { username, password } = this.state
-        console.debug("hola")
         this.props.login(username, password)
     }
 
     render() {
-        const { classes, isFetching } = this.props
+        if (isLoggedIn()) {
+            this.props.history.push('/')
+        }
+        const { classes, isFetching, error } = this.props
         const { username, password } = this.state
         return (
             <div className={classes.root}>
                 <Container maxWidth="sm" className={classes.form}>
                     <Card className={classes.card}>
+                        <form onSubmit={this.handleSubmit}>
                         <CardContent>
-                            <form onSubmit={this.handleSubmit}>
+                            {error &&
+                                <div className={classes.error}>
+                                    <Typography variant="h7" color="error">{error}</Typography>
+                                </div>
+                            }
                                 <Typography variant="h5">Iniciar sesión</Typography>
                                 <TextField
                                     className={classes.input}
@@ -60,7 +74,7 @@ class Login extends Component {
                                     type="username"
                                     value={username}
                                     autoComplete="current-username"
-                                    fullWidth="true"
+                                    fullWidth={true}
                                     onChange={this.handleChange}
                                 />
                                 <TextField
@@ -70,9 +84,11 @@ class Login extends Component {
                                     type="password"
                                     value={password}
                                     autoComplete="current-password"
-                                    fullWidth="true"
+                                    fullWidth={true}
                                     onChange={this.handleChange}
                                 />
+                        </CardContent>
+                        <CardActions className={classes.cardActions}>
                                 <LoadingButton
                                     variant="contained"
                                     color="primary"
@@ -80,8 +96,8 @@ class Login extends Component {
                                     text="Confirmar"
                                     loading={isFetching}
                                 />
+                        </CardActions>
                             </form>
-                        </CardContent>
                     </Card>
                 </Container>
             </div>
@@ -90,7 +106,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-    isFetching: state.auth.isFetching
+    isFetching: state.auth.isFetching,
+    error: state.auth.error
 })
 
 const mapDispatchToProps = dispatch => ({

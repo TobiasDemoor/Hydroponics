@@ -8,10 +8,10 @@ const User = require('../models/User');
  * Persiste el usuario en disco en la ruta routeUser
  * @param {User} user 
  */
-function saveUser(user) {
+async function saveUser(user) {
     return new Promise((resolve, reject) => {
         console.log("Guardando usuario");
-        const data = [user.username, user.password, user.salt].join('\n');
+        const data = JSON.stringify(user);
         const route = config.auth.routeUser;
         fs.writeFile(route, data, err => {
             if (err) {
@@ -26,7 +26,7 @@ function saveUser(user) {
 /**
  * @returns {User} usuario recuperado
  */
-function getUser() {
+async function getUser() {
     return new Promise((resolve, reject) => {
         console.log("Cargando usuario");
         fs.readFile(config.auth.routeUser, 'utf8', (err, data) => {
@@ -34,7 +34,7 @@ function getUser() {
                 reject(err || data)
             }
             if (data) {
-                resolve(new User(...data.split('\n')))
+                resolve(JSON.parse(data.toString()))
             }
         });
     })

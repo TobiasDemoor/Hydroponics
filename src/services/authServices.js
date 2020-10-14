@@ -14,7 +14,7 @@ const User = require('../models/User');
  * @throws {AuthenticationError} 
  * @returns {Number}
  */
-function login(username, password) {
+async function login(username, password) {
     return new Promise((resolve, reject) => {
         getUser()
         .catch(() => {
@@ -30,12 +30,12 @@ function login(username, password) {
                 reject(new AuthenticationError("password"));
             }
             const token = tokenServices.createToken(user)
-            resolve([user.id, token]);
+            resolve({user, token});
         })
     });
 }
 
-function modifyUser(username, password) {
+async function modifyUser(username, password) {
     const user = new User(username, password);
     return saveUser(user);
 }
