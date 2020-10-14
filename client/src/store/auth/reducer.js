@@ -1,17 +1,17 @@
 import { loginRequest, loginSuccess, loginError } from './typeDefs'
 
 const initialState = {
-    isLoading: false
+    isFetching: false
 }
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
         case loginRequest:
-            return { ...state, isLoading: true }
+            return { ...state, isFetching: true }
         case loginSuccess:
-            return { ...state, isLoading: false }
+            return { ...state, isFetching: false }
         case loginError:
-            return { ...state, isLoading: false, error: payload.message }
+            return { ...state, isFetching: true, error: payload.message }
         default:
             return state
     }

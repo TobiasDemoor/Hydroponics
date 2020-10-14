@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextField, Typography, Card, Container, Button } from '@material-ui/core'
+import { TextField, Typography, Card, Container, Button, CardContent } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { login } from '../store/auth/actions'
+import LoadingButton from './common/LoadingButton';
 
 const styles = theme => ({
     form: {
@@ -49,32 +50,38 @@ class Login extends Component {
             <div className={classes.root}>
                 <Container maxWidth="sm" className={classes.form}>
                     <Card className={classes.card}>
-                        <form onSubmit={this.handleSubmit}>
-                            <Typography variant="h5">Iniciar sesión</Typography>
-                            <TextField
-                                className={classes.input}
-                                id="username"
-                                label="Usuario"
-                                type="username"
-                                value={username}
-                                autoComplete="current-username"
-                                fullWidth="true"
-                                onChange={this.handleChange}
-                            />
-                            <TextField
-                                className={classes.input}
-                                id="password"
-                                label="Contraseña"
-                                type="password"
-                                value={password}
-                                autoComplete="current-password"
-                                fullWidth="true"
-                                onChange={this.handleChange}
-                            />
-                            <Button variant="contained" color="primary" type="submit">
-                                Confirmar
-                            </Button>
-                        </form>
+                        <CardContent>
+                            <form onSubmit={this.handleSubmit}>
+                                <Typography variant="h5">Iniciar sesión</Typography>
+                                <TextField
+                                    className={classes.input}
+                                    id="username"
+                                    label="Usuario"
+                                    type="username"
+                                    value={username}
+                                    autoComplete="current-username"
+                                    fullWidth="true"
+                                    onChange={this.handleChange}
+                                />
+                                <TextField
+                                    className={classes.input}
+                                    id="password"
+                                    label="Contraseña"
+                                    type="password"
+                                    value={password}
+                                    autoComplete="current-password"
+                                    fullWidth="true"
+                                    onChange={this.handleChange}
+                                />
+                                <LoadingButton
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    text="Confirmar"
+                                    loading={this.props.isFetching}
+                                />
+                            </form>
+                        </CardContent>
                     </Card>
                 </Container>
             </div>
@@ -82,8 +89,12 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    isFetching: state.auth.isFetching
+})
+
 const mapDispatchToProps = dispatch => ({
     login: (username, password) => dispatch(login(username, password))
 })
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Login))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login))
