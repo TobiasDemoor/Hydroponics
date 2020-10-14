@@ -44,7 +44,7 @@ class Login extends Component {
     }
 
     render() {
-        const { classes } = this.props
+        const { classes, isFetching } = this.props
         const { username, password } = this.state
         return (
             <div className={classes.root}>
@@ -78,7 +78,7 @@ class Login extends Component {
                                     color="primary"
                                     type="submit"
                                     text="Confirmar"
-                                    loading={this.props.isFetching}
+                                    loading={isFetching}
                                 />
                             </form>
                         </CardContent>
