@@ -5,6 +5,7 @@ import './App.css';
 import PrivateRoute from './helpers/PrivateRoute'
 import Login from './components/Login.jsx'
 import Home from './components/Home.jsx'
+import ChangeLogin from './components/ChangeLogin';
 
 const styles = theme => ({
     root: {
@@ -22,6 +23,7 @@ function App({ classes }) {
                 <Switch>
                     <PrivateRoute path= "/" exact component={Home} />
                     <Route path='/login' component={Login} />
+                    <Route path='/changeLogin' component={ChangeLogin} />
                 </Switch>
             </BrowserRouter>
         </div>

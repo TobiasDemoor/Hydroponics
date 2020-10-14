@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React, { Component } from 'react'
 import logOut from '../helpers/logOut'
 import LoadingButton from './common/LoadingButton'
@@ -20,6 +21,7 @@ class Home extends Component {
                     text="Cerrar sesión"
                     onClick={this.handleLogOut}
                 />
+                <Button onClick={() => this.props.history.push('/changeLogin')}>aca</Button>
                 <p>Hola mundo</p>
             </div>
         )

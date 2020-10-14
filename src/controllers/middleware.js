@@ -8,7 +8,7 @@ async function ensureAuthenticated(req, res, next) {
         res.status(403).send({message: "Request debe contener token en cabecera"});
     } else {
         const token = req.cookies.token;
-        const payload = jwt.decode(token, config.get("TOKEN_SECRET"));
+        const payload = jwt.decode(token, config.jwt.TOKEN_SECRET);
     
         if (payload.exp <= moment.unix()) {
             res.status(401).send({message: "Sesion ha expirado"});

@@ -1,19 +1,31 @@
 import logOut from '../helpers/logOut'
 
-function handleResponse(response) {
-    return response.text().then((text) => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            if (response.status === 401) {
-                // remuevo cookie
-                logOut()
+async function handleResponse(response) {
+    if (response) {
+        return response.text().then(text => {
+            let data;
+            try {
+                data = text && JSON.parse(text);
+            } catch(err) {
+                if (err instanceof SyntaxError) {
+                    console.error("Respuesta mal formada");
+                    console.error(text);
+                }
             }
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // remuevo cookie
+                    logOut()
+                }
+                const error = (data && data.message) || response.statusText;
+                return Promise.reject(error);
+            }
+    
+            return data;
+        });
+    } else {
+        return new Promise(() => response);
+    }
 }
 
 export default handleResponse;

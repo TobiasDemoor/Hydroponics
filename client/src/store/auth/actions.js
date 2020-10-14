@@ -1,5 +1,8 @@
 import service from '../../services/authService'
-import { loginRequest, loginSuccess, loginError } from './typeDefs'
+import {
+    loginRequest, loginSuccess, loginError,
+    modifyLoginRequest, modifyLoginSuccess, modifyLoginError
+} from './typeDefs'
 
 export function login(username, password) {
     return dispatch => {
@@ -10,4 +13,16 @@ export function login(username, password) {
                 err => dispatch({ type: loginError, error: err })
             );
     };
+}
+
+
+export function modifyLogin(currentUsername, currentPassword, newUsername, newPassword) {
+    return dispatch => {
+        dispatch({ type: modifyLoginRequest });
+        service.modifyLogin(currentUsername, currentPassword, newUsername, newPassword)
+            .then(
+                response => dispatch({ type: modifyLoginSuccess, payload: response }),
+                err => dispatch({ type: modifyLoginError, error: err })
+            )
+    }
 }
