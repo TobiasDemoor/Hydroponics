@@ -1,0 +1,1 @@
+export default () => document.cookie.includes("token=")

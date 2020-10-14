@@ -7,7 +7,7 @@ module.exports.createToken = function(user) {
     const payload = {
         sub: user.username,
         iat: moment().unix(),
-        exp: moment().add(...config.get("expTime")).unix()
+        exp: moment().add(...config.jwt.expTime).unix()
     };
-    return jwt.encode(payload, config.get("TOKEN_SECRET"));
+    return jwt.encode(payload, config.jwt.TOKEN_SECRET);
 };
