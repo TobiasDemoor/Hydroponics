@@ -28,12 +28,16 @@ async function levantaRecientes(archivo, nro) {
     return data
 }
 
-async function recientesGeneral() {
+async function recientesGeneral(nro) {
     const data = config.data.archivos.map(
-        archivo => levantaRecientes(archivo, 5)
+        archivo => levantaRecientes(archivo, nro)
     )
     for (let i = 0; i < data.length; i += 1) {
         data[i] = await data[i]
     }
     return data
+}
+
+module.exports = {
+    recientesGeneral
 }
