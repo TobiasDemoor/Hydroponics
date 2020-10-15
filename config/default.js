@@ -12,5 +12,12 @@ module.exports = {
     auth: {
         "routeUser": "user.json",
         "default": "admin",
+    },
+    data: {
+        separador: ',',
+        archivos: [
+            "./prueba.log",
+            "./prueba.log.0"
+        ]
     }
 }
