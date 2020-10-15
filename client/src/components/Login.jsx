@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextField, Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
+import { Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { login } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
 import isLoggedIn from '../helpers/isLoggedIn';
+import FormFields from './common/FormFields';
 
 const styles = theme => ({
     form: {
@@ -67,26 +68,27 @@ class Login extends Component {
                                 </div>
                             }
                                 <Typography variant="h5">Iniciar sesión</Typography>
-                                <TextField
+                                <FormFields
                                     className={classes.input}
-                                    id="username"
-                                    label="Usuario"
-                                    type="username"
-                                    value={username}
-                                    autoComplete="current-username"
+                                    campos={[
+                                        {
+                                            id:"username",
+                                            label:"Usuario",
+                                            type:"username",
+                                            value:username,
+                                            autoComplete:"current-username"
+                                        },
+                                        {
+                                            id:"password",
+                                            label:"Contraseña",
+                                            type:"password",
+                                            value:password,
+                                            autoComplete:"current-password",
+                                        }
+                                    ]}
                                     fullWidth={true}
                                     onChange={this.handleChange}
-                                />
-                                <TextField
-                                    className={classes.input}
-                                    id="password"
-                                    label="Contraseña"
-                                    type="password"
-                                    value={password}
-                                    autoComplete="current-password"
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                />
+                                    />
                         </CardContent>
                         <CardActions className={classes.cardActions}>
                                 <LoadingButton

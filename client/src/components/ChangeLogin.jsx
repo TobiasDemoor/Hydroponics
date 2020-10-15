@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextField, Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
+import { Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import { modifyLogin } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
+import FormFields from './common/FormFields';
 
 const styles = theme => ({
     form: {
@@ -92,53 +93,45 @@ class ChangeLogin extends Component {
                                     </div>
                                 }
                                 <Typography variant="h5">Cambiar login</Typography>
-                                <TextField
+                                <FormFields
                                     className={classes.input}
-                                    id="currentUsername"
-                                    label="Usuario actual"
-                                    type="username"
-                                    value={currentUsername}
-                                    autoComplete="current-username"
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                />
-                                <TextField
-                                    className={classes.input}
-                                    id="currentPassword"
-                                    label="Contraseña actual"
-                                    type="password"
-                                    value={currentPassword}
-                                    autoComplete="current-password"
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                />
-                                <TextField
-                                    className={classes.input}
-                                    id="newUsername"
-                                    label="Usuario nuevo"
-                                    type="username"
-                                    value={newUsername}
-                                    autoComplete="new-username"
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                />
-                                <TextField
-                                    className={classes.input}
-                                    id="newPassword"
-                                    label="Contraseña nueva"
-                                    type="password"
-                                    value={newPassword}
-                                    autoComplete="new-password"
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                />
-                                <TextField
-                                    className={classes.input}
-                                    id="newPasswordVerify"
-                                    label="Repetir contraseña nueva"
-                                    type="password"
-                                    value={newPasswordVerify}
-                                    autoComplete="new-password"
+                                    campos={[
+                                        {
+                                            id: "currentUsername",
+                                            label: "Usuario actual",
+                                            type: "username",
+                                            value: currentUsername,
+                                            autoComplete: "current-username",
+                                        },
+                                        {
+                                            id: "currentPassword",
+                                            label: "Contraseña actual",
+                                            type: "password",
+                                            value: currentPassword,
+                                            autoComplete: "current-password",
+                                        },
+                                        {
+                                            id: "newUsername",
+                                            label: "Usuario nuevo",
+                                            type: "username",
+                                            value: newUsername,
+                                            autoComplete: "new-username",
+                                        },
+                                        {
+                                            id: "newPassword",
+                                            label: "Contraseña nueva",
+                                            type: "password",
+                                            value: newPassword,
+                                            autoComplete: "new-password",
+                                        },
+                                        {
+                                            id: "newPasswordVerify",
+                                            label: "Repetir contraseña nueva",
+                                            type: "password",
+                                            value: newPasswordVerify,
+                                            autoComplete: "new-password",
+                                        }
+                                    ]}
                                     fullWidth={true}
                                     onChange={this.handleChange}
                                 />

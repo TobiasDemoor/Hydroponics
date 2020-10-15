@@ -5,7 +5,7 @@ const config = require('config');
 
 async function ensureAuthenticated(req, res, next) {
     if (!req.cookies.token) {
-        res.status(403).send({message: "Request debe contener token en cabecera"});
+        res.status(403).send({message: "Request debe contener token como cookie"});
     } else {
         const token = req.cookies.token;
         const payload = jwt.decode(token, config.jwt.TOKEN_SECRET);

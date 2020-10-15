@@ -30,13 +30,15 @@ async function userModify(req, res) {
     const { currentUsername, currentPassword, newUsername, newPassword } = req.body;
     login(currentUsername, currentPassword)
         .then(() => modifyUser(newUsername, newPassword))
-        .then(
-            () => res.status(200).send({message: "Usuario modificado correctamente"}),
-            err => {
+        .then(() => res.status(200).send({message: "Usuario modificado correctamente"}))
+        .catch( err => {
+            if (err instanceof AuthenticationError) {
+                res.status(400).send({message: "Usuario o contraseña incorrectos"})
+            } else {
                 console.error(err.stack);
                 res.status(500).send({ message: "Error al modificar usuario" })
             }
-        )
+        })
 }
 
 module.exports = { userLogin, userModify }

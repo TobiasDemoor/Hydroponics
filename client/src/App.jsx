@@ -23,7 +23,7 @@ function App({ classes }) {
                 <Switch>
                     <PrivateRoute path= "/" exact component={Home} />
                     <Route path='/login' component={Login} />
-                    <Route path='/changeLogin' component={ChangeLogin} />
+                    <PrivateRoute path='/changeLogin' component={ChangeLogin} />
                 </Switch>
             </BrowserRouter>
         </div>
