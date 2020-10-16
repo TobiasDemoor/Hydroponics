@@ -84,7 +84,7 @@ class ChangeLogin extends Component {
                             <CardContent>
                                 {message &&
                                     <div className={classes.message}>
-                                        <Typography variant="h7" color="textPrimary">{message}</Typography>
+                                        <Typography variant="h7" color="success">{message}</Typography>
                                     </div>
                                 }
                                 {error &&
