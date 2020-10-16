@@ -12,7 +12,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper
     },
     container: {
-        maxHeight: 440,
+        maxHeight: window.innerHeight*0.8,
     }
 })
 

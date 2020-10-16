@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
+import { Typography, Card, Container, CardContent, CardActions, IconButton } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
+import BackIcon from '@material-ui/icons/ArrowBack'
 import { modifyLogin } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
 import FormFields from './common/FormFields';
+import NavBar from './common/NavBar';
 
 const styles = theme => ({
     form: {
-        marginTop: "10%"
+        marginTop: "5%"
     },
     card: {
         padding: theme.spacing(4),
@@ -79,6 +81,15 @@ class ChangeLogin extends Component {
         } = this.state
         return (
             <div className={classes.root}>
+                <NavBar>
+                    <IconButton edge="start">
+                        <BackIcon
+                            color="primary"
+                            size="medium"
+                            onClick={() => this.props.history.push('/')}
+                        />
+                    </IconButton>
+                </NavBar>
                 <Container maxWidth="sm" className={classes.form}>
                     <Card className={classes.card}>
                         <form onSubmit={this.handleSubmit}>
