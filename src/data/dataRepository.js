@@ -2,7 +2,7 @@
 const { exec } = require('child_process');
 const config = require('config');
 
-// recientesGeneral().then(console.log)
+// recientesGeneral(5).then(x => console.log(x))
 
 async function tailN(archivo, nro) {
     return new Promise(resolve => {
@@ -28,14 +28,31 @@ async function levantaRecientes(archivo, nro) {
     return data
 }
 
+
+/**
+ * Retorna las nro lineas mas recientes de los archivos
+ * de config.data.archivos
+ * @param {number} nro 
+ */
 async function recientesGeneral(nro) {
     const data = config.data.archivos.map(
         archivo => levantaRecientes(archivo, nro)
     )
+    const res = {}
+    res.columns = config.data.columns;
+    res.rows = [];
     for (let i = 0; i < data.length; i += 1) {
-        data[i] = await data[i]
+        res.rows[i] = await data[i].then(data => {
+            return data.map(l => {
+                const row = {};
+                l.map((valor, i) => {
+                    row[res.columns[i].id] = valor
+                })
+                return row
+            })
+        })
     }
-    return data
+    return res
 }
 
 module.exports = {

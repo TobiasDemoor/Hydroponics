@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import logOut from '../helpers/logOut'
 import DataTable from './common/DataTable';
 import LoadingButton from './common/LoadingButton'
+import PruebaRecientes from './PruebaRecientes';
 
 class Home extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Home extends Component {
         return (
             <div>
                 <Container maxWidth="md">
-                    <DataTable
+                    {/* <DataTable
                         columns = {
                             [
                                 {id: "1", align:"center", label: "1"},
@@ -65,14 +66,14 @@ class Home extends Component {
                                 {code:"124", "1":"41", "2":"42", "3":"43", "4":"44", "5":"45"},
                             ]
                         }
-                    />
+                    /> */}
                 </Container>
                 <LoadingButton
                     text="Cerrar sesión"
                     onClick={this.handleLogOut}
                 />
                 <Button onClick={() => this.props.history.push('/changeLogin')}>aca</Button>
-                <p>Hola mundo</p>
+                <PruebaRecientes/>
             </div>
         )
     }

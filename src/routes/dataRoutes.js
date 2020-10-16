@@ -1,13 +1,11 @@
 "use strict";
 const express = require('express');
+const data = require('../controllers/dataController');
 const { ensureAuthenticated } = require('../controllers/middleware');
 
 function getDataRoutes() {
     const router = express.Router();
-    router.get('/private', ensureAuthenticated, (req, res) => {
-        // TODO: todo jeje
-        return res.status(200);
-    });
+    router.get('/recent', ensureAuthenticated, data.getRecent);
     return router;
 }
 
