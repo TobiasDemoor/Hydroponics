@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import {
+    Paper, Table, TableBody, TableCell,
+    TableContainer, TableHead, TablePagination, TableRow
+} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 
 
 const styles = theme => ({
     root: {
-        width: '100%'
+        width: '100%',
+        backgroundColor: theme.palette.background.paper
     },
     container: {
         maxHeight: 440,
@@ -14,8 +18,8 @@ const styles = theme => ({
 
 const HeaderCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.secondary.dark,
-        color: theme.palette.secondary.contrastText
+        backgroundColor: theme.palette.primary.dark,
+        color: theme.palette.primary.contrastText
     }
 }))(TableCell)
 

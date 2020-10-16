@@ -11,7 +11,7 @@ const styles = theme => ({
     root: {
         heigth: "100%",
         width: "100%",
-        background: theme.palette.primary.light
+        background: theme.palette.background.default
     }
 })
 

@@ -11,7 +11,8 @@ const styles = theme => ({
         marginTop: "10%"
     },
     card: {
-        padding: theme.spacing(4)
+        padding: theme.spacing(4),
+        backgroundColor: theme.palette.background.paper
     },
     message: {
         marginBottom: theme.spacing(4)

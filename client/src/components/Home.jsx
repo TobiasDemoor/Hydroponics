@@ -22,11 +22,11 @@ class Home extends Component {
                     <DataTable
                         columns = {
                             [
-                                {id: "1", align:"left", label: "1"},
-                                {id: "2", align:"left", label: "2"},
-                                {id: "3", align:"left", label: "3"},
-                                {id: "4", align:"left", label: "4"},
-                                {id: "5", align:"left", label: "5"},
+                                {id: "1", align:"center", label: "1"},
+                                {id: "2", align:"center", label: "2"},
+                                {id: "3", align:"center", label: "3"},
+                                {id: "4", align:"center", label: "4"},
+                                {id: "5", align:"center", label: "5"},
                             ]
                         }
                         rows = {
