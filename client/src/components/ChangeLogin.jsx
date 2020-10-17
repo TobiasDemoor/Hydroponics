@@ -19,6 +19,12 @@ const styles = theme => ({
     message: {
         marginBottom: theme.spacing(4)
     },
+    success: {
+        color: theme.palette.success.main
+    },
+    error: {
+        color: theme.palette.error.main
+    },
     input: {
         marginBottom: theme.spacing(4)
     },
@@ -82,12 +88,8 @@ class ChangeLogin extends Component {
         return (
             <div className={classes.root}>
                 <NavBar>
-                    <IconButton edge="start">
-                        <BackIcon
-                            color="primary"
-                            size="medium"
-                            onClick={() => this.props.history.push('/')}
-                        />
+                    <IconButton edge="start" onClick={() => this.props.history.push('/')}>
+                        <BackIcon color="primary" size="medium" />
                     </IconButton>
                 </NavBar>
                 <Container maxWidth="sm" className={classes.form}>
@@ -96,12 +98,22 @@ class ChangeLogin extends Component {
                             <CardContent>
                                 {message &&
                                     <div className={classes.message}>
-                                        <Typography variant="h7" color="success">{message}</Typography>
+                                        <Typography
+                                            className={classes.success}
+                                            variant="h7"
+                                        >
+                                            {message}
+                                        </Typography>
                                     </div>
                                 }
                                 {error &&
                                     <div className={classes.message}>
-                                        <Typography variant="h7" color="error">{error}</Typography>
+                                        <Typography
+                                            className={classes.error}
+                                            variant="h7"
+                                        >
+                                            {error}
+                                        </Typography>
                                     </div>
                                 }
                                 <Typography variant="h5">Cambiar login</Typography>

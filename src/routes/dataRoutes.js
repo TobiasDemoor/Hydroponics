@@ -5,7 +5,7 @@ const { ensureAuthenticated } = require('../controllers/middleware');
 
 function getDataRoutes() {
     const router = express.Router();
-    router.get('/recent', ensureAuthenticated, data.getRecent);
+    router.get('/recent/:id', ensureAuthenticated, data.getRecent);
     return router;
 }
 

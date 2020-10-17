@@ -3,6 +3,8 @@ import {
 } from './typeDefs'
 
 const initialState = {
+    isFetching: false,
+    error: null,
     columns: null,
     rows: null
 }

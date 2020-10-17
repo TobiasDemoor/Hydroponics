@@ -1,9 +1,9 @@
 "use strict";
-
-const { recientesGeneral } = require("../data/dataRepository");
+const config = require("config");
+const { recent } = require("../data/dataRepository");
 
 async function getRecent(req, res) {
-    recientesGeneral(30)
+    recent(config.data.archivos[req.params.id], 30)
         .then(data => {
             res.status(200).send(data)
         }).catch(console.error)

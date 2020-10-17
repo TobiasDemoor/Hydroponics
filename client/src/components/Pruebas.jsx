@@ -1,25 +1,13 @@
 import React, { Component } from 'react'
-import { Container } from '@material-ui/core';
-import logOut from '../helpers/logOut'
-import PruebaRecientes from './PruebaRecientes';
+import { Link } from 'react-router-dom';
 
 class Pruebas extends Component {
-    constructor(props) {
-        super(props);
-        this.handleLogOut = this.handleLogOut.bind(this)
-    }
-
-    handleLogOut() {
-        logOut()
-        this.props.history.push('/')
-    }
-
     render() {
         return (
             <div>
-                <Container maxWidth="lg">
-                    <PruebaRecientes />
-                </Container>
+                <Link to="0">Ir a tabla 0</Link>
+                <br/>
+                <Link to="1">Ir a tabla 1</Link>
             </div>
         )
     }

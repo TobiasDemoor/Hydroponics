@@ -4,6 +4,7 @@ import {
     TableContainer, TableHead, TablePagination, TableRow
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
+import config from '../../config';
 
 
 const styles = theme => ({
@@ -29,7 +30,7 @@ class DataTable extends Component {
         super(props);
         this.state = {
             page: 0,
-            rowsPerPage: 10,
+            rowsPerPage: null,
         }
         this.handleChangePage = this.handleChangePage.bind(this)
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this)
@@ -48,7 +49,9 @@ class DataTable extends Component {
 
     render() {
         const { columns, rows, classes } = this.props;
-        const { page, rowsPerPage } = this.state;
+        const  rowsPerPageOptions = this.props.rowsPerPageOptions || config.rowsPerPageOptions
+        const { page } = this.state;
+        const rowsPerPage = this.state.rowsPerPage || rowsPerPageOptions[0]
         const aux = page * rowsPerPage;
         return (
             <Paper className={classes.root}>
@@ -84,7 +87,7 @@ class DataTable extends Component {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={rowsPerPageOptions}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}

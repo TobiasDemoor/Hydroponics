@@ -36,6 +36,7 @@ class Login extends Component {
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.componentDidUpdate = this.componentDidUpdate.bind(this)
     }
 
     handleChange(e) {
@@ -51,10 +52,13 @@ class Login extends Component {
         this.props.login(username, password)
     }
 
-    render() {
+    componentDidUpdate() {
         if (isLoggedIn()) {
             this.props.history.push('/')
         }
+    }
+
+    render() {
         const { classes, isFetching, error } = this.props
         const { username, password } = this.state
         return (

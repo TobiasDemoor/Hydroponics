@@ -40,33 +40,29 @@ class General extends Component {
         return (
             <div>
                 <NavBar>
-                    <IconButton style={{ marginLeft: 'auto' }}>
-                        <UserIcon color="primary" onClick={this.handleMenu} />
-                        <Menu
-                            id="menu-navbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left'
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={this.handleClose}
-                        >
-                            <MenuItem onClick={() => this.props.history.push('/changeLogin')}>
-                                Cambiar login
-                            </MenuItem>
-                            <MenuItem onClick={this.handleLogOut}>
-                                Cerrar sesión
-                            </MenuItem>
-                        </Menu>
+                    <IconButton style={{ marginLeft: 'auto' }} onClick={this.handleMenu} >
+                        <UserIcon color="primary" />
                     </IconButton>
+                    <Menu
+                        id="menu-navbar"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right'
+                        }}
+                        open={Boolean(anchorEl)}
+                        onClose={this.handleClose}
+                    >
+                        <MenuItem onClick={() => this.props.history.push('/changeLogin')}>
+                            Cambiar login
+                        </MenuItem>
+                        <MenuItem onClick={this.handleLogOut}>
+                            Cerrar sesión
+                        </MenuItem>
+                    </Menu>
                 </NavBar>
-                <Pruebas/>
+                <Pruebas history={this.props.history} />
             </div>
         )
     }
