@@ -1,23 +1,24 @@
 /* eslint-disable no-undef */
+const path = require('path')
 "use strict";
 module.exports = {
     express: {
         "port": process.env.PORT || 5000,
-        "client": "client",
+        "client": path.resolve("client"),
     },
     jwt: {
         "TOKEN_SECRET": process.env.TOKEN_SECRET || "tokensecreto",
         "expTime": [1, 'd'],
     },
     auth: {
-        "routeUser": "user.json",
+        "routeUser": path.resolve("user.json"),
         "default": "admin",
     },
     data: {
         separador: ',',
         archivos: [
-            "./prueba.log",
-            "./temperatures.log"
+            path.resolve("./prueba.log"),
+            path.resolve("./temperatures.log")
         ],
         cantRecientes: 100,
         columns: [
