@@ -1,12 +1,23 @@
-import { AppBar, Toolbar } from '@material-ui/core'
+import { AppBar, Container, Toolbar, withStyles } from '@material-ui/core'
 import React from 'react'
 
-export default function NavBar({ children }) {
+const styles = () => ({
+    bar: {
+        background: 'transparent',
+        boxShadow: 'none'
+    }
+})
+
+function NavBar({ children, classes }) {
     return (
-        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
-            <Toolbar>
-                {children}
-            </Toolbar>
+        <AppBar position="static" className={classes.bar}>
+            <Container maxWidth="xl">
+                <Toolbar>
+                    {children}
+                </Toolbar>
+            </Container>
         </AppBar>
     )
 }
+
+export default withStyles(styles)(NavBar)

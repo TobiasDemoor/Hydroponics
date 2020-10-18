@@ -9,17 +9,18 @@ import FormFields from './common/FormFields';
 
 const styles = theme => ({
     form: {
-        marginTop: "10%"
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -80%)'
     },
     card: {
         padding: theme.spacing(4),
         backgroundColor: theme.palette.background.paper
     },
-    error: {
+    spaced: {
         marginBottom: theme.spacing(4)
     },
-    input: {
-        marginBottom: theme.spacing(4)
+    error: {
+        color: theme.palette.error.main
     },
     cardActions: {
         justifyContent: 'center'
@@ -62,54 +63,60 @@ class Login extends Component {
         const { classes, isFetching, error } = this.props
         const { username, password } = this.state
         return (
-            <div className={classes.root}>
-                <Container maxWidth="sm" className={classes.form}>
-                    <Card className={classes.card}>
-                        <form onSubmit={this.handleSubmit}>
+            <Container maxWidth="sm" className={classes.form}>
+                <Card className={classes.card}>
+                    <form onSubmit={this.handleSubmit}>
                         <CardContent>
                             {error &&
-                                <div className={classes.error}>
-                                    <Typography variant="h7" color="error">{error}</Typography>
-                                </div>
+                                <Typography
+                                    className={`${classes.spaced} ${classes.error}`}
+                                    variant="h7"
+                                >
+                                    {error}
+                                </Typography>
                             }
-                                <Typography variant="h5">Iniciar sesión</Typography>
-                                <FormFields
-                                    className={classes.input}
-                                    campos={[
-                                        {
-                                            id:"username",
-                                            label:"Usuario",
-                                            type:"username",
-                                            value:username,
-                                            autoComplete:"current-username",
-                                            required: true,
-                                        },
-                                        {
-                                            id:"password",
-                                            label:"Contraseña",
-                                            type:"password",
-                                            value:password,
-                                            autoComplete:"current-password",
-                                            required: true,
-                                        }
-                                    ]}
-                                    fullWidth={true}
-                                    onChange={this.handleChange}
-                                    />
+                            <Typography
+                                className={classes.spaced}
+                                variant="h5"
+                            >
+                                Iniciar sesión
+                                </Typography>
+                            <FormFields
+                                className={classes.spaced}
+                                campos={[
+                                    {
+                                        id: "username",
+                                        label: "Usuario",
+                                        type: "username",
+                                        value: username,
+                                        autoComplete: "current-username",
+                                        required: true,
+                                    },
+                                    {
+                                        id: "password",
+                                        label: "Contraseña",
+                                        type: "password",
+                                        value: password,
+                                        autoComplete: "current-password",
+                                        required: true,
+                                    }
+                                ]}
+                                fullWidth={true}
+                                onChange={this.handleChange}
+                            />
                         </CardContent>
                         <CardActions className={classes.cardActions}>
-                                <LoadingButton
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
-                                    text="Confirmar"
-                                    loading={isFetching}
-                                />
+                            <LoadingButton
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                text="Confirmar"
+                                loading={isFetching}
+                            />
                         </CardActions>
-                            </form>
-                    </Card>
-                </Container>
-            </div>
+                    </form>
+                </Card>
+            </Container>
         )
     }
 }

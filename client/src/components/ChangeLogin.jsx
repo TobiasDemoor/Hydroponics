@@ -10,13 +10,14 @@ import NavBar from './common/NavBar';
 
 const styles = theme => ({
     form: {
-        marginTop: "5%"
+        position: 'absolute', left: '50%', top: '50%',
+        transform: 'translate(-50%, -60%)'
     },
     card: {
         padding: theme.spacing(4),
         backgroundColor: theme.palette.background.paper
     },
-    message: {
+    spaced: {
         marginBottom: theme.spacing(4)
     },
     success: {
@@ -24,9 +25,6 @@ const styles = theme => ({
     },
     error: {
         color: theme.palette.error.main
-    },
-    input: {
-        marginBottom: theme.spacing(4)
     },
     cardActions: {
         justifyContent: 'center'
@@ -102,28 +100,26 @@ class ChangeLogin extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <CardContent>
                                 {message &&
-                                    <div className={classes.message}>
-                                        <Typography
-                                            className={classes.success}
-                                            variant="h7"
-                                        >
-                                            {message}
-                                        </Typography>
-                                    </div>
+                                    <Typography
+                                        className={`${classes.spaced} ${classes.success}`}
+                                        variant="h7"
+                                    >
+                                        {message}
+                                    </Typography>
                                 }
                                 {error &&
-                                    <div className={classes.message}>
-                                        <Typography
-                                            className={classes.error}
-                                            variant="h7"
-                                        >
-                                            {error}
-                                        </Typography>
-                                    </div>
+                                    <Typography
+                                        className={`${classes.spaced} ${classes.error}`}
+                                        variant="h7"
+                                    >
+                                        {error}
+                                    </Typography>
                                 }
-                                <Typography variant="h5">Cambiar login</Typography>
+                                <Typography className={classes.spaced} variant="h5">
+                                    Cambiar login
+                                </Typography>
                                 <FormFields
-                                    className={classes.input}
+                                    className={classes.spaced}
                                     campos={[
                                         {
                                             id: "currentUsername",

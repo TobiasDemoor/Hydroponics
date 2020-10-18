@@ -11,11 +11,8 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center'
     },
-    message: {
+    spaced: {
         marginBottom: theme.spacing(4)
-    },
-    success: {
-        color: theme.palette.success.main
     },
     error: {
         color: theme.palette.error.main
@@ -41,16 +38,14 @@ class Recientes extends Component {
                     </IconButton>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
-                    {isFetching && <CircularProgress color="primary"/>}
+                    {isFetching && <CircularProgress color="primary" />}
                     {error &&
-                        <div className={classes.message}>
-                            <Typography
-                                className={classes.error}
-                                variant="h7"
-                            >
-                                {error}
-                            </Typography>
-                        </div>
+                        <Typography
+                            className={`${classes.spaced} ${classes.error}`}
+                            variant="h7"
+                        >
+                            {error}
+                        </Typography>
                     }
                     {columns &&
                         <DataTable
