@@ -1,7 +1,8 @@
 import service from '../../services/authService'
 import {
     loginRequest, loginSuccess, loginError,
-    modifyLoginRequest, modifyLoginSuccess, modifyLoginError
+    modifyLoginRequest, modifyLoginSuccess, modifyLoginError,
+    modifyLoginClear
 } from './typeDefs'
 
 export function login(username, password) {
@@ -26,3 +27,5 @@ export function modifyLogin(currentUsername, currentPassword, newUsername, newPa
             )
     }
 }
+
+export const clearModifyLogin = {type: modifyLoginClear}

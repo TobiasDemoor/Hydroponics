@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Typography, Card, Container, CardContent, CardActions, IconButton } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { modifyLogin } from '../store/auth/actions'
+import { modifyLogin, clearModifyLogin } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
 import FormFields from './common/FormFields';
 import NavBar from './common/NavBar';
@@ -45,8 +45,13 @@ class ChangeLogin extends Component {
             newPasswordVerify: "",
             error: null
         }
+        this.componentDidMount = this.componentDidMount.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.clearModifyLogin()
     }
 
     handleChange(e) {
@@ -126,6 +131,7 @@ class ChangeLogin extends Component {
                                             type: "username",
                                             value: currentUsername,
                                             autoComplete: "current-username",
+                                            required: true,
                                         },
                                         {
                                             id: "currentPassword",
@@ -133,6 +139,7 @@ class ChangeLogin extends Component {
                                             type: "password",
                                             value: currentPassword,
                                             autoComplete: "current-password",
+                                            required: true,
                                         },
                                         {
                                             id: "newUsername",
@@ -140,6 +147,7 @@ class ChangeLogin extends Component {
                                             type: "username",
                                             value: newUsername,
                                             autoComplete: "new-username",
+                                            required: true,
                                         },
                                         {
                                             id: "newPassword",
@@ -147,6 +155,7 @@ class ChangeLogin extends Component {
                                             type: "password",
                                             value: newPassword,
                                             autoComplete: "new-password",
+                                            required: true,
                                         },
                                         {
                                             id: "newPasswordVerify",
@@ -154,6 +163,7 @@ class ChangeLogin extends Component {
                                             type: "password",
                                             value: newPasswordVerify,
                                             autoComplete: "new-password",
+                                            required: true,
                                         }
                                     ]}
                                     fullWidth={true}
@@ -186,7 +196,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     modifyLogin: (
         currentUsername, currentPassword, newUsername, newPassword
-    ) => dispatch(modifyLogin(currentUsername, currentPassword, newUsername, newPassword))
+    ) => dispatch(modifyLogin(currentUsername, currentPassword, newUsername, newPassword)),
+    clearModifyLogin: () => dispatch(clearModifyLogin)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ChangeLogin))

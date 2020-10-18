@@ -81,7 +81,8 @@ class Login extends Component {
                                             label:"Usuario",
                                             type:"username",
                                             value:username,
-                                            autoComplete:"current-username"
+                                            autoComplete:"current-username",
+                                            required: true,
                                         },
                                         {
                                             id:"password",
@@ -89,6 +90,7 @@ class Login extends Component {
                                             type:"password",
                                             value:password,
                                             autoComplete:"current-password",
+                                            required: true,
                                         }
                                     ]}
                                     fullWidth={true}

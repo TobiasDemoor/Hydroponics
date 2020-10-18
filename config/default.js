@@ -3,7 +3,7 @@
 module.exports = {
     express: {
         "port": process.env.PORT || 5000,
-        "client": "client/build",
+        "client": "client",
     },
     jwt: {
         "TOKEN_SECRET": process.env.TOKEN_SECRET || "tokensecreto",
@@ -17,16 +17,14 @@ module.exports = {
         separador: ',',
         archivos: [
             "./prueba.log",
-            "./prueba1.log"
+            "./temperatures.log"
         ],
+        cantRecientes: 100,
         columns: [
-            { label: "Tiempo", align: "center", id:"1" },
-            { label: "columna 2", align: "center", id:"2" },
-            { label: "columna 3", align: "center", id:"3" },
-            { label: "columna 4", align: "center", id:"4" },
-            { label: "columna 5", align: "center", id:"5" },
-            { label: "columna 6", align: "center", id:"6" },
-            { label: "columna 7", align: "center", id:"7" }
+            { label: "Tiempo", align: "center", id:"time" },
+            { label: "Temperatura 1", align: "center", id:"temp1" },
+            { label: "Temperatura 2", align: "center", id:"temp2" },
+            { label: "Temperatura 3", align: "center", id:"temp3" }
         ]
     }
 }

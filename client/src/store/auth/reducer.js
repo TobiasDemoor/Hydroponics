@@ -1,9 +1,12 @@
 import {
     loginRequest, loginSuccess, loginError,
-    modifyLoginRequest, modifyLoginSuccess, modifyLoginError
+    modifyLoginRequest, modifyLoginSuccess, modifyLoginError,
+    modifyLoginClear
 } from './typeDefs'
 
+
 const initialState = {
+    message: null,
     isFetching: false,
     error: null
 }
@@ -22,6 +25,8 @@ export default (state = initialState, { type, payload, error }) => {
             return { ...state, isFetching: false, ...payload, error }
         case modifyLoginError:
             return { ...state, isFetching: false, error }
+        case modifyLoginClear:
+            return {...state, message: null, error}
         default:
             return state
     }
