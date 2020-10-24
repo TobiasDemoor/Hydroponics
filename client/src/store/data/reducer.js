@@ -1,26 +1,29 @@
 import {
     recentRequest, recentSuccess, recentError,
-    alarma, valor
+    alarma, valor,
+    changesSent, changesSuccess, changesError
 } from './typeDefs'
 
 const initialState = {
+    id: null,
     isFetching: false,
     error: null,
     columns: null,
     rows: null,
-    modified: false
+    modified: false,
+    isPushing: false
 }
 
 export default (state = initialState, { type, payload, error }) => {
     switch (type) {
         case recentRequest:
-            return { ...state, isFetching: true, error }
+            return { ...state, isFetching: true, id: payload.id, error }
 
         case recentSuccess:
             return { ...state, isFetching: false, ...payload, modified: false, error }
 
         case recentError:
-            return { ...state, isFetching: false, error }
+            return { ...state, isFetching: false, id: null, error }
 
         case alarma:
             return {
@@ -50,6 +53,15 @@ export default (state = initialState, { type, payload, error }) => {
                     }
                 })
             }
+
+        case changesSent:
+            return {...state, isPushing: true, error}
+        
+        case changesSuccess:
+            return {...state, isPushing: false, modified: false, error}
+        
+        case changesError:
+            return {...state, isPushing: false, error}
 
         default:
             return state
