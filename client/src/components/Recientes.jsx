@@ -1,10 +1,11 @@
 import {
+    Button,
     CircularProgress, Container, IconButton, Typography, withStyles
 } from '@material-ui/core';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { changeAlarma, changeValor, getRecent } from '../store/data/actions'
+import { getRecent } from '../store/data/actions'
 import DataTable from './common/DataTable'
 import NavBar from './common/NavBar';
 import Resumen from './Resumen';
@@ -27,22 +28,41 @@ const styles = theme => ({
 class Recientes extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            resumen: true
+        }
         this.componentDidMount = this.componentDidMount.bind(this)
+        this.changeView = this.changeView.bind(this)
     }
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.getRecent(id)
     }
 
+    changeView() {
+        this.setState({resumen: !this.state.resumen})
+    }
+
     render() {
         const { classes, isFetching, error, columns, rows } = this.props;
-        const id = this.props.match.params;
+        const {resumen} = this.state;
         return (
             <div>
                 <NavBar>
-                    <IconButton edge="start" onClick={() => this.props.history.push('/')}>
+                    <IconButton
+                        edge="start"
+                        onClick={() => this.props.history.push('/')}
+                    >
                         <BackIcon color="primary" size="medium" />
                     </IconButton>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.changeView}
+                        style={{ marginLeft: 'auto' }}
+                    >
+                        Cambiar Vista
+                    </Button>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
                     {isFetching && <CircularProgress color="primary" />}
@@ -54,13 +74,18 @@ class Recientes extends Component {
                             {error}
                         </Typography>
                     }
-                    {columns &&
-                        // <DataTable
-                        //     rows={rows}
-                        //     columns={columns}
-                        // />
-                        <Resumen/>
-                    }
+                    {columns && (
+                        <div>
+                            { resumen ?
+                                <DataTable
+                                    rows={rows}
+                                    columns={columns}
+                                />
+                                :
+                                <Resumen />
+                            }
+                        </div>
+                    )}
                 </Container>
             </div>
         )

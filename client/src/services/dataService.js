@@ -17,8 +17,7 @@ async function submitChanges(columns, id) {
     };
     console.debug(requestOptions);
 
-    // return fetch('/api/data/changes', requestOptions).then(handleResponse)
-    return {}
+    return fetch('/api/data/columns', requestOptions).then(handleResponse);
 }
 
 export default {

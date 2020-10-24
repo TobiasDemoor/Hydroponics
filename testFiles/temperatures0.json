@@ -1,0 +1,1 @@
+[{"label":"Tiempo","align":"center","id":"time"},{"label":"Temperatura 1","align":"center","id":"temp1","minVal":0,"maxVal":100.01,"alarma":false},{"label":"Temperatura 2","align":"center","id":"temp2","minVal":0,"maxVal":100,"alarma":true},{"label":"Temperatura 3","align":"center","id":"temp3","minVal":0,"maxVal":100,"alarma":true}]
