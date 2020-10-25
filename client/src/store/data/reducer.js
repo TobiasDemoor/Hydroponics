@@ -1,6 +1,7 @@
 import {
     recentRequest, recentSuccess, recentError,
-    alarma, valor,
+    valor, alarma,
+    onOffRequest, onOffSuccess, onOffError,
     changesSent, changesSuccess, changesError
 } from './typeDefs'
 
@@ -25,20 +26,6 @@ export default (state = initialState, { type, payload, error }) => {
         case recentError:
             return { ...state, isFetching: false, id: null, error }
 
-        case alarma:
-            return {
-                ...state, modified: true,
-                columns: state.columns.map(column => {
-                    if (column.id === payload.id) {
-                        const newColumn = column
-                        newColumn.alarma = !column.alarma
-                        return newColumn
-                    } else {
-                        return column
-                    }
-                })
-            }
-
         case valor:
             const { id, value, campo } = payload
             return {
@@ -54,14 +41,41 @@ export default (state = initialState, { type, payload, error }) => {
                 })
             }
 
+        case alarma:
+            return {
+                ...state, modified: true,
+                columns: state.columns.map(column => {
+                    if (column.id === payload.id) {
+                        const newColumn = column
+                        newColumn.alarma = !column.alarma
+                        return newColumn
+                    } else {
+                        return column
+                    }
+                })
+            }
+        
+        case onOffRequest:
+            // TODO: remover codigo provisorio
+            const newRows = [...state.rows]
+            const newRow = {
+                ...state.rows[0],
+                [payload.id]: state.rows[0][payload.id] == "on" ? "off" : "on"
+            }
+            newRow.code = Object.values(newRow).join(' ')
+            newRows.unshift(newRow)
+            return {
+                ...state, rows: newRows
+            }
+
         case changesSent:
-            return {...state, isPushing: true, error}
-        
+            return { ...state, isPushing: true, error }
+
         case changesSuccess:
-            return {...state, isPushing: false, modified: false, error}
-        
+            return { ...state, isPushing: false, modified: false, error }
+
         case changesError:
-            return {...state, isPushing: false, error}
+            return { ...state, isPushing: false, error }
 
         default:
             return state

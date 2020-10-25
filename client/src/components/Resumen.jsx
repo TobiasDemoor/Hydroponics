@@ -1,7 +1,7 @@
-import { Checkbox, TextField, withStyles } from '@material-ui/core';
+import { Checkbox, Switch, TextField, withStyles } from '@material-ui/core';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { changeAlarma, changeValor, submitChanges } from '../store/data/actions'
+import { changeAlarma, changeOnOff, changeValor, submitChanges } from '../store/data/actions'
 import DataTable from './common/DataTable';
 import LoadingButton from './common/LoadingButton';
 
@@ -27,27 +27,42 @@ function CeldaTexto({ handler, ...props }) {
 }
 
 
-function trasponer(row, columns, handlerTexto, handlerAlarma) {
+function trasponer(valoresAct, columns, handlerTexto, handlerAlarma, handlerOnOff) {
     const rows = []
-    columns.forEach(({ id, label, minVal, maxVal, alarma }) => {
-        rows.push({
+    columns.forEach(({ id, button, label, minVal, maxVal, alarma }) => {
+        const row = {
             label,
-            value: row[id],
-            minVal: <CeldaTexto
+            code: id
+        }
+        if (!button) {
+            row.value = valoresAct[id]
+            row.minVal = <CeldaTexto
                 id={id}
                 value={minVal}
                 type="number"
                 handler={e => handlerTexto(e, "minVal")}
-            />,
-            maxVal: <CeldaTexto
+            />
+            row.maxVal = <CeldaTexto
                 id={id}
                 value={maxVal}
                 type="number"
                 handler={e => handlerTexto(e, "maxVal")}
-            />,
-            alarma: <Checkbox id={id} color="secondary" checked={alarma} onChange={handlerAlarma} />,
-            code: id
-        })
+            />
+            row.alarma = <Checkbox
+                id={id}
+                color="secondary"
+                checked={alarma}
+                onChange={handlerAlarma}
+            />
+        } else {
+            row.value = <Switch
+                id={id}
+                checked={valoresAct[id] == "on"}
+                onChange={handlerOnOff}
+                color="secondary"
+            />
+        }
+        rows.push(row)
     });
     return rows
 }
@@ -55,18 +70,24 @@ function trasponer(row, columns, handlerTexto, handlerAlarma) {
 class Resumen extends Component {
     constructor(props) {
         super(props)
-        this.handleAlarmaChange = this.handleAlarmaChange.bind(this)
         this.handlerValorChange = this.handlerValorChange.bind(this)
-    }
-
-    handleAlarmaChange(e) {
-        this.props.changeAlarma(e.target.id)
+        this.handleAlarmaChange = this.handleAlarmaChange.bind(this)
+        this.handleOnOff = this.handleOnOff.bind(this)
     }
 
     handlerValorChange(e, campo) {
         const { id, value } = e.target
         this.props.changeValor(id, campo, parseFloat(value) || 0)
     }
+
+    handleAlarmaChange(e) {
+        this.props.changeAlarma(e.target.id)
+    }
+
+    handleOnOff(e) {
+        this.props.changeOnOff(e.target.id)
+    }
+
     render() {
         const { classes, columns, rows, modified, isPushing } = this.props;
         return (
@@ -84,7 +105,8 @@ class Resumen extends Component {
                         rows[0],
                         columns.slice(1),
                         this.handlerValorChange,
-                        this.handleAlarmaChange
+                        this.handleAlarmaChange,
+                        this.handleOnOff
                     )}
                 />
                 {modified && (
@@ -110,8 +132,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    changeAlarma: id => dispatch(changeAlarma(id)),
     changeValor: (id, campo, valor) => dispatch(changeValor(id, campo, valor)),
+    changeAlarma: id => dispatch(changeAlarma(id)),
+    changeOnOff: id => dispatch(changeOnOff(id)),
     submitChanges: () => dispatch(submitChanges())
 })
 

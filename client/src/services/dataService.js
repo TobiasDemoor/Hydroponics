@@ -9,6 +9,17 @@ async function getRecent(id) {
     return fetch(`/api/data/recent/${id}`, requestOptions).then(handleResponse);
 }
 
+async function changeOnOff(id, newState) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, newState }),
+    };
+    console.debug(requestOptions);
+
+    return fetch('/api/control', requestOptions).then(handleResponse);
+}
+
 async function submitChanges(columns, id) {
     const requestOptions = {
         method: 'POST',
@@ -22,5 +33,6 @@ async function submitChanges(columns, id) {
 
 export default {
     getRecent,
+    changeOnOff,
     submitChanges
 }
