@@ -12,7 +12,7 @@ module.exports = {
     },
     auth: {
         "routeUser": path.resolve("user.json"),
-        "default": "admin",
+        "default": "hydropon",
     },
     data: {
         separador: ',',
@@ -25,5 +25,12 @@ module.exports = {
             path.resolve("./testFiles/temperatures0.json"),
             path.resolve("./testFiles/temperatures1.json")
         ]
+    },
+    strings: {
+        // auth
+        badLogin: "Incorrect username or password",
+        unkErrorLogin: "An unknown error ocurred at log in",
+        successChangeLogin: "The user has been successfuly modified",
+        unkErrorChangeLogin: "An unkown error ocurred while changing the login credentials",
     }
 }

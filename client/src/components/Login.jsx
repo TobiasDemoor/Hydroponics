@@ -6,6 +6,7 @@ import { login } from '../store/auth/actions'
 import LoadingButton from './common/LoadingButton';
 import isLoggedIn from '../helpers/isLoggedIn';
 import FormFields from './common/FormFields';
+const strings = require("../config").strings
 
 const styles = theme => ({
     form: {
@@ -79,14 +80,14 @@ class Login extends Component {
                                 className={classes.spaced}
                                 variant="h5"
                             >
-                                Iniciar sesión
-                                </Typography>
+                                {strings.tituloLogin}
+                            </Typography>
                             <FormFields
                                 className={classes.spaced}
                                 campos={[
                                     {
                                         id: "username",
-                                        label: "Usuario",
+                                        label: strings.usuario,
                                         type: "username",
                                         value: username,
                                         autoComplete: "current-username",
@@ -94,7 +95,7 @@ class Login extends Component {
                                     },
                                     {
                                         id: "password",
-                                        label: "Contraseña",
+                                        label: strings.password,
                                         type: "password",
                                         value: password,
                                         autoComplete: "current-password",
@@ -110,8 +111,8 @@ class Login extends Component {
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                text="Confirmar"
                                 loading={isFetching}
+                                text={strings.confirmarLogin}
                             />
                         </CardActions>
                     </form>

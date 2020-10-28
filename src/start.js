@@ -28,7 +28,7 @@ function startServer(port = process.env.PORT) {
 
     return new Promise(resolve => {
         const server = app.listen(port, () => {
-            console.info(`Conectado en el puerto ${server.address().port}`)
+            console.info(`Connected to port: ${server.address().port}`)
 
             // this block of code turns `server.close` into a promise API
             const originalClose = server.close.bind(server)
@@ -71,10 +71,10 @@ function setupCloseOnExit(server) {
         await server
             .close()
             .then(() => {
-                console.info('Servidor cerrado exitosamente')
+                console.info('Server has been shut down successfuly')
             })
             .catch(e => {
-                console.warn('Ha ocurrido un error cerrando el servidor', e.stack)
+                console.warn('An error ocurred while shutting down the server', e.stack)
             })
         if (options.exit) process.exit()
     }

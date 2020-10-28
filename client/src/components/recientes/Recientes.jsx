@@ -5,9 +5,9 @@ import {
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { getRecent } from '../store/data/actions'
-import DataTable from './common/DataTable'
-import NavBar from './common/NavBar';
+import { getRecent } from '../../store/data/actions'
+import DataTable from '../common/DataTable'
+import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
 
 const styles = theme => ({
@@ -61,7 +61,7 @@ class Recientes extends Component {
                         onClick={this.changeView}
                         style={{ marginLeft: 'auto' }}
                     >
-                        Cambiar Vista
+                        Change View
                     </Button>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
@@ -77,12 +77,12 @@ class Recientes extends Component {
                     {columns && (
                         <div>
                             { resumen ?
+                                <Resumen />
+                                :
                                 <DataTable
                                     rows={rows}
                                     columns={columns}
                                 />
-                                :
-                                <Resumen />
                             }
                         </div>
                     )}

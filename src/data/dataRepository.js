@@ -42,7 +42,7 @@ async function levantaColumns(id) {
                     resolve(JSON.parse(data.toString()))
                 } catch (err) {
                     if (err instanceof SyntaxError) {
-                        console.error(`La cadena guardada en ${archivo} no es JSON válido`)
+                        console.error(`The string stored in ${archivo} is not valid JSON`)
                         console.error(`data: ${data.toString()}`)
                         throw err
                     }
@@ -76,13 +76,13 @@ async function recent(id, nro) {
 
 async function cambiarColumnas(id, columns) {
     return new Promise((resolve, reject) => {
-        console.log(`Guardando columnas id ${id}`);
+        console.log(`Storing column with id = ${id}`);
         let data;
         try {
             data = JSON.stringify(columns);
         } catch (err) {
             if (err instanceof TypeError) {
-                console.error("El objeto columns esta mal formado")
+                console.error("Column object is badly formed")
                 throw err
             }
         }

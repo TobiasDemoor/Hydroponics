@@ -8,7 +8,7 @@ async function handleResponse(response) {
                 data = text && JSON.parse(text);
             } catch(err) {
                 if (err instanceof SyntaxError) {
-                    console.error("Respuesta mal formada");
+                    console.error("Badly formed respose");
                     console.error(text);
                 }
             }

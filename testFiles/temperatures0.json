@@ -5,33 +5,36 @@
         "id": "time"
     },
     {
+        "type": "sensor",
         "label": "Temperatura 1",
         "align": "center",
         "id": "temp1",
-        "minVal": 0,
-        "maxVal": 100.01,
+        "min": 0,
+        "max": 100.01,
         "alarma": false
     },
     {
+        "type": "sensor",
         "label": "Temperatura 2",
         "align": "center",
         "id": "temp2",
-        "minVal": 0,
-        "maxVal": 100,
+        "min": 0,
+        "max": 100,
         "alarma": true
     },
     {
+        "type": "sensor",
         "label": "Temperatura 3",
         "align": "center",
         "id": "temp3",
-        "minVal": 0,
-        "maxVal": 100,
+        "min": 0,
+        "max": 100,
         "alarma": true
     },
     {
+        "type": "actuator",
         "label": "Bomba",
         "align": "center",
-        "id": "bomba",
-        "button": true
+        "id": "bomba"
     }
 ]

@@ -60,7 +60,7 @@ export default (state = initialState, { type, payload, error }) => {
             const newRows = [...state.rows]
             const newRow = {
                 ...state.rows[0],
-                [payload.id]: state.rows[0][payload.id] == "on" ? "off" : "on"
+                [payload.id]: payload.newState
             }
             newRow.code = Object.values(newRow).join(' ')
             newRows.unshift(newRow)

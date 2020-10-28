@@ -34,8 +34,8 @@ export function changeAlarma(id) {
 export function changeOnOff(id) {
     return (dispatch, getState) => {
         const state = getState().data
-        const newState = state.rows[0][id] == "on" ? "off" : "on"
-        dispatch({ type: onOffRequest })
+        const newState = state.rows[0][id] === "on" ? "off" : "on"
+        dispatch({ type: onOffRequest, payload: {id, newState}})
         service.changeOnOff(id, newState)
             .then(
                 response => dispatch({ type: onOffSuccess }),

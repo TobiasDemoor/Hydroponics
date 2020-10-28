@@ -4,8 +4,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './helpers/PrivateRoute'
 import Login from './components/Login.jsx'
 import General from './components/General.jsx'
-import ChangeLogin from './components/ChangeLogin';
-import Recientes from './components/Recientes';
+import ChangeLogin from './components/ChangeLogin.jsx';
+import Recientes from './components/recientes/Recientes.jsx';
 
 const styles = theme => ({
     root: {
