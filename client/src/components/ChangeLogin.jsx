@@ -8,6 +8,8 @@ import LoadingButton from './common/LoadingButton';
 import FormFields from './common/FormFields';
 import NavBar from './common/NavBar';
 
+const strings = require("../config").strings
+
 const styles = theme => ({
     form: {
         position: 'absolute', left: '50%', top: '50%',
@@ -75,7 +77,7 @@ class ChangeLogin extends Component {
                 return {
                     newPassword: "",
                     newPasswordVerify: "",
-                    error: "Las contraseñas no coinciden"
+                    error: strings.passNoMatchError
                 }
             })
         }
@@ -116,14 +118,14 @@ class ChangeLogin extends Component {
                                     </Typography>
                                 }
                                 <Typography className={classes.spaced} variant="h5">
-                                    Cambiar login
+                                    {strings.tituloChangeLogin}
                                 </Typography>
                                 <FormFields
                                     className={classes.spaced}
                                     campos={[
                                         {
                                             id: "currentUsername",
-                                            label: "Usuario actual",
+                                            label: strings.currentUsername,
                                             type: "username",
                                             value: currentUsername,
                                             autoComplete: "current-username",
@@ -131,7 +133,7 @@ class ChangeLogin extends Component {
                                         },
                                         {
                                             id: "currentPassword",
-                                            label: "Contraseña actual",
+                                            label: strings.currentPassword,
                                             type: "password",
                                             value: currentPassword,
                                             autoComplete: "current-password",
@@ -139,7 +141,7 @@ class ChangeLogin extends Component {
                                         },
                                         {
                                             id: "newUsername",
-                                            label: "Usuario nuevo",
+                                            label: strings.newUsername,
                                             type: "username",
                                             value: newUsername,
                                             autoComplete: "new-username",
@@ -147,7 +149,7 @@ class ChangeLogin extends Component {
                                         },
                                         {
                                             id: "newPassword",
-                                            label: "Contraseña nueva",
+                                            label: strings.newPassword,
                                             type: "password",
                                             value: newPassword,
                                             autoComplete: "new-password",
@@ -155,7 +157,7 @@ class ChangeLogin extends Component {
                                         },
                                         {
                                             id: "newPasswordVerify",
-                                            label: "Repetir contraseña nueva",
+                                            label: strings.newPasswordVerify,
                                             type: "password",
                                             value: newPasswordVerify,
                                             autoComplete: "new-password",
@@ -171,8 +173,8 @@ class ChangeLogin extends Component {
                                     variant="contained"
                                     color="primary"
                                     type="submit"
-                                    text="Confirmar"
                                     loading={isFetching}
+                                    text={strings.confirmarChangeLogin}
                                 />
                             </CardActions>
                         </form>

@@ -15,7 +15,7 @@ module.exports = class User {
             this.username = username.replace("\n", "");
             this.password = hashResult.passwordHash;
             this.salt = hashResult.salt; 
-            console.log("Usuario nuevo creado");
+            console.log("New user has been created");
         } else {
             this.id = 0;
             this.username = username;

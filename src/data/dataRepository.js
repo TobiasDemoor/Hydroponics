@@ -1,5 +1,6 @@
 "use strict";
 const { exec } = require('child_process');
+const fs = require('fs');
 const config = require('config');
 
 // recent("prueba.log", 20).then(console.log)
@@ -20,7 +21,8 @@ async function tailN(archivo, nro) {
     })
 }
 
-async function levantaRecientes(archivo, nro) {
+async function levantaRecientes(id, nro) {
+    const archivo = config.data.archivos[id]
     const data = await tailN(archivo, nro);
     if (data.length < nro) {
         data.push(...await tailN(archivo + '.0', nro - data.length))
@@ -28,19 +30,41 @@ async function levantaRecientes(archivo, nro) {
     return data
 }
 
+async function levantaColumns(id) {
+    const archivo = config.data.columns[id]
+    return new Promise((resolve, reject) => {
+        fs.readFile(archivo, 'utf8', (err, data) => {
+            if (err || !data) {
+                reject(err || data)
+            }
+            if (data) {
+                try {
+                    resolve(JSON.parse(data.toString()))
+                } catch (err) {
+                    if (err instanceof SyntaxError) {
+                        console.error(`The string stored in ${archivo} is not valid JSON`)
+                        console.error(`data: ${data.toString()}`)
+                        throw err
+                    }
+                }
+            }
+        });
+    })
+}
+
 /**
  * Retorna las nro lineas mas recientes del archivo solicitado
  * @param {string} archivo
  * @param {number} nro 
  */
-async function recent(archivo, nro) {
-    const data = levantaRecientes(archivo, nro)
+async function recent(id, nro) {
+    const data = levantaRecientes(id, nro)
     const res = {}
-    res.columns = config.data.columns;
+    res.columns = await levantaColumns(id);
     res.rows = [];
     res.rows = await data.then(data => {
         return data.map(l => {
-            const row = {code: l.join('')};
+            const row = { code: l.join('') };
             l.map((valor, i) => {
                 row[res.columns[i].id] = valor
             })
@@ -50,33 +74,35 @@ async function recent(archivo, nro) {
     return res
 }
 
-/**
- * Retorna las nro lineas mas recientes de los archivos
- * de config.data.archivos
- * @param {number} nro 
- */
-async function recientesGeneral(nro) {
-    const data = config.data.archivos.map(
-        archivo => levantaRecientes(archivo, nro)
-    )
-    const res = {}
-    res.columns = config.data.columns;
-    res.rows = [];
-    for (let i = 0; i < data.length; i += 1) {
-        res.rows[i] = await data[i].then(data => {
-            return data.map(l => {
-                const row = {};
-                l.map((valor, i) => {
-                    row[res.columns[i].id] = valor
-                })
-                return row
-            })
-        })
-    }
-    return res
+async function cambiarColumnas(id, columns) {
+    return new Promise((resolve, reject) => {
+        console.log(`Storing column with id = ${id}`);
+        let data;
+        try {
+            data = JSON.stringify(columns);
+        } catch (err) {
+            if (err instanceof TypeError) {
+                console.error("Column object is badly formed")
+            }
+            reject(err)
+        }
+        const route = config.data.columns[id]
+        fs.writeFile(route, data, err => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    })
+}
+
+async function getUltimo(id) {
+    return recent(id, 1).then(res => res.rows[0])
 }
 
 module.exports = {
-    recientesGeneral,
-    recent
+    recent,
+    cambiarColumnas,
+    getUltimo
 }

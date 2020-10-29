@@ -13,7 +13,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper
     },
     container: {
-        maxHeight: window.innerHeight*0.8,
+        maxHeight: window.innerHeight * 0.8,
     }
 })
 
@@ -49,10 +49,11 @@ class DataTable extends Component {
 
     render() {
         const { columns, rows, classes } = this.props;
-        const  rowsPerPageOptions = this.props.rowsPerPageOptions || config.rowsPerPageOptions
+        const rowsPerPageOptions = this.props.rowsPerPageOptions || config.rowsPerPageOptions
         const { page } = this.state;
         const rowsPerPage = this.state.rowsPerPage || rowsPerPageOptions[0]
         const aux = page * rowsPerPage;
+        const showPageOptions = rowsPerPageOptions.length > 1
         return (
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
@@ -86,15 +87,16 @@ class DataTable extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={this.handleChangePage}
-                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
+                {showPageOptions &&     
+                    <TablePagination
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    />}
             </Paper>
         )
     }

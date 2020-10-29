@@ -5,6 +5,7 @@ import { IconButton, Menu, MenuItem } from '@material-ui/core'
 import logOut from '../helpers/logOut'
 import Pruebas from './Pruebas'
 
+const strings = require("../config").strings
 
 class General extends Component {
     constructor(props) {
@@ -55,10 +56,10 @@ class General extends Component {
                         onClose={this.handleClose}
                     >
                         <MenuItem onClick={() => this.props.history.push('/changeLogin')}>
-                            Cambiar login
+                            {strings.changeLoginLink}
                         </MenuItem>
                         <MenuItem onClick={this.handleLogOut}>
-                            Cerrar sesión
+                            {strings.logOutLink}
                         </MenuItem>
                     </Menu>
                 </NavBar>
