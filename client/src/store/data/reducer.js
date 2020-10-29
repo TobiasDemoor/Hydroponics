@@ -1,22 +1,27 @@
 import {
     recentRequest, recentSuccess, recentError,
     valor, alarma,
-    onOffRequest, onOffSuccess, onOffError,
-    changesSent, changesSuccess, changesError
+    changesSent, changesSuccess, changesError,
+    onOffRequest, onOffSuccess, onOffError
 } from './typeDefs'
 
 const initialState = {
     id: null,
-    isFetching: false,
     error: null,
+
+    isFetching: false,
     columns: null,
     rows: null,
+
+    isPushing: false,
     modified: false,
-    isPushing: false
+
+    excecuting: false,
 }
 
 export default (state = initialState, { type, payload, error }) => {
     switch (type) {
+
         case recentRequest:
             return { ...state, isFetching: true, id: payload.id, error }
 
@@ -54,19 +59,6 @@ export default (state = initialState, { type, payload, error }) => {
                     }
                 })
             }
-        
-        case onOffRequest:
-            // TODO: remover codigo provisorio
-            const newRows = [...state.rows]
-            const newRow = {
-                ...state.rows[0],
-                [payload.id]: payload.newState
-            }
-            newRow.code = Object.values(newRow).join(' ')
-            newRows.unshift(newRow)
-            return {
-                ...state, rows: newRows
-            }
 
         case changesSent:
             return { ...state, isPushing: true, error }
@@ -76,6 +68,17 @@ export default (state = initialState, { type, payload, error }) => {
 
         case changesError:
             return { ...state, isPushing: false, error }
+
+        case onOffRequest:
+            return { ...state, executing: true, error }
+
+        case onOffSuccess:
+            const newRows = state.rows.map(row => { return { ...row } })
+            newRows.unshift(payload.row)
+            return { ...state, rows: newRows, executing: false, error }
+
+        case onOffError:
+            return { ...state, executing: false, error }
 
         default:
             return state

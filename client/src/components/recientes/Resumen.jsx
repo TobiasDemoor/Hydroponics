@@ -41,7 +41,8 @@ class Resumen extends Component {
     }
 
     render() {
-        const { classes, columns, rows, modified, isPushing } = this.props;
+        const { classes, columns, rows, modified, isPushing, excecuting } = this.props;
+        const valoresAct = rows[0];
         return (
             <div>
                 <div className={classes.elements}>
@@ -53,13 +54,14 @@ class Resumen extends Component {
                         submitChanges={this.props.submitChanges}
                         classes={classes}
                         modified={modified}
-                        valoresAct={rows[0]}
+                        valoresAct={valoresAct}
                     />
                 </div>
                 <TablaControles
                     columns={columns.filter(c => c.type === actuator)}
                     handlerOnOff={this.handleOnOff}
-                    valoresAct={rows[0]}
+                    valoresAct={valoresAct}
+                    excecuting={excecuting}
                 />
             </div >
         )
@@ -70,7 +72,8 @@ const mapStateToProps = state => ({
     columns: state.data.columns,
     rows: state.data.rows,
     modified: state.data.modified,
-    isPushing: state.data.isPushing
+    isPushing: state.data.isPushing,
+    excecuting: state.data.excecuting
 })
 
 const mapDispatchToProps = dispatch => ({

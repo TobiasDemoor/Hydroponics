@@ -1,10 +1,10 @@
-/* eslint-disable no-undef */
-const path = require('path')
 "use strict";
+const path = require('path')
+
 module.exports = {
     express: {
         "port": process.env.PORT || 5000,
-        "client": path.resolve("client"),
+        "client": path.resolve("client/build"),
     },
     jwt: {
         "TOKEN_SECRET": process.env.TOKEN_SECRET || "tokensecreto",
@@ -25,6 +25,9 @@ module.exports = {
             path.resolve("./testFiles/temperatures0.json"),
             path.resolve("./testFiles/temperatures1.json")
         ]
+    },
+    comunication: {
+        path: path.resolve("./interaccion/")
     },
     strings: {
         // auth

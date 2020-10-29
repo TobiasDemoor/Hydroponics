@@ -7,12 +7,12 @@ module.exports =  {
     
     alarma:         "CHANGE_ALARMA",
 
+    changesSent:    "CHANGES_SENT",
+    changesSuccess: "CHANGES_SUCCESS",
+    changesError:   "CHANGES_ERROR",
+
     onOffRequest:   "ONOFF_REQUEST",
     onOffSuccess:   "ONOFF_SUCCESS",
     onOffError:     "ONOFF_ERROR",
-
-    changesSent:    "CHANGES_SENT",
-    changesSuccess: "CHANGES_SUCCESS",
-    changesError:   "CHANGES_ERROR"
 };
 

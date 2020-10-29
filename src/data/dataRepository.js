@@ -64,7 +64,7 @@ async function recent(id, nro) {
     res.rows = [];
     res.rows = await data.then(data => {
         return data.map(l => {
-            const row = {code: l.join('')};
+            const row = { code: l.join('') };
             l.map((valor, i) => {
                 row[res.columns[i].id] = valor
             })
@@ -83,8 +83,8 @@ async function cambiarColumnas(id, columns) {
         } catch (err) {
             if (err instanceof TypeError) {
                 console.error("Column object is badly formed")
-                throw err
             }
+            reject(err)
         }
         const route = config.data.columns[id]
         fs.writeFile(route, data, err => {
@@ -97,7 +97,12 @@ async function cambiarColumnas(id, columns) {
     })
 }
 
+async function getUltimo(id) {
+    return recent(id, 1).then(res => res.rows[0])
+}
+
 module.exports = {
     recent,
-    cambiarColumnas
+    cambiarColumnas,
+    getUltimo
 }

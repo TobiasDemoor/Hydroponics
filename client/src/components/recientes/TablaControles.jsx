@@ -1,4 +1,4 @@
-import { Switch } from '@material-ui/core'
+import { CircularProgress, Switch } from '@material-ui/core'
 import React from 'react'
 import DataTable from '../common/DataTable'
 
@@ -8,19 +8,22 @@ const strings = config.strings
 
 
 export default function TablaControles({
-    valoresAct, columns, handlerOnOff
+    valoresAct, columns, handlerOnOff, excecuting
 }) {
     const rows = []
     columns.forEach(({ id, label }) => {
         rows.push({
             label,
             code: id,
-            value: <Switch
-                id={id}
-                checked={valoresAct[id] === on}
-                onChange={handlerOnOff}
-                color="secondary"
-            />
+            value: !excecuting ?
+                <Switch
+                    id={id}
+                    checked={valoresAct[id] === on}
+                    onChange={handlerOnOff}
+                    color="secondary"
+                />
+                :
+                <CircularProgress color="secondary" />
         })
     })
     return (
