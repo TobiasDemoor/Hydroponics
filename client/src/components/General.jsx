@@ -1,9 +1,29 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import NavBar from './common/NavBar'
-import { IconButton, Menu, MenuItem } from '@material-ui/core'
+import { Box, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
 import logOut from '../helpers/logOut'
 import Pruebas from './Pruebas'
+import { Link } from 'react-router-dom'
+
+const styles = theme => ({
+    containerBoxes: {
+        display: 'flex',
+        flexDirection: 'column',
+        heigth: "100%",
+        width: "100%",
+    },
+    rectangle: {
+        width: "100px",
+        height: "100px",
+        borderRadius: "25px",
+        textAlign: "center",
+        flex: 1
+    },
+    center: {
+        margin: "auto"
+    }
+})
 
 const strings = require("../config").strings
 
@@ -38,6 +58,7 @@ class General extends Component {
 
     render() {
         const { anchorEl } = this.state;
+        const { classes } = this.props;
         return (
             <div>
                 <NavBar>
@@ -64,9 +85,24 @@ class General extends Component {
                     </Menu>
                 </NavBar>
                 <Pruebas history={this.props.history} />
+                <div className={classes.containerBoxes}>
+                    <Box
+                        className={classes.rectangle}
+                        bgcolor={`${true ? "success" : "error"}.main`}
+                        style={{ flex: 1 }}
+                    >
+                        <Link to="0">Ir a tabla 0</Link>
+                    </Box>
+                    <Box
+                        className={classes.rectangle}
+                        bgcolor={`${true ? "success" : "error"}.main`}
+                    >
+                        <Link className={classes.center} to="0">Ir a tabla 0</Link>
+                    </Box>
+                </div>
             </div>
         )
     }
 }
 
-export default General
+export default withStyles(styles)(General)

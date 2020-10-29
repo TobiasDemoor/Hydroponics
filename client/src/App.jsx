@@ -2,15 +2,13 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './helpers/PrivateRoute'
-import Login from './components/Login.jsx'
+import Login from './components/auth/Login.jsx'
 import General from './components/General.jsx'
-import ChangeLogin from './components/ChangeLogin.jsx';
+import ChangeLogin from './components/auth/ChangeLogin.jsx';
 import Recientes from './components/recientes/Recientes.jsx';
 
 const styles = theme => ({
     root: {
-        // heigth: "100%",
-        // width: "100%",
         background: theme.palette.background.default
     },
 })

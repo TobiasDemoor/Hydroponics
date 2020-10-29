@@ -11,10 +11,6 @@ const {actuator, sensor} = config.constants.types
 const styles = theme => ({
     elements: {
         marginBottom: theme.spacing(4)
-    },
-    button: {
-        margin: theme.spacing(2),
-        float: 'right'
     }
 })
 
@@ -52,7 +48,6 @@ class Resumen extends Component {
                         handlerAlarma={this.handleAlarmaChange}
                         isPushing={isPushing}
                         submitChanges={this.props.submitChanges}
-                        classes={classes}
                         modified={modified}
                         valoresAct={valoresAct}
                     />

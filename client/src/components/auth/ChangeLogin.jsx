@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { Typography, Card, Container, CardContent, CardActions, IconButton } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { modifyLogin, clearModifyLogin } from '../store/auth/actions'
-import LoadingButton from './common/LoadingButton';
-import FormFields from './common/FormFields';
-import NavBar from './common/NavBar';
+import { modifyLogin, clearModifyLogin } from '../../store/auth/actions'
+import LoadingButton from '../common/LoadingButton';
+import FormFields from '../common/FormFields';
+import NavBar from '../common/NavBar';
 
-const strings = require("../config").strings
+const strings = require("../../config").strings
 
 const styles = theme => ({
     form: {

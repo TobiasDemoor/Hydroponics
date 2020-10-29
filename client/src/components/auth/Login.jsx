@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Typography, Card, Container, CardContent, CardActions } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
-import { login } from '../store/auth/actions'
-import LoadingButton from './common/LoadingButton';
-import isLoggedIn from '../helpers/isLoggedIn';
-import FormFields from './common/FormFields';
-const strings = require("../config").strings
+import { login } from '../../store/auth/actions'
+import LoadingButton from '../common/LoadingButton';
+import isLoggedIn from '../../helpers/isLoggedIn';
+import FormFields from '../common/FormFields';
+const strings = require("../../config").strings
 
 const styles = theme => ({
     form: {

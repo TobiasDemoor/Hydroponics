@@ -9,7 +9,7 @@ async function changeActuators(req, res) {
         .then(row => res.status(200).send({ row }))
         .catch(err => {
             console.error(err)
-            res.status(500).send({message: err})
+            res.status(500).send(err)
         })
 }
 

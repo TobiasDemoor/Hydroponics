@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-    Paper, Table, TableBody, TableCell,
+    Paper, Table, TableBody,
     TableContainer, TableHead, TablePagination, TableRow
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import config from '../../config';
+import { ColorCell, HeaderCell } from './TableCommons';
 
 
 const styles = theme => ({
@@ -15,20 +16,7 @@ const styles = theme => ({
     container: {
         maxHeight: window.innerHeight * 0.8,
     },
-    cellOk: {
-        backgroundColor: theme.palette.success.light
-    },
-    cellWarn: {
-        backgroundColor: theme.palette.error.light
-    }
 })
-
-const HeaderCell = withStyles(theme => ({
-    head: {
-        backgroundColor: theme.palette.primary.dark,
-        color: theme.palette.primary.contrastText
-    }
-}))(TableCell)
 
 
 class DataTable extends Component {
@@ -80,32 +68,12 @@ class DataTable extends Component {
                         <TableBody>
                             {rows.slice(aux, aux + rowsPerPage).map(row => (
                                 <TableRow hover key={row.code}>
-                                    {columns.map(column => {
-                                        const value = row[column.id];
-                                        const min = parseFloat(column.min)
-                                        const max = parseFloat(column.max)
-                                        if (!min && !max) {
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {value}
-                                                </TableCell>
-                                            )
-                                        } else {
-                                            const v = parseFloat(value)
-                                            const ok = (!min || min < v) && (!max || v < max)
-                                            return (
-                                                <TableCell
-                                                    className={ok ?
-                                                        classes.cellOk : classes.cellWarn
-                                                    }
-                                                    key={column.id}
-                                                    align={column.align}
-                                                >
-                                                    {value}
-                                                </TableCell>
-                                            )
-                                        }
-                                    })}
+                                    {columns.map(column => 
+                                        <ColorCell
+                                            column={column}
+                                            row={row}
+                                        />
+                                    )}
                                 </TableRow>
                             ))}
                         </TableBody>
