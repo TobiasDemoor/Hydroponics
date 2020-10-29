@@ -14,6 +14,12 @@ const styles = theme => ({
     },
     container: {
         maxHeight: window.innerHeight * 0.8,
+    },
+    cellOk: {
+        backgroundColor: theme.palette.success.light
+    },
+    cellWarn: {
+        backgroundColor: theme.palette.error.light
     }
 })
 
@@ -76,18 +82,36 @@ class DataTable extends Component {
                                 <TableRow hover key={row.code}>
                                     {columns.map(column => {
                                         const value = row[column.id];
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {value}
-                                            </TableCell>
-                                        )
+                                        const min = parseFloat(column.min)
+                                        const max = parseFloat(column.max)
+                                        if (!min && !max) {
+                                            return (
+                                                <TableCell key={column.id} align={column.align}>
+                                                    {value}
+                                                </TableCell>
+                                            )
+                                        } else {
+                                            const v = parseFloat(value)
+                                            const ok = (!min || min < v) && (!max || v < max)
+                                            return (
+                                                <TableCell
+                                                    className={ok ?
+                                                        classes.cellOk : classes.cellWarn
+                                                    }
+                                                    key={column.id}
+                                                    align={column.align}
+                                                >
+                                                    {value}
+                                                </TableCell>
+                                            )
+                                        }
                                     })}
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {showPageOptions &&     
+                {showPageOptions &&
                     <TablePagination
                         rowsPerPageOptions={rowsPerPageOptions}
                         component="div"
