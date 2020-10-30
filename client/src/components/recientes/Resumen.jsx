@@ -10,7 +10,7 @@ const {actuator, sensor} = config.constants.types
 
 const styles = theme => ({
     elements: {
-        marginBottom: theme.spacing(4)
+        marginTop: theme.spacing(4)
     }
 })
 
@@ -52,12 +52,14 @@ class Resumen extends Component {
                         valoresAct={valoresAct}
                     />
                 </div>
+                <div className={classes.elements}>
                 <TablaControles
                     columns={columns.filter(c => c.type === actuator)}
                     handlerOnOff={this.handleOnOff}
                     valoresAct={valoresAct}
                     excecuting={excecuting}
                 />
+                </div>
             </div >
         )
     }

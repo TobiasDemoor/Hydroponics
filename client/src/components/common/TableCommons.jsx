@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableCell, withStyles } from "@material-ui/core"
+import { TableCell, TableHead, TableRow, withStyles } from "@material-ui/core"
 
 export const HeaderCell = withStyles(theme => ({
     head: {
@@ -17,15 +17,15 @@ export const ColorCell = withStyles(theme => ({
         backgroundColor: theme.palette.error.light
     }
 }))(
-    function ({ column, row, classes }) {
-        const value = row[column.id];
+    function ({ column, row, classes, index: key }) {
+        const { id, align } = column
+        const value = row[id];
         const min = parseFloat(column.min)
         const max = parseFloat(column.max)
-        console.log(min, max)
 
         if (isNaN(min) && isNaN(max)) {
             return (
-                <TableCell key={column.id} align={column.align}>
+                <TableCell key={`cellcontent${key}`} align={align}>
                     {value}
                 </TableCell>
             )
@@ -37,8 +37,8 @@ export const ColorCell = withStyles(theme => ({
                     className={ok ?
                         classes.cellOk : classes.cellWarn
                     }
-                    key={column.id}
-                    align={column.align}
+                    key={`cellcontent${key}`}
+                    align={align}
                 >
                     {value}
                 </TableCell>
@@ -46,3 +46,21 @@ export const ColorCell = withStyles(theme => ({
         }
     }
 )
+
+export function ColoredTableHead({columns, }) {
+    return (
+        <TableHead>
+            <TableRow>
+                {columns.map(({ label, align, minWidth }, index) => (
+                    <HeaderCell
+                        key={`column${index}`}
+                        align={align}
+                        style={minWidth && { minWidth }}
+                    >
+                        {label}
+                    </HeaderCell>
+                ))}
+            </TableRow>
+        </TableHead>
+    )
+}

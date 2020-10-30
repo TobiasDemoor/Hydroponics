@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {
     Paper, Table, TableBody,
-    TableContainer, TableHead, TablePagination, TableRow
+    TableContainer, TablePagination, TableRow
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles';
 import config from '../../config';
-import { ColorCell, HeaderCell } from './TableCommons';
+import { ColorCell, ColoredTableHead } from './TableCommons';
 
 
 const styles = theme => ({
@@ -52,24 +52,13 @@ class DataTable extends Component {
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
                     <Table stickyHeader size="small" className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                {columns.map(column => (
-                                    <HeaderCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={column.minWidth && { minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </HeaderCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
+                        <ColoredTableHead key="head" columns={columns} />
                         <TableBody>
-                            {rows.slice(aux, aux + rowsPerPage).map(row => (
-                                <TableRow hover key={row.code}>
-                                    {columns.map(column => 
+                            {rows.slice(aux, aux + rowsPerPage).map((row, i) => (
+                                <TableRow hover key={`row${i}`}>
+                                    {columns.map((column, j) =>
                                         <ColorCell
+                                            key={`cell${i}${j}`}
                                             column={column}
                                             row={row}
                                         />

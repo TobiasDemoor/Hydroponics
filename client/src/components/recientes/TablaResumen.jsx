@@ -1,7 +1,9 @@
-import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, withStyles } from '@material-ui/core'
+import {
+    Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, withStyles
+} from '@material-ui/core'
 import React from 'react'
 import LoadingButton from '../common/LoadingButton'
-import { ColorCell, HeaderCell } from '../common/TableCommons'
+import { ColoredTableHead } from '../common/TableCommons'
 
 const styles = theme => ({
     root: {
@@ -15,54 +17,90 @@ const styles = theme => ({
         backgroundColor: theme.palette.error.light
     },
     button: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(1),
         float: 'right'
     }
 })
 
-function CeldaTexto({ handler, ...props }) {
-    return <TextField
-        {...props}
-        onChange={handler}
-        fullWidth
-        InputProps={{ disableUnderline: true }}
-        inputProps={{
-            style: { textAlign: 'center' },
-            step: 0.01
-        }}
-    />
+function CeldaTexto({ cellProps, handler, ...props }) {
+    return (
+        <TableCell {...cellProps}>
+            <TextField
+                fullWidth
+                onChange={handler}
+                InputProps={{ disableUnderline: true }}
+                inputProps={{
+                    style: { textAlign: 'center' },
+                    step: 0.01
+                }}
+                {...props}
+            />
+        </TableCell>
+    )
 }
 
-function TablaResumen({
-    valoresAct, columns, handlerTexto, handlerAlarma, classes, isPushing, submitChanges, modified
-}) {
-    const rows = []
-    columns.forEach(({ id, label, min, max, alarma }) => {
-        rows.push({
-            label,
-            code: id,
-            value: { valor: valoresAct[id], min, max},
-            min: <CeldaTexto
-                id={id}
-                value={min}
-                type="number"
-                handler={e => handlerTexto(e, "min")}
-            />,
-            max: <CeldaTexto
-                id={id}
-                value={max}
-                type="number"
-                handler={e => handlerTexto(e, "max")}
-            />,
-            alarma: <Checkbox
+function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...props }) {
+    const content = [
+        <TableCell key={`$cell{index}0`} {...props}>
+            {data.label}
+        </TableCell>
+    ]
+    const { min, max, alarma } = data
+    if (!isNaN(min) || !isNaN(max)) {
+        const v = parseFloat(value)
+        const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
+        content.push(
+            <TableCell
+                className={ok ?
+                    classes.cellOk : classes.cellWarn
+                }
+                key={`$cell{index}1`}
+                {...props}
+            >
+                {value}
+            </TableCell>
+        )
+    } else {
+        content.push(
+            <TableCell key={`$cell{index}1`} {...props}>
+                {value}
+            </TableCell>
+        )
+    }
+
+    content.push(
+        <CeldaTexto
+            key={`$cell{index}2`} id={id} value={min} type="number"
+            handler={e => handlerTexto(e, "min")}
+            cellProps={props}
+        />,
+        <CeldaTexto
+            key={`$cell{index}3`} id={id} value={max} type="number"
+            handler={e => handlerTexto(e, "max")}
+            {...props}
+        />,
+        <TableCell key={`$cell{index}4`} {...props}>
+            <Checkbox
+                key={`$cellcontent{index}5`}
                 id={id}
                 color="secondary"
                 checked={alarma}
                 onChange={handlerAlarma}
             />
-        })
-    })
-    const cols = [
+        </TableCell>
+    )
+
+    return (
+        <TableRow hover key={`row${index}`}>
+            {content}
+        </TableRow>
+    )
+}
+
+function TablaResumen({
+    valoresAct, columns, handlerTexto, handlerAlarma, classes, isPushing, submitChanges, modified
+}) {
+    const headers = [
         { label: "Name", id: "label", align: "center" },
         { label: "Value", id: "value", align: "center" },
         { label: "Minimum", id: "min", align: "center" },
@@ -70,67 +108,41 @@ function TablaResumen({
         { label: "Alarm", id: "alarma", align: "center", padding: "checkbox" }
     ]
     return (
-        <div>
-            <Paper className={classes.root}>
-    <TableContainer className={classes.container}>
-        <Table stickyHeader size="small" className={classes.table}>
-            <TableHead>
-                <TableRow>
-                    {cols.map(column => (
-                        <HeaderCell
-                            key={column.id}
-                            align={column.align}
-                            style={column.minWidth && { minWidth: column.minWidth }}
-                        >
-                            {column.label}
-                        </HeaderCell>
-                    ))}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map(row => (
-                    <TableRow hover key={row.code}>
-                        {cols.map(column => {
-                            const value = row[column.id]
-                            if (column.id === "value") {
-                                const v = parseFloat(value.valor)
-                                const min = value.min
-                                const max = value.max
-                                const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
-                                return (
-                                    <TableCell
-                                        className={ok ?
-                                            classes.cellOk : classes.cellWarn
-                                        }
-                                        key={column.id}
-                                        align={column.align}
-                                    >
-                                        {value.valor}
-                                    </TableCell>
-                                )                           
-                            } else {
-                                return <TableCell key={column.id} align={column.align}>
-                                    {value}
-                                </TableCell>
-                            }
+        <Paper className={classes.root}>
+            <TableContainer className={classes.container}>
+                <Table stickyHeader size="small" className={classes.table}>
+                    <ColoredTableHead key="head" columns={headers} />
+                    <TableBody>
+                        {columns.map((row, index) => {
+                            const id = row.id
+                            return (
+                                <Row
+                                    key={index}
+                                    index={index}
+                                    id={id}
+                                    data={row}
+                                    value={valoresAct[id]}
+                                    classes={classes}
+                                    handlerTexto={handlerTexto}
+                                    handlerAlarma={handlerAlarma}
+                                    align="center"
+                                />
+                            )
                         })}
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-</Paper>
-            {modified && (
-                <LoadingButton
-                    className={classes.button}
-                    loading={isPushing}
-                    onClick={submitChanges}
-                    variant="contained"
-                    text="Guardar Cambios"
-                    color="primary"
-                />
-            )}
-        </div>
+                    </TableBody>
+                </Table>
+                {modified && (
+                    <LoadingButton
+                        className={classes.button}
+                        loading={isPushing}
+                        onClick={submitChanges}
+                        variant="contained"
+                        text="Guardar Cambios"
+                        color="primary"
+                    />
+                )}
+            </TableContainer>
+        </Paper>
     )
 }
 
