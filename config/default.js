@@ -9,7 +9,7 @@ module.exports = {
         expTime: [1, 'd'],
     },
     auth: {
-        default: "hydropon",
+        default: "hydroponics",
     },
     data: {
         separador: ',',

@@ -6,7 +6,8 @@ const { ensureAuthenticated } = require('../controllers/middleware');
 function getDataRoutes() {
     const router = express.Router();
     router.get('/recent/:id', ensureAuthenticated, data.getRecent);
-    router.post('/columns', ensureAuthenticated, data.changeColumns)
+    router.post('/columns', ensureAuthenticated, data.changeColumns);
+    router.post('/update', ensureAuthenticated, data.update);
     return router;
 }
 

@@ -140,6 +140,7 @@ function TablaResumen({
                     disabled={!modified || isPushing}
                     variant="contained"
                     color="primary"
+                    onClick={submitChanges}
                 >
                     {isPushing && <CircularProgress color="primary" size={24} />}
                     {!isPushing && saveChanges}

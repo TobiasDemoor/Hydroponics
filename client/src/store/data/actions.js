@@ -3,7 +3,8 @@ import {
     recentRequest, recentSuccess, recentError,
     valor, alarma,
     changesSent, changesSuccess, changesError,
-    onOffRequest, onOffSuccess, onOffError
+    onOffRequest, onOffSuccess, onOffError,
+    updateRequest, updateSuccess, updateError
 } from './typeDefs'
 
 export function getRecent(id) {
@@ -55,6 +56,17 @@ export function changeOnOff(idActuator) {
             .then(
                 response => dispatch({ type: onOffSuccess, payload: response }),
                 err => dispatch({ type: onOffError, error: err })
+            )
+    }
+}
+
+export function update() {
+    return dispatch => {
+        dispatch({ type: updateRequest })
+        service.update()
+            .then(
+                response => dispatch({ type: updateSuccess, payload: response }),
+                err => dispatch({ type: updateError, error: err })
             )
     }
 }

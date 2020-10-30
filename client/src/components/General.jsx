@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import NavBar from './common/NavBar'
-import { Box, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
+import { Box, Button, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
 import logOut from '../helpers/logOut'
 import Pruebas from './Pruebas'
 import { Link } from 'react-router-dom'
+import { update } from '../store/data/actions'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
     containerBoxes: {
@@ -85,6 +87,7 @@ class General extends Component {
                     </Menu>
                 </NavBar>
                 <Pruebas history={this.props.history} />
+                <Button onClick={this.props.update}>AXA</Button>
                 <div className={classes.containerBoxes}>
                     <Box
                         className={classes.rectangle}
@@ -105,4 +108,13 @@ class General extends Component {
     }
 }
 
-export default withStyles(styles)(General)
+const mapStateToProps = state => ({
+    isFetching: state.data.isFetching,
+    error: state.data.error,
+})
+
+const mapDispatchToProps = dispatch => ({
+    update: () => dispatch(update())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(General));

@@ -9,6 +9,9 @@ import { getRecent } from '../../store/data/actions'
 import DataTable from '../common/DataTable'
 import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
+import { changeResumen } from '../../store/view';
+
+const {changeView} = require('../../config').strings
 
 const styles = theme => ({
     container: {
@@ -48,8 +51,7 @@ class Recientes extends Component {
     }
 
     render() {
-        const { classes, isFetching, error, columns, rows } = this.props;
-        const {resumen} = this.state;
+        const { classes, isFetching, error, columns, rows, resumen } = this.props;
         return (
             <div>
                 <NavBar>
@@ -62,10 +64,10 @@ class Recientes extends Component {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={this.changeView}
+                        onClick={this.props.changeResumen}
                         style={{ marginLeft: 'auto' }}
                     >
-                        Change View
+                        {changeView}
                     </Button>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
@@ -100,10 +102,12 @@ const mapStateToProps = state => ({
     error: state.data.error,
     columns: state.data.columns,
     rows: state.data.rows,
+    resumen: state.view.resumen,
 })
 
 const mapDispatchToProps = dispatch => ({
-    getRecent: id => dispatch(getRecent(id))
+    getRecent: id => dispatch(getRecent(id)),
+    changeResumen: () => dispatch(changeResumen())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Recientes));

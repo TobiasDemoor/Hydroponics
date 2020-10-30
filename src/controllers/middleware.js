@@ -8,7 +8,7 @@ async function ensureAuthenticated(req, res, next) {
         res.status(403).send({message: "Request must contain token as cookie"});
     } else {
         const token = req.cookies.token;
-        const payload = jwt.decode(token, config.jwt.TOKEN_SECRET);
+        const payload = jwt.decode(token, Buffer.from(config.jwt.TOKEN_SECRET, 'hex'));
     
         if (payload.exp <= moment.unix()) {
             res.status(401).send({message: "Session expired"});

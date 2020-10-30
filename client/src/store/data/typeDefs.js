@@ -14,5 +14,9 @@ module.exports =  {
     onOffRequest:   "ONOFF_REQUEST",
     onOffSuccess:   "ONOFF_SUCCESS",
     onOffError:     "ONOFF_ERROR",
+
+    updateRequest:  "UPDATE_REQUEST",
+    updateSuccess:  "UPDATE_SUCCESS",
+    updateError:    "UPDATE_ERROR",
 };
 

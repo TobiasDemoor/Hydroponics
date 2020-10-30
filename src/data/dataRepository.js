@@ -101,8 +101,19 @@ async function getUltimo(id) {
     return recent(id, 1).then(res => res.rows[0])
 }
 
+async function getUltimos() {
+    const data = config.data.archivos.map((_, index) => {
+        return recent(index, 1).then(res => ({ columns: res.columns, row: res.rows[0] }))
+    })
+    for (let i = 0; i < data.length; i++) {
+        data[i] = await data[i]
+    }
+    return data
+}
+
 module.exports = {
     recent,
     cambiarColumnas,
-    getUltimo
+    getUltimo,
+    getUltimos
 }

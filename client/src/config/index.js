@@ -33,6 +33,7 @@ module.exports = {
         // navigation
         changeLoginLink: "Change login",
         logOutLink: "Log out",
+        changeView: "Change View",
 
         // tabla resumen
         resumenLabel: "Name",

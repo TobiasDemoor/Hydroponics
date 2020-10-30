@@ -31,8 +31,20 @@ async function changeOnOff(id, idActuator, newState) {
     return fetch('/api/control/actuator', requestOptions).then(handleResponse);
 }
 
+async function update() {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+    };
+    console.debug(requestOptions);
+    
+    return fetch('/api/data/update', requestOptions).then(handleResponse);
+}
+
 export default {
     getRecent,
     submitChanges,
     changeOnOff,
+    update
 }

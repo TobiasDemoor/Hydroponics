@@ -33,16 +33,20 @@ export default function TablaControles({
                 />
         })
     })
+    const length = rows.length
     return (
         <div>
-            <DataTable
-                rowsPerPageOptions={[rows.length]}
-                columns={[
-                    { label: controlesLabel, id: "label", align: "center", minWidth: "50%" },
-                    { label: controlesState, id: "value", align: "center", minWidth: "50%" },
-                ]}
-                rows={rows}
-            />
+            {length ?
+                <DataTable
+                    rowsPerPageOptions={[length]}
+                    columns={[
+                        { label: controlesLabel, id: "label", align: "center", minWidth: "50%" },
+                        { label: controlesState, id: "value", align: "center", minWidth: "50%" },
+                    ]}
+                    rows={rows}
+                />
+                : null
+            }
         </div>
     )
 }

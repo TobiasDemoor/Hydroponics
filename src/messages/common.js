@@ -34,4 +34,19 @@ async function comunication(name, timeout) {
 
 }
 
-module.exports = comunication
+async function control(data, name) {
+    const file = path.join(config.comunication.path, `request.${name}`)
+    fs.writeFile(file, data, err => {
+        if (err) throw err
+    })
+    return comunication(name, 2000)
+        .catch(err => {
+            fs.unlink(file, () => {})
+            throw err;
+        })
+}
+
+module.exports = {
+    comunication,
+    control
+}
