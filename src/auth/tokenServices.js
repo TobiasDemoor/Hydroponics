@@ -9,5 +9,5 @@ module.exports.createToken = function(user) {
         iat: moment().unix(),
         exp: moment().add(...config.jwt.expTime).unix()
     };
-    return jwt.encode(payload, config.jwt.TOKEN_SECRET);
+    return jwt.encode(payload, Buffer.from(config.jwt.TOKEN_SECRET, 'hex'));
 };

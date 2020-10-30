@@ -2,41 +2,45 @@
 const config = require('config');
 const moment = require('moment');
 const AuthenticationError = require('../errors/AuthenticationError');
-const {login} = require('../services/authServices');
+const { login, modifyUser } = require('../services/authServices');
+
+const strings = config.strings
 
 async function userLogin(req, res) {
-    const {username, password} = req.body;
-    login(username, password).then(({user, token}) => {
+    const { username, password } = req.body;
+    login(username, password).then(({ user, token }) => {
         res.cookie("token", token, {
             maxAge: moment.duration(...config.jwt.expTime), SameSite: "Strict"
         })
         console.log(`Usuario username:${user.username}`);
-        res.status(200).send({id: user.id})
+        res.status(200).send({ id: user.id })
     }).catch(err => {
         if (err instanceof AuthenticationError) {
             console.log(
-                `Intento de login con ${err.field} incorrecto`+
-                `{usuario: ${username}, password: ${password}}`
-                )
-            res.status(401).send({message: "Usuario o contraseña incorrectos"});
+                `Login attempt with  wrong ${err.field}` +
+                `{username: ${username}}`//, password: ${password}}`
+            )
+            res.status(401).send({ message: strings.badLogin });
         } else {
             console.error(err.stack);
-            res.status(500).send({message: "Error desconocido al loguearse"})
+            res.status(500).send({ message: strings.unkErrorLogin })
         }
     });
 }
 
 async function userModify(req, res) {
-    const {username, password} = req.body;
-    modifyUser(username, password).then (
-        () => {
-            res.status(200).send({})
-        },
-        err => {
-            console.error(err.stack);
-            res.status(500).send({message: "Error al modificar usuario"})
-        }
-    )
+    const { currentUsername, currentPassword, newUsername, newPassword } = req.body;
+    login(currentUsername, currentPassword)
+        .then(() => modifyUser(newUsername, newPassword))
+        .then(() => res.status(200).send({message: strings.successChangeLogin}))
+        .catch( err => {
+            if (err instanceof AuthenticationError) {
+                res.status(400).send({message: strings.badLogin})
+            } else {
+                console.error(err.stack);
+                res.status(500).send({ message: strings.unkErrorChangeLogin })
+            }
+        })
 }
 
-module.exports = {userLogin, userModify}
+module.exports = { userLogin, userModify }

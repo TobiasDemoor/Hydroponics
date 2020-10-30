@@ -11,7 +11,15 @@ const User = require('../models/User');
 async function saveUser(user) {
     return new Promise((resolve, reject) => {
         console.log("Guardando usuario");
-        const data = JSON.stringify(user);
+        let data;
+        try {
+            data = JSON.stringify(user);
+        } catch (err) {
+            if (err instanceof TypeError) {
+                console.error("El objeto user esta mal formado")
+                throw err
+            }
+        }
         const route = config.auth.routeUser;
         fs.writeFile(route, data, err => {
             if (err) {
@@ -34,7 +42,15 @@ async function getUser() {
                 reject(err || data)
             }
             if (data) {
-                resolve(JSON.parse(data.toString()))
+                try {
+                    resolve(JSON.parse(data.toString()))
+                } catch (err) {
+                    if (err instanceof SyntaxError) {
+                        console.error("La cadena guardada en el archivo de usuarios no es JSON válido")
+                        console.error(`data: ${data.toString()}`)
+                        throw err
+                    }
+                }
             }
         });
     })

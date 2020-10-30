@@ -1,6 +1,6 @@
 import handleResponse from './responseService'
 
-function login(username, password) {
+async function login(username, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -11,6 +11,19 @@ function login(username, password) {
     return fetch("/api/auth/login", requestOptions).then(handleResponse);
 }
 
+async function modifyLogin(currentUsername, currentPassword, newUsername, newPassword) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentUsername, currentPassword, newUsername, newPassword }),
+    };
+    console.debug(requestOptions);
+
+    return fetch("/api/auth/modify", requestOptions).then(handleResponse);
+}
+
+
 export default {
-    login
+    login,
+    modifyLogin
 }

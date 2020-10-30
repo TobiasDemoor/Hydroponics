@@ -1,27 +1,28 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import './App.css';
 import PrivateRoute from './helpers/PrivateRoute'
-import Login from './components/Login.jsx'
-import Home from './components/Home.jsx'
+import Login from './components/auth/Login.jsx'
+import General from './components/General.jsx'
+import ChangeLogin from './components/auth/ChangeLogin.jsx';
+import Recientes from './components/recientes/Recientes.jsx';
 
 const styles = theme => ({
     root: {
-        heigth: "100%",
-        width: "100%",
-        background: theme.palette.primary.light
-    }
+        background: theme.palette.background.default
+    },
 })
 
 function App({ classes }) {
     document.body.className = classes.root
     return (
-        <div className="app">
+        <div className={classes.app}>
             <BrowserRouter>
                 <Switch>
-                    <PrivateRoute path= "/" exact component={Home} />
                     <Route path='/login' component={Login} />
+                    <PrivateRoute path='/changeLogin' component={ChangeLogin} />
+                    <PrivateRoute path="/:id" component={Recientes} />
+                    <PrivateRoute path="/" exact component={General} />
                 </Switch>
             </BrowserRouter>
         </div>
