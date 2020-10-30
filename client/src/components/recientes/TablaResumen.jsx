@@ -1,9 +1,13 @@
 import {
-    Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, withStyles
+    Button,
+    Checkbox, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, withStyles
 } from '@material-ui/core'
 import React from 'react'
-import LoadingButton from '../common/LoadingButton'
 import { ColoredTableHead } from '../common/TableCommons'
+
+const {
+    resumenLabel, resumenValue, resumenMin, resumenMax, resumenAlarm, saveChanges
+} = require('../../config').strings
 
 const styles = theme => ({
     root: {
@@ -41,7 +45,7 @@ function CeldaTexto({ cellProps, handler, ...props }) {
 
 function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...props }) {
     const content = [
-        <TableCell key={`$cell{index}0`} {...props}>
+        <TableCell key={`cell${index}0`} {...props}>
             {data.label}
         </TableCell>
     ]
@@ -54,7 +58,7 @@ function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...
                 className={ok ?
                     classes.cellOk : classes.cellWarn
                 }
-                key={`$cell{index}1`}
+                key={`cell${index}1`}
                 {...props}
             >
                 {value}
@@ -62,7 +66,7 @@ function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...
         )
     } else {
         content.push(
-            <TableCell key={`$cell{index}1`} {...props}>
+            <TableCell key={`cell${index}1`} {...props}>
                 {value}
             </TableCell>
         )
@@ -70,18 +74,18 @@ function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...
 
     content.push(
         <CeldaTexto
-            key={`$cell{index}2`} id={id} value={min} type="number"
+            key={`cell${index}2`} id={id} value={min} type="number"
             handler={e => handlerTexto(e, "min")}
             cellProps={props}
         />,
         <CeldaTexto
-            key={`$cell{index}3`} id={id} value={max} type="number"
+            key={`cell${index}3`} id={id} value={max} type="number"
             handler={e => handlerTexto(e, "max")}
             {...props}
         />,
-        <TableCell key={`$cell{index}4`} {...props}>
+        <TableCell key={`cell${index}4`} {...props}>
             <Checkbox
-                key={`$cellcontent{index}5`}
+                key={`cellcontent${index}5`}
                 id={id}
                 color="secondary"
                 checked={alarma}
@@ -101,11 +105,11 @@ function TablaResumen({
     valoresAct, columns, handlerTexto, handlerAlarma, classes, isPushing, submitChanges, modified
 }) {
     const headers = [
-        { label: "Name", id: "label", align: "center" },
-        { label: "Value", id: "value", align: "center" },
-        { label: "Minimum", id: "min", align: "center" },
-        { label: "Maxmimum", id: "max", align: "center" },
-        { label: "Alarm", id: "alarma", align: "center", padding: "checkbox" }
+        { label: resumenLabel, id: "label", align: "center" },
+        { label: resumenValue, id: "value", align: "center" },
+        { label: resumenMin, id: "min", align: "center" },
+        { label: resumenMax, id: "max", align: "center" },
+        { label: resumenAlarm, id: "alarma", align: "center", padding: "checkbox" }
     ]
     return (
         <Paper className={classes.root}>
@@ -117,7 +121,7 @@ function TablaResumen({
                             const id = row.id
                             return (
                                 <Row
-                                    key={index}
+                                    key={`row${index}`}
                                     index={index}
                                     id={id}
                                     data={row}
@@ -131,16 +135,15 @@ function TablaResumen({
                         })}
                     </TableBody>
                 </Table>
-                {modified && (
-                    <LoadingButton
-                        className={classes.button}
-                        loading={isPushing}
-                        onClick={submitChanges}
-                        variant="contained"
-                        text="Guardar Cambios"
-                        color="primary"
-                    />
-                )}
+                <Button
+                    className={classes.button}
+                    disabled={!modified || isPushing}
+                    variant="contained"
+                    color="primary"
+                >
+                    {isPushing && <CircularProgress color="primary" size={24} />}
+                    {!isPushing && saveChanges}
+                </Button>
             </TableContainer>
         </Paper>
     )

@@ -6,20 +6,17 @@
   "scripts": {
     "start": "node .",
     "test": "jest",
-    "clear-old": "rm -r build & rm build.tar.gz",
+    "clear-old": "rm -rf build & rm -f build.tar.gz",
     "build-client": "cd client && npm run build",
-    "copy-files": "cp package.json build & cp index.js build & cp *.log* build",
-    "copy-dirs": "cp -r client/build build/client & cp -r src build/src & cp -r config build/config",
-    "install-build": "cd build && npm install",
+    "copy-files": "cp package.json build & cp *.js build",
+    "copy-dirs": "cp -r client/build build/client & cp -r src build/src & cp -r config build/config & cp -r testFiles build/testFiles",
     "compress": "tar -zcf build.tar.gz build",
     "start-build": "npm run clear-old & npm run build-client",
     "copy-app": "mkdir build && npm run copy-files & npm run copy-dirs",
-    "finish-build": "npm run install-build && npm run compress",
-    "build": "npm run start-build && npm run copy-app && npm run finish-build"
+    "build": "npm run start-build && npm run copy-app && npm run compress",
+    "deploy": "npm install && pm2 start ecosystem.config.js --env production"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Tobias Demoor",
   "dependencies": {
     "body-parser": "^1.19.0",
     "config": "^3.3.2",

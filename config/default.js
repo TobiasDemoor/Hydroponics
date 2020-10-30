@@ -1,33 +1,19 @@
 "use strict";
-const path = require('path')
 
 module.exports = {
     express: {
-        "port": process.env.PORT || 5000,
-        "client": path.resolve("client/build"),
+        port: process.env.PORT || 5000,
     },
     jwt: {
-        "TOKEN_SECRET": process.env.TOKEN_SECRET || "tokensecreto",
-        "expTime": [1, 'd'],
+        "TOKEN_SECRET": process.env.TOKEN_SECRET || "77aa1f16ed3d211d6ca12625",
+        expTime: [1, 'd'],
     },
     auth: {
-        "routeUser": path.resolve("user.json"),
-        "default": "hydropon",
+        default: "hydropon",
     },
     data: {
         separador: ',',
-        archivos: [
-            path.resolve("./testFiles/temperatures0.log"),
-            path.resolve("./testFiles/temperatures1.log")
-        ],
         cantRecientes: 100,
-        columns: [
-            path.resolve("./testFiles/temperatures0.json"),
-            path.resolve("./testFiles/temperatures1.json")
-        ]
-    },
-    comunication: {
-        path: path.resolve("./interaccion/")
     },
     strings: {
         // auth

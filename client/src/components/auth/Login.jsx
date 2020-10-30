@@ -71,7 +71,6 @@ class Login extends Component {
                             {error &&
                                 <Typography
                                     className={`${classes.spaced} ${classes.error}`}
-                                    variant="h7"
                                 >
                                     {error}
                                 </Typography>

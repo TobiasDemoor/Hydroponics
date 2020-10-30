@@ -12,8 +12,12 @@ import Resumen from './Resumen';
 
 const styles = theme => ({
     container: {
+        // marginTop: theme.spacing(4)
         // display: 'flex',
         // justifyContent: 'center'
+    },
+    elements: {
+        marginTop: theme.spacing(4)
     },
     spaced: {
         marginBottom: theme.spacing(4)
@@ -69,13 +73,12 @@ class Recientes extends Component {
                     {error &&
                         <Typography
                             className={`${classes.spaced} ${classes.error}`}
-                            variant="h7"
                         >
                             {error}
                         </Typography>
                     }
                     {columns && (
-                        <div>
+                        <div className={classes.elements}>
                             { resumen ?
                                 <Resumen />
                                 :

@@ -37,7 +37,7 @@ class Resumen extends Component {
     }
 
     render() {
-        const { classes, columns, rows, modified, isPushing, excecuting } = this.props;
+        const { classes, columns, rows, modified, isPushing, executing } = this.props;
         const valoresAct = rows[0];
         return (
             <div>
@@ -57,7 +57,7 @@ class Resumen extends Component {
                     columns={columns.filter(c => c.type === actuator)}
                     handlerOnOff={this.handleOnOff}
                     valoresAct={valoresAct}
-                    excecuting={excecuting}
+                    executing={executing}
                 />
                 </div>
             </div >
@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
     rows: state.data.rows,
     modified: state.data.modified,
     isPushing: state.data.isPushing,
-    excecuting: state.data.excecuting
+    executing: state.data.executing
 })
 
 const mapDispatchToProps = dispatch => ({

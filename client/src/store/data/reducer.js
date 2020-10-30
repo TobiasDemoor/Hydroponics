@@ -12,11 +12,11 @@ const initialState = {
     isFetching: false,
     columns: null,
     rows: null,
-
+    
     isPushing: false,
     modified: false,
 
-    excecuting: false,
+    executing: false,
 }
 
 export default (state = initialState, { type, payload, error }) => {

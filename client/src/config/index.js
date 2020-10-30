@@ -34,7 +34,15 @@ module.exports = {
         changeLoginLink: "Change login",
         logOutLink: "Log out",
 
-        // tablas resumen
+        // tabla resumen
+        resumenLabel: "Name",
+        resumenValue: "Value",
+        resumenMin: "Minimum",
+        resumenMax: "Maximum",
+        resumenAlarm: "Alarm",
+        saveChanges: "Save changes",
+
+        // tabla controles
         controlesLabel: "Name",
         controlesState: "State",
     }

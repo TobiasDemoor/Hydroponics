@@ -4,26 +4,33 @@ import DataTable from '../common/DataTable'
 
 const config = require("../../config")
 const { on } = config.constants.actuator
-const strings = config.strings
+const {
+    controlesLabel, controlesState
+} = config.strings
 
 
 export default function TablaControles({
-    valoresAct, columns, handlerOnOff, excecuting
+    valoresAct, columns, handlerOnOff, executing
 }) {
     const rows = []
     columns.forEach(({ id, label }) => {
         rows.push({
             label,
             code: id,
-            value: !excecuting ?
+            value: !executing ?
                 <Switch
+                    key={`switch${id}`}
                     id={id}
                     checked={valoresAct[id] === on}
                     onChange={handlerOnOff}
                     color="secondary"
                 />
                 :
-                <CircularProgress color="secondary" />
+                <CircularProgress
+                    key={`circular${id}`}
+                    color="secondary"
+                    size={32}
+                />
         })
     })
     return (
@@ -31,8 +38,8 @@ export default function TablaControles({
             <DataTable
                 rowsPerPageOptions={[rows.length]}
                 columns={[
-                    { label: strings.controlesLabel, id: "label", align: "center" },
-                    { label: strings.controlesState, id: "value", align: "center" },
+                    { label: controlesLabel, id: "label", align: "center", minWidth: "50%" },
+                    { label: controlesState, id: "value", align: "center", minWidth: "50%" },
                 ]}
                 rows={rows}
             />

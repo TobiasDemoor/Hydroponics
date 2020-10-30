@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = {
     express: {
-        "client": path.resolve("client"),
+        "client": path.resolve("client/build"),
     },
     auth: {
         "routeUser": path.resolve("./testFiles/user.json"),

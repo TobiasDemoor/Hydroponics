@@ -104,7 +104,6 @@ class ChangeLogin extends Component {
                                 {message &&
                                     <Typography
                                         className={`${classes.spaced} ${classes.success}`}
-                                        variant="h7"
                                     >
                                         {message}
                                     </Typography>
@@ -112,7 +111,6 @@ class ChangeLogin extends Component {
                                 {error &&
                                     <Typography
                                         className={`${classes.spaced} ${classes.error}`}
-                                        variant="h7"
                                     >
                                         {error}
                                     </Typography>
