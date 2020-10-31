@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import NavBar from './common/NavBar'
-import { Box, Button, CircularProgress, Grid, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
+import {
+    Box, Button, CircularProgress, Container, Grid, IconButton, Menu, MenuItem, Paper, Switch, withStyles
+} from '@material-ui/core'
+import RefreshIcon from '@material-ui/icons/Refresh';
 import logOut from '../helpers/logOut'
 import { Link } from 'react-router-dom'
 import { update } from '../store/data/actions'
 import { connect } from 'react-redux'
 
 const styles = theme => ({
-    rectangle: {
+    item: {
         height: "100%",
         width: "100%",
         borderRadius: "25px",
         textAlign: "center",
         display: "table"
-    },
-    fishtank: {
-        height: "100%"
     },
     link: {
         display: "table-cell",
@@ -42,7 +42,7 @@ function BoxSection({ id, classes, data, xs, height }) {
         <Grid item xs={xs}>
             <Box
                 key={id}
-                className={classes.rectangle}
+                className={classes.item}
                 style={{ height }}
                 bgcolor={`${ok ? "success" : "error"}.light`}
             >
@@ -133,46 +133,58 @@ class General extends Component {
                 { isFetching || !sections ?
                     <CircularProgress />
                     :
-                    <Grid container spacing={1} height="100%">
-                        <BoxSection
-                            id="ambient"
-                            key="ambient"
-                            data={sections.ambient}
-                            classes={classes}
-                            height={height * 0.2}
-                            xs={12}
-                        />
-                        <BoxSection
-                            id="fishtank"
-                            key="fishtank"
-                            data={sections.fishtank}
-                            classes={classes}
-                            xs={6}
-                        />
-                        <Grid container item spacing={1} xs={6} direction="column">
+                    <Container maxWidth="lg">
+                        <Grid container spacing={1} height="100%">
                             <BoxSection
-                                id="claymediagrowbed"
-                                key="claymediagrowbed"
-                                data={sections.claymediagrowbed}
+                                id="ambient"
+                                key="ambient"
+                                data={sections.ambient}
                                 classes={classes}
-                                height={height * 0.2}
+                                height={height * 0.15}
+                                xs={12}
                             />
+                            <Grid item xs={12}>
+                                <div className={classes.item}>
+                                    <Switch color="primary" />
+                                </div>
+                            </Grid>
                             <BoxSection
-                                id="deepwatergrowbed0"
-                                key="deepwatergrowbed0"
-                                data={sections.deepwatergrowbed0}
+                                id="fishtank"
+                                key="fishtank"
+                                data={sections.fishtank}
                                 classes={classes}
-                                height={height * 0.2}
+                                xs={6}
                             />
-                            <BoxSection
-                                id="deepwatergrowbed1"
-                                key="deepwatergrowbed1"
-                                data={sections.deepwatergrowbed1}
-                                classes={classes}
-                                height={height * 0.2}
-                            />
+                            <Grid container item spacing={1} xs={6} direction="column">
+                                <BoxSection
+                                    id="claymediagrowbed"
+                                    key="claymediagrowbed"
+                                    data={sections.claymediagrowbed}
+                                    classes={classes}
+                                    height={height * 0.15}
+                                />
+                                <BoxSection
+                                    id="deepwatergrowbed0"
+                                    key="deepwatergrowbed0"
+                                    data={sections.deepwatergrowbed0}
+                                    classes={classes}
+                                    height={height * 0.15}
+                                />
+                                <BoxSection
+                                    id="deepwatergrowbed1"
+                                    key="deepwatergrowbed1"
+                                    data={sections.deepwatergrowbed1}
+                                    classes={classes}
+                                    height={height * 0.15}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <div className={classes.item}>
+                                    <Switch color="primary" />
+                                </div>
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Container>
                 }
             </div>
         )
