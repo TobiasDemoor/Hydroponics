@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import NavBar from './common/NavBar'
 import {
-    Box, Button, CircularProgress, Container, Grid, IconButton, Menu, MenuItem, Paper, Switch, withStyles
+    Box, Button, CircularProgress, Container, Grid, IconButton, Menu, MenuItem, Switch, withStyles
 } from '@material-ui/core'
-import RefreshIcon from '@material-ui/icons/Refresh';
 import logOut from '../helpers/logOut'
 import { Link } from 'react-router-dom'
 import { update } from '../store/data/actions'
