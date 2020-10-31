@@ -45,7 +45,6 @@ class ChangeLogin extends Component {
             newPasswordVerify: "",
             error: null
         }
-        this.componentDidMount = this.componentDidMount.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }

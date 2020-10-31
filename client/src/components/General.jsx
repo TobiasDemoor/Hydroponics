@@ -1,44 +1,71 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import NavBar from './common/NavBar'
-import { Box, Button, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
+import { Box, Button, CircularProgress, Grid, IconButton, Menu, MenuItem, withStyles } from '@material-ui/core'
 import logOut from '../helpers/logOut'
-import Pruebas from './Pruebas'
 import { Link } from 'react-router-dom'
 import { update } from '../store/data/actions'
 import { connect } from 'react-redux'
 
 const styles = theme => ({
-    containerBoxes: {
-        display: 'flex',
-        flexDirection: 'column',
-        heigth: "100%",
-        width: "100%",
-    },
     rectangle: {
-        width: "100px",
-        height: "100px",
+        height: "100%",
+        width: "100%",
         borderRadius: "25px",
         textAlign: "center",
-        flex: 1
+        display: "table"
     },
-    center: {
-        margin: "auto"
+    fishtank: {
+        height: "100%"
+    },
+    link: {
+        display: "table-cell",
+        verticalAlign: "middle"
     }
 })
 
-const strings = require("../config").strings
+const { changeLoginLink, logOutLink, goToSection } = require("../config").strings
+
+
+function BoxSection({ id, classes, data, xs, height }) {
+    const { title, columns, row } = data
+    const ok = columns.every(column => {
+        if (column.alarma) {
+            const { id, min, max } = column
+            const v = parseFloat(row[id])
+            return (isNaN(min) || min < v) && (isNaN(max) || v < max)
+        } else {
+            return true;
+        }
+    })
+    return (
+        <Grid item xs={xs}>
+            <Box
+                key={id}
+                className={classes.rectangle}
+                style={{ height }}
+                bgcolor={`${ok ? "success" : "error"}.light`}
+            >
+                <Link to={id} className={classes.link}>
+                    {`${goToSection} ${title}`}
+                </Link>
+            </Box>
+        </Grid>
+    )
+}
 
 class General extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            anchorEl: null
+            anchorEl: null,
+            height: null
         }
 
         this.handleMenu = this.handleMenu.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleLogOut = this.handleLogOut.bind(this)
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     handleMenu(e) {
@@ -58,9 +85,25 @@ class General extends Component {
         this.props.history.push('/')
     }
 
+    componentDidMount() {
+        this.props.update()
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+
+    updateWindowDimensions() {
+        this.setState({ height: window.innerHeight });
+    }
+
     render() {
-        const { anchorEl } = this.state;
-        const { classes } = this.props;
+        const { anchorEl, height } = this.state;
+        const { classes, isFetching, sections } = this.props;
+
         return (
             <div>
                 <NavBar>
@@ -79,30 +122,58 @@ class General extends Component {
                         onClose={this.handleClose}
                     >
                         <MenuItem onClick={() => this.props.history.push('/changeLogin')}>
-                            {strings.changeLoginLink}
+                            {changeLoginLink}
                         </MenuItem>
                         <MenuItem onClick={this.handleLogOut}>
-                            {strings.logOutLink}
+                            {logOutLink}
                         </MenuItem>
                     </Menu>
                 </NavBar>
-                <Pruebas history={this.props.history} />
-                <Button onClick={this.props.update}>AXA</Button>
-                <div className={classes.containerBoxes}>
-                    <Box
-                        className={classes.rectangle}
-                        bgcolor={`${true ? "success" : "error"}.main`}
-                        style={{ flex: 1 }}
-                    >
-                        <Link to="0">Ir a tabla 0</Link>
-                    </Box>
-                    <Box
-                        className={classes.rectangle}
-                        bgcolor={`${true ? "success" : "error"}.main`}
-                    >
-                        <Link className={classes.center} to="0">Ir a tabla 0</Link>
-                    </Box>
-                </div>
+                <Button onClick={this.props.update}>Update</Button>
+                { isFetching || !sections ?
+                    <CircularProgress />
+                    :
+                    <Grid container spacing={1} height="100%">
+                        <BoxSection
+                            id="ambient"
+                            key="ambient"
+                            data={sections.ambient}
+                            classes={classes}
+                            height={height * 0.2}
+                            xs={12}
+                        />
+                        <BoxSection
+                            id="fishtank"
+                            key="fishtank"
+                            data={sections.fishtank}
+                            classes={classes}
+                            xs={6}
+                        />
+                        <Grid container item spacing={1} xs={6} direction="column">
+                            <BoxSection
+                                id="claymediagrowbed"
+                                key="claymediagrowbed"
+                                data={sections.claymediagrowbed}
+                                classes={classes}
+                                height={height * 0.2}
+                            />
+                            <BoxSection
+                                id="deepwatergrowbed0"
+                                key="deepwatergrowbed0"
+                                data={sections.deepwatergrowbed0}
+                                classes={classes}
+                                height={height * 0.2}
+                            />
+                            <BoxSection
+                                id="deepwatergrowbed1"
+                                key="deepwatergrowbed1"
+                                data={sections.deepwatergrowbed1}
+                                classes={classes}
+                                height={height * 0.2}
+                            />
+                        </Grid>
+                    </Grid>
+                }
             </div>
         )
     }
@@ -111,6 +182,7 @@ class General extends Component {
 const mapStateToProps = state => ({
     isFetching: state.data.isFetching,
     error: state.data.error,
+    sections: state.data.sections
 })
 
 const mapDispatchToProps = dispatch => ({

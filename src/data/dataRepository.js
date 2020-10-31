@@ -22,7 +22,7 @@ async function tailN(archivo, nro) {
 }
 
 async function levantaRecientes(id, nro) {
-    const archivo = config.data.archivos[id]
+    const archivo = config.data.sections[id].log
     const data = await tailN(archivo, nro);
     if (data.length < nro) {
         data.push(...await tailN(archivo + '.0', nro - data.length))
@@ -31,7 +31,7 @@ async function levantaRecientes(id, nro) {
 }
 
 async function levantaColumns(id) {
-    const archivo = config.data.columns[id]
+    const archivo = config.data.sections[id].columns
     return new Promise((resolve, reject) => {
         fs.readFile(archivo, 'utf8', (err, data) => {
             if (err || !data) {
@@ -86,7 +86,7 @@ async function cambiarColumnas(id, columns) {
             }
             reject(err)
         }
-        const route = config.data.columns[id]
+        const route = config.data.sections[id].columns
         fs.writeFile(route, data, err => {
             if (err) {
                 reject(err);
@@ -102,11 +102,19 @@ async function getUltimo(id) {
 }
 
 async function getUltimos() {
-    const data = config.data.archivos.map((_, index) => {
-        return recent(index, 1).then(res => ({ columns: res.columns, row: res.rows[0] }))
-    })
-    for (let i = 0; i < data.length; i++) {
-        data[i] = await data[i]
+    const data = {}
+    for (let entry of Object.entries(config.data.sections)) {
+        const id = entry[0];
+        data[id] = recent(id, 1).then(res => (
+            {
+                columns: res.columns,
+                row: res.rows[0],
+                title: config.data.sections[id].title,
+            }
+        ))
+    }
+    for (let entry of Object.entries(data)) {
+        data[entry[0]] = await entry[1]
     }
     return data
 }

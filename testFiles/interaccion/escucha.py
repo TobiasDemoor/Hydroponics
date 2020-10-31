@@ -14,7 +14,7 @@ def actuator():
         # ejecuto la acción solicitada
         d = json.loads(data)
         state = d['state']
-        with open('../temperatures0.log', 'a') as arch:
+        with open('../logs/ambient.log', 'a') as arch:
             writer = csv.writer(arch)
             vec = [datetime.now()]
             for _ in range(3):

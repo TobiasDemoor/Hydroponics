@@ -38,7 +38,6 @@ class Recientes extends Component {
         this.state = {
             resumen: true
         }
-        this.componentDidMount = this.componentDidMount.bind(this)
         this.changeView = this.changeView.bind(this)
     }
     componentDidMount() {

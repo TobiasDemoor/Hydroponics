@@ -13,9 +13,6 @@ const styles = theme => ({
         width: '100%',
         backgroundColor: theme.palette.background.paper
     },
-    container: {
-        maxHeight: window.innerHeight * 0.8,
-    },
 })
 
 
@@ -25,9 +22,11 @@ class DataTable extends Component {
         this.state = {
             page: 0,
             rowsPerPage: null,
+            heigth: null,
         }
         this.handleChangePage = this.handleChangePage.bind(this)
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this)
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
     }
 
     handleChangePage(e, newPage) {
@@ -41,16 +40,31 @@ class DataTable extends Component {
         })
     }
 
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+
+    updateWindowDimensions() {
+        this.setState({ height: window.innerHeight });
+    }
+
     render() {
         const { columns, rows, classes } = this.props;
         const rowsPerPageOptions = this.props.rowsPerPageOptions || config.rowsPerPageOptions
-        const { page } = this.state;
+        const { page, height } = this.state;
         const rowsPerPage = this.state.rowsPerPage || rowsPerPageOptions[0]
         const aux = page * rowsPerPage;
         const showPageOptions = rowsPerPageOptions.length > 1
+        const containerStyle = height ? {maxHeight: height * 0.8} : {}
         return (
             <Paper className={classes.root}>
-                <TableContainer className={classes.container}>
+                <TableContainer style={containerStyle}>
                     <Table stickyHeader size="small" className={classes.table}>
                         <ColoredTableHead key="head" columns={columns} />
                         <TableBody>
