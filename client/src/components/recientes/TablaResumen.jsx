@@ -1,13 +1,17 @@
 import {
+    Box,
     Button,
     Checkbox, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, withStyles
 } from '@material-ui/core'
 import React from 'react'
 import { ColoredTableHead } from '../common/TableCommons'
 
+const config = require('../../config')
+const { colors } = config.constants
 const {
     resumenLabel, resumenValue, resumenMin, resumenMax, resumenAlarm, saveChanges
-} = require('../../config').strings
+} = config.strings
+
 
 const styles = theme => ({
     root: {
@@ -43,7 +47,7 @@ function CeldaTexto({ cellProps, handler, ...props }) {
     )
 }
 
-function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...props }) {
+function Row({ index, data, value, id, handlerTexto, handlerAlarma, ...props }) {
     const content = [
         <TableCell key={`cell${index}0`} {...props}>
             {data.label}
@@ -55,9 +59,8 @@ function Row({ index, data, value, id, classes, handlerTexto, handlerAlarma, ...
         const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
         content.push(
             <TableCell
-                className={ok ?
-                    classes.cellOk : classes.cellWarn
-                }
+                component={Box}
+                bgcolor={ok ? colors.ok : colors.error}
                 key={`cell${index}1`}
                 {...props}
             >
@@ -126,7 +129,6 @@ function TablaResumen({
                                     id={id}
                                     data={row}
                                     value={valoresAct[id]}
-                                    classes={classes}
                                     handlerTexto={handlerTexto}
                                     handlerAlarma={handlerAlarma}
                                     align="center"

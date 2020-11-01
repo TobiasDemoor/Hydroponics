@@ -8,6 +8,10 @@ module.exports = {
         actuator: {
             on: "on",
             off: "off"
+        },
+        colors: {
+            ok: "success.light",
+            error: "error.main"
         }
     },
     strings: {

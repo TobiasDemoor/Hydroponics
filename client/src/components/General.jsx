@@ -9,11 +9,16 @@ import { Link } from 'react-router-dom'
 import { update } from '../store/data/actions'
 import { connect } from 'react-redux'
 
+const config = require('../config')
+const { colors } = config.constants
+const { changeLoginLink, logOutLink, goToSection } = config.strings
+
+
 const styles = theme => ({
     item: {
         height: "100%",
         width: "100%",
-        borderRadius: "25px",
+        borderRadius: theme.spacing(2),
         textAlign: "center",
         display: "table"
     },
@@ -22,9 +27,6 @@ const styles = theme => ({
         verticalAlign: "middle"
     }
 })
-
-const { changeLoginLink, logOutLink, goToSection } = require("../config").strings
-
 
 function BoxSection({ id, classes, data, xs, height }) {
     const { title, columns, row } = data
@@ -43,7 +45,7 @@ function BoxSection({ id, classes, data, xs, height }) {
                 key={id}
                 className={classes.item}
                 style={{ height }}
-                bgcolor={`${ok ? "success" : "error"}.light`}
+                bgcolor={ok ? colors.ok : colors.error}
             >
                 <Link to={id} className={classes.link}>
                     {`${goToSection} ${title}`}

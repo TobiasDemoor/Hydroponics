@@ -1,5 +1,6 @@
 import React from 'react'
-import { TableCell, TableHead, TableRow, withStyles } from "@material-ui/core"
+import { Box, TableCell, TableHead, TableRow, withStyles } from "@material-ui/core"
+const { colors } = require('../../config').constants
 
 export const HeaderCell = withStyles(theme => ({
     head: {
@@ -9,45 +10,35 @@ export const HeaderCell = withStyles(theme => ({
 }))(TableCell)
 
 
-export const ColorCell = withStyles(theme => ({
-    cellOk: {
-        backgroundColor: theme.palette.success.light
-    },
-    cellWarn: {
-        backgroundColor: theme.palette.error.light
-    }
-}))(
-    function ({ column, row, classes, index: key }) {
-        const { id, align } = column
-        const value = row[id];
-        const min = parseFloat(column.min)
-        const max = parseFloat(column.max)
+export function ColorCell({ column, row, index: key }) {
+    const { id, align } = column
+    const value = row[id];
+    const min = parseFloat(column.min)
+    const max = parseFloat(column.max)
 
-        if (isNaN(min) && isNaN(max)) {
-            return (
-                <TableCell key={`cellcontent${key}`} align={align}>
-                    {value}
-                </TableCell>
-            )
-        } else {
-            const v = parseFloat(value)
-            const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
-            return (
-                <TableCell
-                    className={ok ?
-                        classes.cellOk : classes.cellWarn
-                    }
-                    key={`cellcontent${key}`}
-                    align={align}
-                >
-                    {value}
-                </TableCell>
-            )
-        }
+    if (isNaN(min) && isNaN(max)) {
+        return (
+            <TableCell key={`cellcontent${key}`} align={align}>
+                {value}
+            </TableCell>
+        )
+    } else {
+        const v = parseFloat(value)
+        const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
+        return (
+            <TableCell
+                component={Box}
+                bgcolor={ok ? colors.ok : colors.error}
+                key={`cellcontent${key}`}
+                align={align}
+            >
+                {value}
+            </TableCell>
+        )
     }
-)
+}
 
-export function ColoredTableHead({columns, }) {
+export function ColoredTableHead({ columns, }) {
     return (
         <TableHead>
             <TableRow>
