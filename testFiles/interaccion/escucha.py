@@ -5,6 +5,8 @@ import csv
 import random
 from datetime import datetime
 
+
+
 def actuator():
     try:
         with open("request.actuator", "r") as arch:
@@ -14,13 +16,24 @@ def actuator():
         # ejecuto la acción solicitada
         d = json.loads(data)
         state = d['state']
-        with open('../logs/ambient.log', 'a') as arch:
-            writer = csv.writer(arch)
-            vec = [datetime.now()]
-            for _ in range(3):
-                vec.append(round(random.random()*100, 2))
-            vec.append(state)
-            writer.writerow(vec)
+        id = d['id']
+        if id[:-1] == "pump":
+            with open('../general/general.state', 'r') as arch:
+                reader = csv.reader(arch)
+                for r in reader:
+                    states = r
+                states[int(id[-1])] = state
+            with open('../general/general.state', 'w') as arch:
+                writer = csv.writer(arch)
+                writer.writerow(states)
+        else:    
+            with open('../logs/ambient.log', 'a') as arch:
+                writer = csv.writer(arch)
+                vec = [datetime.now()]
+                for _ in range(3):
+                    vec.append(round(random.random()*100, 2))
+                vec.append(state)
+                writer.writerow(vec)
         # comunico el exito o fracaso
         if True:
             with open("success.actuator", "w") as arch:

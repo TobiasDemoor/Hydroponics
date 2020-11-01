@@ -3,7 +3,7 @@ import {
     recentRequest, recentSuccess, recentError,
     valor, alarma,
     changesSent, changesSuccess, changesError,
-    onOffRequest, onOffSuccess, onOffError,
+    onOffRequest, onOffSuccess, onOffSuccessGeneral, onOffError, 
     updateRequest, updateSuccess, updateError
 } from './typeDefs'
 
@@ -44,17 +44,30 @@ export function submitChanges() {
     }
 }
 
-const actuator = require('../../config').constants.actuator
+const { on, off } = require('../../config').constants.actuator
 
 export function changeOnOff(idActuator) {
     return (dispatch, getState) => {
         const state = getState().data
-        const newState = state.rows[0][idActuator] === actuator.on ? actuator.off : actuator.on
+        const newState = state.rows[0][idActuator] === on ? off : on
         const { id } = state
         dispatch({ type: onOffRequest })
         service.changeOnOff(id, idActuator, newState)
             .then(
                 response => dispatch({ type: onOffSuccess, payload: response }),
+                err => dispatch({ type: onOffError, error: err })
+            )
+    }
+}
+
+export function changeOnOffGeneral(idActuator) {
+    return (dispatch, getState) => {
+        const state = getState().data
+        const newState = state.sections.general.row[idActuator] === on ? off : on
+        dispatch({ type: onOffRequest })
+        service.changeOnOff("general", idActuator, newState)
+            .then(
+                response => dispatch({ type: onOffSuccessGeneral, payload: response }),
                 err => dispatch({ type: onOffError, error: err })
             )
     }

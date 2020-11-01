@@ -1,5 +1,6 @@
 "use strict";
-const path = require('path')
+const path = require('path');
+const { PassThrough } = require('stream');
 const datadir = "./testFiles/logs/"
 
 module.exports = {
@@ -36,7 +37,10 @@ module.exports = {
                 log: path.join(datadir, "deepwatergrowbed1.log"),
                 columns: path.join(datadir, "deepwatergrowbed1.json")
             },
-            
+            general: {
+                log: path.resolve("./testFiles/general/general.state"),
+                columns: path.resolve("./testFiles/general/general.json"),
+            }
         },
     },
     comunication: {

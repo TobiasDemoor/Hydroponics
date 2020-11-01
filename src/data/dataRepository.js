@@ -74,6 +74,29 @@ async function recent(id, nro) {
     return res
 }
 
+async function getUltimo(id) {
+    return recent(id, 1).then(res => res.rows[0])
+}
+
+async function getUltimos() {
+    const data = {}
+    for (let entry of Object.entries(config.data.sections)) {
+        const id = entry[0];
+        data[id] = recent(id, 1).then(res => (
+            {
+                columns: res.columns,
+                row: res.rows[0],
+                title: config.data.sections[id].title,
+            }
+        ))
+    }
+    for (let entry of Object.entries(data)) {
+        data[entry[0]] = await entry[1]
+    }
+    return data
+}
+
+
 async function cambiarColumnas(id, columns) {
     return new Promise((resolve, reject) => {
         console.log(`Storing column with id = ${id}`);
@@ -97,31 +120,9 @@ async function cambiarColumnas(id, columns) {
     })
 }
 
-async function getUltimo(id) {
-    return recent(id, 1).then(res => res.rows[0])
-}
-
-async function getUltimos() {
-    const data = {}
-    for (let entry of Object.entries(config.data.sections)) {
-        const id = entry[0];
-        data[id] = recent(id, 1).then(res => (
-            {
-                columns: res.columns,
-                row: res.rows[0],
-                title: config.data.sections[id].title,
-            }
-        ))
-    }
-    for (let entry of Object.entries(data)) {
-        data[entry[0]] = await entry[1]
-    }
-    return data
-}
-
 module.exports = {
     recent,
-    cambiarColumnas,
     getUltimo,
-    getUltimos
+    getUltimos,
+    cambiarColumnas,
 }

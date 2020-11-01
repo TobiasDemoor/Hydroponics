@@ -1,22 +1,23 @@
 module.exports =  {
-    recentRequest:  "RECENT_REQUEST",
-    recentSuccess:  "RECENT_SUCCESS",
-    recentError:    "RECENT_ERROR",
-    
-    valor:          "CHANGE_VALOR",
-    
-    alarma:         "CHANGE_ALARMA",
+    recentRequest:          "RECENT_REQUEST",
+    recentSuccess:          "RECENT_SUCCESS",
+    recentError:            "RECENT_ERROR",
 
-    changesSent:    "CHANGES_SENT",
-    changesSuccess: "CHANGES_SUCCESS",
-    changesError:   "CHANGES_ERROR",
+    valor:                  "CHANGE_VALOR",
 
-    onOffRequest:   "ONOFF_REQUEST",
-    onOffSuccess:   "ONOFF_SUCCESS",
-    onOffError:     "ONOFF_ERROR",
+    alarma:                 "CHANGE_ALARMA",
 
-    updateRequest:  "UPDATE_REQUEST",
-    updateSuccess:  "UPDATE_SUCCESS",
-    updateError:    "UPDATE_ERROR",
+    changesSent:            "CHANGES_SENT",
+    changesSuccess:         "CHANGES_SUCCESS",
+    changesError:           "CHANGES_ERROR",
+
+    onOffRequest:           "ONOFF_REQUEST",
+    onOffSuccess:           "ONOFF_SUCCESS",
+    onOffSuccessGeneral:    "ONOFF_GENERAL_SUCCESS",
+    onOffError:             "ONOFF_ERROR",
+
+    updateRequest:          "UPDATE_REQUEST",
+    updateSuccess:          "UPDATE_SUCCESS",
+    updateError:            "UPDATE_ERROR",
 };
 

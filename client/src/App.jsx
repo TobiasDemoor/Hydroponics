@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './helpers/PrivateRoute'
 import Login from './components/auth/Login.jsx'
-import General from './components/General.jsx'
+import General from './components/general/General.jsx'
 import ChangeLogin from './components/auth/ChangeLogin.jsx';
 import Recientes from './components/recientes/Recientes.jsx';
 

@@ -36,8 +36,8 @@ module.exports = {
                 log: path.join(datadir, "deepwatergrowbed1.log"),
                 columns: path.join(datadir, "deepwatergrowbed1.json")
             },
-            
         },
+        general: path.resolve("./testFiles/general/actuators.state"),
     },
     comunication: {
         path: path.resolve("./testFiles/interaccion/")
