@@ -3,7 +3,7 @@ import UserIcon from '@material-ui/icons/AccountCircle'
 import Refresh from '@material-ui/icons/Refresh'
 import NavBar from '../common/NavBar'
 import {
-    Container, IconButton, Menu, MenuItem
+    IconButton, Menu, MenuItem
 } from '@material-ui/core'
 import logOut from '../../helpers/logOut'
 import Diagram from './Diagram'

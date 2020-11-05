@@ -1,6 +1,6 @@
 import {
     Button,
-    CircularProgress, Container, IconButton, Typography, withStyles
+    CircularProgress, Container, IconButton, withStyles
 } from '@material-ui/core';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
