@@ -2,6 +2,15 @@
 const { exec } = require('child_process');
 const fs = require('fs');
 const config = require('config');
+const { log, columns, sections, separador } = config.data;
+
+function getLogRoute(id) {
+    return sections[id].log || log(sections[id].id || id);
+}
+
+function getColumnsRoute(id) {
+    return sections[id].columns || columns(sections[id].id || id);
+}
 
 // recent("prueba.log", 20).then(console.log)
 
@@ -13,7 +22,7 @@ async function tailN(archivo, nro) {
             else {
                 const data = stdout.trim().split('\n');
                 for (let i = 0; i < data.length; i += 1) {
-                    data[i] = data[i].trim().split(config.data.separador)
+                    data[i] = data[i].trim().split(separador)
                 }
                 resolve(data);
             }
@@ -22,7 +31,7 @@ async function tailN(archivo, nro) {
 }
 
 async function levantaRecientes(id, nro) {
-    const archivo = config.data.sections[id].log
+    const archivo = getLogRoute(id)
     const data = await tailN(archivo, nro);
     if (data.length < nro) {
         data.push(...await tailN(archivo + '.0', nro - data.length))
@@ -31,7 +40,7 @@ async function levantaRecientes(id, nro) {
 }
 
 async function levantaColumns(id) {
-    const archivo = config.data.sections[id].columns
+    const archivo = getColumnsRoute(id)
     return new Promise((resolve, reject) => {
         fs.readFile(archivo, 'utf8', (err, data) => {
             if (err || !data) {
@@ -80,13 +89,13 @@ async function getUltimo(id) {
 
 async function getUltimos() {
     const data = {}
-    for (let entry of Object.entries(config.data.sections)) {
+    for (let entry of Object.entries(sections)) {
         const id = entry[0];
         data[id] = recent(id, 1).then(res => (
             {
                 columns: res.columns,
                 row: res.rows[0],
-                title: config.data.sections[id].title,
+                title: sections[id].title,
             }
         ))
     }
@@ -109,7 +118,7 @@ async function cambiarColumnas(id, columns) {
             }
             reject(err)
         }
-        const route = config.data.sections[id].columns
+        const route = getColumnsRoute(id)
         fs.writeFile(route, data, err => {
             if (err) {
                 reject(err);

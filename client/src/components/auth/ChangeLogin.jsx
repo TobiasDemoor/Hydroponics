@@ -7,6 +7,7 @@ import { modifyLogin, clearModifyLogin } from '../../store/auth/actions'
 import LoadingButton from '../common/LoadingButton';
 import FormFields from '../common/FormFields';
 import NavBar from '../common/NavBar';
+import { ErrorMessage, SuccessMessage } from '../common/messages';
 
 const strings = require("../../config").strings
 
@@ -21,12 +22,6 @@ const styles = theme => ({
     },
     spaced: {
         marginBottom: theme.spacing(4)
-    },
-    success: {
-        color: theme.palette.success.main
-    },
-    error: {
-        color: theme.palette.error.main
     },
     cardActions: {
         justifyContent: 'center'
@@ -100,20 +95,8 @@ class ChangeLogin extends Component {
                     <Card className={classes.card}>
                         <form onSubmit={this.handleSubmit}>
                             <CardContent>
-                                {message &&
-                                    <Typography
-                                        className={`${classes.spaced} ${classes.success}`}
-                                    >
-                                        {message}
-                                    </Typography>
-                                }
-                                {error &&
-                                    <Typography
-                                        className={`${classes.spaced} ${classes.error}`}
-                                    >
-                                        {error}
-                                    </Typography>
-                                }
+                                <SuccessMessage message={message} />
+                                <ErrorMessage error={error} />
                                 <Typography className={classes.spaced} variant="h5">
                                     {strings.tituloChangeLogin}
                                 </Typography>

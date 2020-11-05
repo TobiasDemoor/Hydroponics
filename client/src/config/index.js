@@ -5,6 +5,13 @@ module.exports = {
             actuator: "actuator",
             sensor: "sensor"
         },
+        sections: {
+            ambient: "ambient",   // mediciones del ambiente
+            fishtank: "fishtank",   // mediciones del grower fish tank
+            upperbed: "upperbed",   // mediciones del expanded clay media grow bed
+            mediumbed: "mediumbed",  // mediciones del primer deep water grow bed
+            lowerbed: "lowerbed"    // mediciones del segundo deep water grow bed
+        },
         actuator: {
             on: "on",
             off: "off"

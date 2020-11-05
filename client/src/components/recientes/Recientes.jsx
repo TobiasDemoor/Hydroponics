@@ -10,24 +10,21 @@ import DataTable from '../common/DataTable'
 import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
 import { changeResumen } from '../../store/view';
+import { ErrorMessage } from '../common/messages';
 
-const {changeView} = require('../../config').strings
+const { changeView } = require('../../config').strings
 
 const styles = theme => ({
     container: {
-        // marginTop: theme.spacing(4)
-        // display: 'flex',
-        // justifyContent: 'center'
+        position: 'relative'
+    },
+    loading: {
+        marginLeft: "50%",
+        left: -20
     },
     elements: {
         marginTop: theme.spacing(4)
     },
-    spaced: {
-        marginBottom: theme.spacing(4)
-    },
-    error: {
-        color: theme.palette.error.main
-    }
 })
 
 
@@ -46,7 +43,7 @@ class Recientes extends Component {
     }
 
     changeView() {
-        this.setState({resumen: !this.state.resumen})
+        this.setState({ resumen: !this.state.resumen })
     }
 
     render() {
@@ -70,17 +67,10 @@ class Recientes extends Component {
                     </Button>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
-                    {isFetching && <CircularProgress color="primary" />}
-                    {error &&
-                        <Typography
-                            className={`${classes.spaced} ${classes.error}`}
-                        >
-                            {error}
-                        </Typography>
-                    }
-                    {columns && (
+                    <ErrorMessage error={error} />
+                    {!isFetching && columns ?
                         <div className={classes.elements}>
-                            { resumen ?
+                            {resumen ?
                                 <Resumen />
                                 :
                                 <DataTable
@@ -89,7 +79,9 @@ class Recientes extends Component {
                                 />
                             }
                         </div>
-                    )}
+                    :
+                    <CircularProgress className={classes.loading} color="primary" />
+                    }
                 </Container>
             </div>
         )

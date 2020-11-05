@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
+import Refresh from '@material-ui/icons/Refresh'
 import NavBar from '../common/NavBar'
 import {
-    Button, Container, IconButton, Menu, MenuItem
+    Container, IconButton, Menu, MenuItem
 } from '@material-ui/core'
 import logOut from '../../helpers/logOut'
 import Diagram from './Diagram'
+import { update } from '../../store/data/actions'
+import { connect } from 'react-redux'
 
 const { changeLoginLink, logOutLink } = require('../../config').strings
 
@@ -45,7 +48,10 @@ class General extends Component {
         return (
             <div>
                 <NavBar>
-                    <IconButton style={{ marginLeft: 'auto' }} onClick={this.handleMenu} >
+                    <IconButton style={{ marginLeft: 'auto' }} onClick={this.props.update}>
+                        <Refresh color="primary"/>
+                    </IconButton>
+                    <IconButton onClick={this.handleMenu} >
                         <UserIcon color="primary" />
                     </IconButton>
                     <Menu
@@ -67,13 +73,14 @@ class General extends Component {
                         </MenuItem>
                     </Menu>
                 </NavBar>
-                <Button onClick={this.props.update}>Update</Button>
-                <Container maxWidth="lg">
-                    <Diagram />
-                </Container>
+                <Diagram />
             </div>
         )
     }
 }
 
-export default General;
+const mapDispatchToProps = dispatch => ({
+    update: () => dispatch(update())
+})
+
+export default connect(null, mapDispatchToProps)(General);

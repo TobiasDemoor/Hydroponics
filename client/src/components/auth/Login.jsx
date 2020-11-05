@@ -6,6 +6,7 @@ import { login } from '../../store/auth/actions'
 import LoadingButton from '../common/LoadingButton';
 import isLoggedIn from '../../helpers/isLoggedIn';
 import FormFields from '../common/FormFields';
+import { ErrorMessage } from '../common/messages';
 const strings = require("../../config").strings
 
 const styles = theme => ({
@@ -19,9 +20,6 @@ const styles = theme => ({
     },
     spaced: {
         marginBottom: theme.spacing(4)
-    },
-    error: {
-        color: theme.palette.error.main
     },
     cardActions: {
         justifyContent: 'center'
@@ -68,13 +66,7 @@ class Login extends Component {
                 <Card className={classes.card}>
                     <form onSubmit={this.handleSubmit}>
                         <CardContent>
-                            {error &&
-                                <Typography
-                                    className={`${classes.spaced} ${classes.error}`}
-                                >
-                                    {error}
-                                </Typography>
-                            }
+                            <ErrorMessage error={error} />
                             <Typography
                                 className={classes.spaced}
                                 variant="h5"

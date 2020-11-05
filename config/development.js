@@ -1,6 +1,5 @@
 "use strict";
 const path = require('path');
-const { PassThrough } = require('stream');
 const datadir = "./testFiles/logs/"
 
 module.exports = {
@@ -11,31 +10,28 @@ module.exports = {
         "routeUser": path.resolve("./testFiles/user.json"),
     },
     data: {
+        log: id => path.join(datadir, `${id}.log`),
+        columns: id => path.join(datadir, `${id}.json`),
         sections: {
             ambient: {
                 title: "Ambient",
-                log: path.join(datadir, "ambient.log"),
-                columns: path.join(datadir, "ambient.json")
+                id: "ambient",
             },
             fishtank: {
                 title: "Fish tank",
-                log: path.join(datadir, "fishtank.log"),
-                columns: path.join(datadir, "fishtank.json")
+                id: "fishtank",
             },
-            claymediagrowbed: {
+            upperbed: {
                 title: "Clay media grow bed",
-                log: path.join(datadir, "claymediagrowbed.log"),
-                columns: path.join(datadir, "claymediagrowbed.json")
+                id: "upperbed",
             },
-            deepwatergrowbed0: {
+            mediumbed: {
                 title: "First deep water grow bed",
-                log: path.join(datadir, "deepwatergrowbed0.log"),
-                columns: path.join(datadir, "deepwatergrowbed0.json")
+                id: "mediumbed",
             },
-            deepwatergrowbed1: {
+            lowerbed: {
                 title: "Second deep water grow bed",
-                log: path.join(datadir, "deepwatergrowbed1.log"),
-                columns: path.join(datadir, "deepwatergrowbed1.json")
+                id: "lowerbed",
             },
             general: {
                 log: path.resolve("./testFiles/general/general.state"),
