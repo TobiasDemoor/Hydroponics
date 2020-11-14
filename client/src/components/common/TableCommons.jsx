@@ -10,30 +10,27 @@ export const HeaderCell = withStyles(theme => ({
 }))(TableCell)
 
 
-export function ColorCell({ column, row, index: key }) {
-    const { id, align } = column
-    const value = row[id];
-    const min = parseFloat(column.min)
-    const max = parseFloat(column.max)
+export function ColorCell({ min, max, value, ...props }) {
+    const minF = parseFloat(min)
+    const maxF = parseFloat(max)
 
-    if (isNaN(min) && isNaN(max)) {
+    if (isNaN(minF) && isNaN(maxF)) {
         return (
-            <TableCell key={`cellcontent${key}`} align={align}>
+            <TableCell {...props}>
                 {value}
             </TableCell>
         )
     } else {
         const v = parseFloat(value)
-        const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
+        const ok = (isNaN(minF) || min < v) && (isNaN(maxF) || v < maxF)
         return (
-            <TableCell
-                component={Box}
+            <Box
+                component={TableCell}
                 bgcolor={ok ? colors.ok : colors.error}
-                key={`cellcontent${key}`}
-                align={align}
+                {...props}
             >
                 {value}
-            </TableCell>
+            </Box>
         )
     }
 }

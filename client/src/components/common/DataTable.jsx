@@ -66,15 +66,17 @@ class DataTable extends Component {
             <Paper className={classes.root}>
                 <TableContainer style={containerStyle}>
                     <Table stickyHeader size="small" className={classes.table}>
-                        <ColoredTableHead key="head" columns={columns} />
+                        <ColoredTableHead columns={columns} />
                         <TableBody>
                             {rows.slice(aux, aux + rowsPerPage).map((row, i) => (
                                 <TableRow hover key={`row${i}`}>
-                                    {columns.map((column, j) =>
+                                    {columns.map(({id, min, max, align}, j) =>
                                         <ColorCell
-                                            key={`cell${i}${j}`}
-                                            column={column}
-                                            row={row}
+                                            min={min}
+                                            max={max}
+                                            key={`cell${j}`}
+                                            value={row[id]}
+                                            align={align}
                                         />
                                     )}
                                 </TableRow>

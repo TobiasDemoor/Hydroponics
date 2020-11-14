@@ -26,9 +26,7 @@ export const SuccessMessage = withStyles(styles)(
                 </Typography>
             )
         } else {
-            return (
-                <div />
-            )
+            return null
         }
     }
 )
@@ -45,9 +43,7 @@ export const ErrorMessage = withStyles(styles)(
                 </Typography>
             )
         } else {
-            return (
-                <div />
-            )
+            return null
         }
     }
 )

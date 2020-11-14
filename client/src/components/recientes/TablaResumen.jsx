@@ -1,13 +1,11 @@
 import {
-    Box,
-    Button,
-    Checkbox, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, withStyles
+    Button, Checkbox, CircularProgress, Paper, Table, TableBody,
+    TableCell, TableContainer, TableRow, TextField, withStyles
 } from '@material-ui/core'
 import React from 'react'
-import { ColoredTableHead } from '../common/TableCommons'
+import { ColorCell, ColoredTableHead } from '../common/TableCommons'
 
 const config = require('../../config')
-const { colors } = config.constants
 const {
     resumenLabel, resumenValue, resumenMin, resumenMax, resumenAlarm, saveChanges
 } = config.strings
@@ -48,58 +46,44 @@ function CeldaTexto({ cellProps, handler, ...props }) {
 }
 
 function Row({ index, data, value, id, handlerTexto, handlerAlarma, ...props }) {
-    const content = [
-        <TableCell key={`cell${index}0`} {...props}>
-            {data.label}
-        </TableCell>
-    ]
-    const { min, max, alarma } = data
-    if (!isNaN(min) || !isNaN(max)) {
-        const v = parseFloat(value)
-        const ok = (isNaN(min) || min < v) && (isNaN(max) || v < max)
-        content.push(
+    const { min, max, alarma, label } = data
+    return (
+        <TableRow hover>
             <TableCell
-                component={Box}
-                bgcolor={ok ? colors.ok : colors.error}
-                key={`cell${index}1`}
                 {...props}
             >
-                {value}
+                {label}
             </TableCell>
-        )
-    } else {
-        content.push(
-            <TableCell key={`cell${index}1`} {...props}>
-                {value}
-            </TableCell>
-        )
-    }
-
-    content.push(
-        <CeldaTexto
-            key={`cell${index}2`} id={id} value={min} type="number"
-            handler={e => handlerTexto(e, "min")}
-            cellProps={props}
-        />,
-        <CeldaTexto
-            key={`cell${index}3`} id={id} value={max} type="number"
-            handler={e => handlerTexto(e, "max")}
-            {...props}
-        />,
-        <TableCell key={`cell${index}4`} {...props}>
-            <Checkbox
-                key={`cellcontent${index}5`}
-                id={id}
-                color="secondary"
-                checked={alarma}
-                onChange={handlerAlarma}
+            <ColorCell
+                min={min}
+                max={max}
+                value={value}
+                {...props}
             />
-        </TableCell>
-    )
-
-    return (
-        <TableRow hover key={`row${index}`}>
-            {content}
+            <CeldaTexto
+                id={id}
+                value={min}
+                type="number"
+                handler={e => handlerTexto(e, "min")}
+                cellProps={props}
+            />
+            <CeldaTexto
+                id={id}
+                value={max}
+                type="number"
+                handler={e => handlerTexto(e, "max")}
+                {...props}
+            />
+            <TableCell
+                {...props}
+            >
+                <Checkbox
+                    id={id}
+                    color="secondary"
+                    checked={alarma}
+                    onChange={handlerAlarma}
+                />
+            </TableCell>
         </TableRow>
     )
 }

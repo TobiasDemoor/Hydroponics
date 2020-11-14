@@ -46,7 +46,7 @@ class General extends Component {
         const { anchorEl } = this.state;
 
         return (
-            <div>
+            < >
                 <NavBar>
                     <IconButton style={{ marginLeft: 'auto' }} onClick={this.props.update}>
                         <Refresh color="primary"/>
@@ -74,7 +74,7 @@ class General extends Component {
                     </Menu>
                 </NavBar>
                 <Diagram />
-            </div>
+            </ >
         )
     }
 }

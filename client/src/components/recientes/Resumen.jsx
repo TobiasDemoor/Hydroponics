@@ -40,7 +40,7 @@ class Resumen extends Component {
         const { classes, columns, rows, modified, isPushing, executing } = this.props;
         const valoresAct = rows[0];
         return (
-            <div>
+            < >
                 <div className={classes.elements}>
                     <TablaResumen
                         columns={columns.filter(c => c.type === sensor)}
@@ -60,7 +60,7 @@ class Resumen extends Component {
                     executing={executing}
                 />
                 </div>
-            </div >
+            </ >
         )
     }
 }

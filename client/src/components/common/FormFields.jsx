@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function FormFields({ campos, className, onChange, fullWidth }) {
     return (
-        <div>
+        < >
             {campos.map(campo => {
                 return (
                     <TextField
@@ -15,6 +15,6 @@ export default function FormFields({ campos, className, onChange, fullWidth }) {
                     />
                 )
             })}
-        </div>
+        </ >
     )
 }

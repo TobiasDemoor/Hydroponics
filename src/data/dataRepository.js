@@ -73,7 +73,7 @@ async function recent(id, nro) {
     res.rows = [];
     res.rows = await data.then(data => {
         return data.map(l => {
-            const row = { code: l.join('') };
+            const row = {};
             l.map((valor, i) => {
                 row[res.columns[i].id] = valor
             })

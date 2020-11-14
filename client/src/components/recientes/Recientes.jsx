@@ -49,7 +49,7 @@ class Recientes extends Component {
     render() {
         const { classes, isFetching, error, columns, rows, resumen } = this.props;
         return (
-            <div>
+            < >
                 <NavBar>
                     <IconButton
                         edge="start"
@@ -83,7 +83,7 @@ class Recientes extends Component {
                     <CircularProgress className={classes.loading} color="primary" />
                     }
                 </Container>
-            </div>
+            </ >
         )
     }
 }

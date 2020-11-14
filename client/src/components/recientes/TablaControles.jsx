@@ -16,7 +16,6 @@ export default function TablaControles({
     columns.forEach(({ id, label }) => {
         rows.push({
             label,
-            code: id,
             value:
                 <LoadingSwitch
                     loading={executing}
@@ -29,7 +28,7 @@ export default function TablaControles({
     })
     const length = rows.length
     return (
-        <div>
+        < >
             {length ?
                 <DataTable
                     rowsPerPageOptions={[length]}
@@ -41,6 +40,6 @@ export default function TablaControles({
                 />
                 : null
             }
-        </div>
+        </ >
     )
 }
