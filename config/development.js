@@ -1,5 +1,6 @@
 "use strict";
-const path = require('path')
+const path = require('path');
+const datadir = "./testFiles/logs/"
 
 module.exports = {
     express: {
@@ -9,14 +10,34 @@ module.exports = {
         "routeUser": path.resolve("./testFiles/user.json"),
     },
     data: {
-        archivos: [
-            path.resolve("./testFiles/temperatures0.log"),
-            path.resolve("./testFiles/temperatures1.log")
-        ],
-        columns: [
-            path.resolve("./testFiles/temperatures0.json"),
-            path.resolve("./testFiles/temperatures1.json")
-        ]
+        log: id => path.join(datadir, `${id}.log`),
+        columns: id => path.join(datadir, `${id}.json`),
+        sections: {
+            ambient: {
+                title: "Ambient",
+                id: "ambient",
+            },
+            fishtank: {
+                title: "Fish tank",
+                id: "fishtank",
+            },
+            upperbed: {
+                title: "Clay media grow bed",
+                id: "upperbed",
+            },
+            mediumbed: {
+                title: "First deep water grow bed",
+                id: "mediumbed",
+            },
+            lowerbed: {
+                title: "Second deep water grow bed",
+                id: "lowerbed",
+            },
+            general: {
+                log: path.resolve("./testFiles/general/general.state"),
+                columns: path.resolve("./testFiles/general/general.json"),
+            }
+        },
     },
     comunication: {
         path: path.resolve("./testFiles/interaccion/")

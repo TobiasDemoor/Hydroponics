@@ -27,7 +27,7 @@ async function changeColumns(req, res) {
 async function update(req, res) {
     updateMedidas()
         .then(getUltimos)
-        .then( data => res.status(200).send(data))
+        .then( data => res.status(200).send({sections: data}))
         .catch(err => {
             console.error(err);
             res.status(500).send(err)

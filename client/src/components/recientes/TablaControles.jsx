@@ -1,6 +1,6 @@
-import { CircularProgress, Switch } from '@material-ui/core'
 import React from 'react'
 import DataTable from '../common/DataTable'
+import LoadingSwitch from '../common/LoadingSwitch'
 
 const config = require("../../config")
 const { on } = config.constants.actuator
@@ -16,26 +16,19 @@ export default function TablaControles({
     columns.forEach(({ id, label }) => {
         rows.push({
             label,
-            code: id,
-            value: !executing ?
-                <Switch
-                    key={`switch${id}`}
+            value:
+                <LoadingSwitch
+                    loading={executing}
                     id={id}
                     checked={valoresAct[id] === on}
                     onChange={handlerOnOff}
                     color="secondary"
                 />
-                :
-                <CircularProgress
-                    key={`circular${id}`}
-                    color="secondary"
-                    size={32}
-                />
         })
     })
     const length = rows.length
     return (
-        <div>
+        < >
             {length ?
                 <DataTable
                     rowsPerPageOptions={[length]}
@@ -47,6 +40,6 @@ export default function TablaControles({
                 />
                 : null
             }
-        </div>
+        </ >
     )
 }

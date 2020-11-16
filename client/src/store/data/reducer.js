@@ -2,17 +2,20 @@ import {
     recentRequest, recentSuccess, recentError,
     valor, alarma,
     changesSent, changesSuccess, changesError,
-    onOffRequest, onOffSuccess, onOffError
+    onOffRequest, onOffSuccess, onOffSuccessGeneral, onOffError, 
+    updateRequest, updateSuccess, updateError
 } from './typeDefs'
 
 const initialState = {
     id: null,
     error: null,
 
+    sections: null,
+
     isFetching: false,
     columns: null,
     rows: null,
-    
+
     isPushing: false,
     modified: false,
 
@@ -77,8 +80,31 @@ export default (state = initialState, { type, payload, error }) => {
             newRows.unshift(payload.row)
             return { ...state, rows: newRows, executing: false, error }
 
+        case onOffSuccessGeneral:
+            return {
+                ...state,
+                sections: {
+                    ...state.sections,
+                    general: {
+                        ...state.sections.general,
+                        row: payload.row
+                    }
+                },
+                executing: false,
+                error
+            }
+
         case onOffError:
             return { ...state, executing: false, error }
+
+        case updateRequest:
+            return { ...state, isFetching: true, error }
+
+        case updateSuccess:
+            return { ...state, isFetching: false, ...payload, error }
+
+        case updateError:
+            return { ...state, isFetching: false, error }
 
         default:
             return state
