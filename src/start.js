@@ -1,5 +1,6 @@
 "use strict";
 const express = require('express');
+const compression = require('compression');
 const config = require('config');
 const path = require('path')
 const cookieParser = require('cookie-parser');
@@ -11,6 +12,7 @@ function startServer(port = process.env.PORT) {
     const app = express()
 
     // middleware
+    app.use(compression());
     app.use(cookieParser());
     app.use(morgan('common'));
     app.use(express.static(config.express.client));

@@ -46,7 +46,7 @@ function BoxSection({ id, classes, data, xs, height }) {
     const ok = columns.every(column => {
         if (column.alarma) {
             const { id, min, max } = column
-            return checkMinMax(row[id], min, max) || true;  
+            return checkMinMax(row[id], min, max) ?? true;
         } else {
             return true;
         }
