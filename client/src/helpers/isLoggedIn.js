@@ -1,1 +1,8 @@
-export default () => document.cookie.includes("token=")
+/**
+ * @returns (boolean) is the user logged in
+ */
+function isLoggedIn() {
+    return document.cookie.includes("token=");;
+}
+
+module.exports = isLoggedIn;

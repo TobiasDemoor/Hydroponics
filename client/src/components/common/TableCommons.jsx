@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, TableCell, TableHead, TableRow, withStyles } from "@material-ui/core"
+import checkMinMax from '../../helpers/checkMinMax'
 const { colors } = require('../../config').constants
 
 export const HeaderCell = withStyles(theme => ({
@@ -11,18 +12,15 @@ export const HeaderCell = withStyles(theme => ({
 
 
 export function ColorCell({ min, max, value, ...props }) {
-    const minF = parseFloat(min)
-    const maxF = parseFloat(max)
+    const ok = checkMinMax(value, min, max)
 
-    if (isNaN(minF) && isNaN(maxF)) {
+    if (ok == null) {
         return (
             <TableCell {...props}>
                 {value}
             </TableCell>
         )
     } else {
-        const v = parseFloat(value)
-        const ok = (isNaN(minF) || min < v) && (isNaN(maxF) || v < maxF)
         return (
             <Box
                 component={TableCell}

@@ -2,6 +2,7 @@ import { Box, CircularProgress, Container, Grid, withStyles } from '@material-ui
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import checkMinMax from '../../helpers/checkMinMax'
 import { changeOnOffGeneral, update } from '../../store/data/actions'
 import LoadingSwitch from '../common/LoadingSwitch'
 import { ErrorMessage } from '../common/messages'
@@ -45,8 +46,7 @@ function BoxSection({ id, classes, data, xs, height }) {
     const ok = columns.every(column => {
         if (column.alarma) {
             const { id, min, max } = column
-            const v = parseFloat(row[id])
-            return (isNaN(min) || min < v) && (isNaN(max) || v < max)
+            return checkMinMax(row[id], min, max) || true;  
         } else {
             return true;
         }
