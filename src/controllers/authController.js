@@ -13,7 +13,7 @@ async function userLogin(req, res) {
             maxAge: moment.duration(...config.jwt.expTime), SameSite: "Strict"
         })
         console.log(`Usuario username:${user.username}`);
-        res.status(200).send({ id: user.id })
+        res.status(200).send({ id: user.id, token })
     }).catch(err => {
         if (err instanceof AuthenticationError) {
             console.log(

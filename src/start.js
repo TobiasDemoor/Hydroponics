@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const { getRoutes } = require('./routes');
 
-function startServer(port = process.env.PORT) {
+async function startServer(port = process.env.PORT) {
     const app = express()
 
     // middleware
@@ -35,7 +35,7 @@ function startServer(port = process.env.PORT) {
             // this block of code turns `server.close` into a promise API
             const originalClose = server.close.bind(server)
 
-            server.close = () => {
+            server.close = async () => {
                 return new Promise(resolveClose => {
                     originalClose(resolveClose)
                 })
@@ -43,7 +43,7 @@ function startServer(port = process.env.PORT) {
             // this ensures that we properly close the server when the program exists
             setupCloseOnExit(server)
             // resolve the whole promise with the express server
-            resolve(server)
+            resolve({ app, server })
         })
     })
 }

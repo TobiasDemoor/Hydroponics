@@ -3,11 +3,16 @@ const path = require('path');
 const datadir = "./testFiles/logs/";
 
 module.exports = {
+    jwt: {
+        "TOKEN_SECRET": "tokensecreto",
+        "expTime": [2, "m"]
+    },
     express: {
         "client": path.resolve("client/build"),
     },
     auth: {
-        "routeUser": path.resolve("./testFiles/user.json"),
+        "routeUser": path.resolve("./testFiles/user.test.json"),
+        "default": "admin"
     },
     data: {
         log: id => path.join(datadir, `${id}.log`),

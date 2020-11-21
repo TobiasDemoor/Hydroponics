@@ -21,5 +21,7 @@ module.exports = {
         unkErrorLogin: "An unknown error ocurred at log in",
         successChangeLogin: "The user has been successfuly modified",
         unkErrorChangeLogin: "An unkown error ocurred while changing the login credentials",
+        noCookieInRequest: "Request must contain token as cookie",
+        invalidToken: "Invalid token",
     }
 }
