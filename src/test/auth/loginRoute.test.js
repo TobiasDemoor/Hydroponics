@@ -16,7 +16,7 @@ beforeAll(async () => {
     app = res.app
 })
 
-afterAll(() => { server.close() })
+afterAll(async () => { await server.close(); });
 
 test('login con usuario y contraseña correctos', async () => {
     const res = await request(app).post('/api/auth/login')

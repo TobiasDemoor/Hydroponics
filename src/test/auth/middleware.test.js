@@ -17,7 +17,7 @@ beforeAll(async () => {
     token = createToken(user);
 })
 
-afterAll(() => { server.close() })
+afterAll(async () => { await server.close(); });
 
 test('get recent con token ok', async () => {
     const res = await request(app).get('/api/data/recent/ambient')

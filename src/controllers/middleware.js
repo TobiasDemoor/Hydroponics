@@ -1,7 +1,7 @@
 "use strict";
 const jwt = require('jwt-simple');
 const config = require('config');
-const { noCookieInRequest, invalidToken } = config.strings;
+const { noCookieInRequest, invalidToken } = config.get("strings");
 
 async function ensureAuthenticated(req, res, next) {
     const token = req.cookies.token;

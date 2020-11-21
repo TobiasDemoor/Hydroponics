@@ -2,7 +2,7 @@ const request = require('supertest');
 const { saveUser } = require('../../auth/userRepository');
 const User = require('../../models/User');
 const authAux = require('../authAux');
-const { successChangeLogin, badLogin } = require('config').strings;
+const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
 
 
 const currentUsername = "sadfasdfa";
@@ -19,7 +19,7 @@ beforeAll(async () => {
     token = res.token;
 })
 
-afterAll(() => { server.close() })
+afterAll(async () => { await server.close(); });
 
 beforeEach(async () => {
     await saveUser(new User(currentUsername, currentPassword))
@@ -56,3 +56,9 @@ test('modify con usuario correcto y contraseña incorrecta y usuario y contr nue
     }
 )
 
+test('modify sin token el resto correcto', async () => {
+    const res = await request(app).post('/api/auth/modify')
+        .send({ currentUsername, currentPassword, newUsername, newPassword });
+    expect(res.status).toBe(403);
+    expect(res.body.message).toBe(noCookieInRequest);
+})

@@ -1,8 +1,13 @@
 "use strict";
 const { exec } = require('child_process');
 const fs = require('fs');
+const IdError = require('../errors/IdError');
 const config = require('config');
-const { log, columns, sections, separador } = config.data;
+const { log, columns, sections, separador } = config.get("data");
+
+function isIdValido(id) {
+    return sections[id] != undefined;
+}
 
 function getLogRoute(id) {
     return sections[id].log || log(sections[id].id || id);
@@ -63,10 +68,13 @@ async function levantaColumns(id) {
 
 /**
  * Retorna las nro lineas mas recientes del archivo solicitado
- * @param {string} archivo
- * @param {number} nro 
+ * @param {string} id identificador de seccion
+ * @param {number} nro
+ * @returns {object} objeto con rows columns
+ * @throws {IdError} si el id es invalido
  */
 async function recent(id, nro) {
+    if (!isIdValido(id)) throw new IdError(id);
     const data = levantaRecientes(id, nro)
     const res = {}
     res.columns = await levantaColumns(id);
@@ -106,8 +114,16 @@ async function getUltimos() {
 }
 
 
+
+/**
+ * Actualiza las columnas
+ * @param {string} id 
+ * @param {object} columns 
+ * @throws {IdError} si el id es invalido
+ */
 async function cambiarColumnas(id, columns) {
     return new Promise((resolve, reject) => {
+        if (!isIdValido(id)) reject(new IdError(id));
         console.log(`Storing column with id = ${id}`);
         let data;
         try {
