@@ -2,19 +2,17 @@
   "name": "serverhydroponics",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/src/index.js",
   "scripts": {
-    "start": "node .",
-    "test": "jest",
-    "clear-old": "rm -rf build & rm -f build.tar.gz",
+    "deploy": "npm install && pm2 start ecosystem.config.js --env production",
     "build-client": "cd client && npm run build",
-    "copy-files": "cp package.json build & cp *.js build",
-    "copy-dirs": "cp -r client/build build/client & cp -r src build/src & cp -r config build/config & cp -r testFiles build/testFiles",
-    "compress": "tar -zcf build.tar.gz -C build .",
+    "copy-dirs": "cp -r client/build build/client & cp -r config build/config & cp -r testFiles build/testFiles",
     "start-build": "npm run clear-old & npm run build-client",
-    "copy-app": "mkdir build && npm run copy-files & npm run copy-dirs",
+    "copy-app": "npx webpack && npm run copy-dirs",
+    "compress": "tar -zcf build.tar.gz -C build .",
     "build": "npm run start-build && npm run copy-app && npm run compress",
-    "deploy": "npm install && pm2 start ecosystem.config.js --env production"
+    "start": "node .",
+    "test": "jest"
   },
   "author": "Tobias Demoor",
   "dependencies": {
@@ -34,18 +32,9 @@
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.21.4",
     "jest": "^26.5.3",
-    "supertest": "^6.0.1"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "node_modules/",
-      "client/",
-      "config/"
-    ],
-    "modulePathIgnorePatterns": [
-      "client/",
-      "config"
-    ]
+    "supertest": "^6.0.1",
+    "webpack": "^5.6.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-node-externals": "^2.5.2"
   }
 }
