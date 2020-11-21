@@ -44,6 +44,10 @@ async function levantaRecientes(id, nro) {
     return data
 }
 
+/**
+ * pre: el id es valido
+ * @param {string} id identificador de la seccion
+ */
 async function levantaColumns(id) {
     const archivo = getColumnsRoute(id)
     return new Promise((resolve, reject) => {
@@ -91,10 +95,18 @@ async function recent(id, nro) {
     return res
 }
 
+/**
+ * Retorna los ultimos valores de la seccion
+ * @param {string} id identificador de seccion
+ * @throws {IdError} si el id es invalido
+ */
 async function getUltimo(id) {
     return recent(id, 1).then(res => res.rows[0])
 }
 
+/**
+ * Retorna los ultimos valores de todas las secciones
+ */
 async function getUltimos() {
     const data = {}
     for (let entry of Object.entries(sections)) {
@@ -105,7 +117,7 @@ async function getUltimos() {
                 row: res.rows[0],
                 title: sections[id].title,
             }
-        ))
+        )).catch(err => console.error(err));
     }
     for (let entry of Object.entries(data)) {
         data[entry[0]] = await entry[1]
@@ -122,8 +134,8 @@ async function getUltimos() {
  * @throws {IdError} si el id es invalido
  */
 async function cambiarColumnas(id, columns) {
+    if (!isIdValido(id)) throw new IdError(id);
     return new Promise((resolve, reject) => {
-        if (!isIdValido(id)) reject(new IdError(id));
         console.log(`Storing column with id = ${id}`);
         let data;
         try {
@@ -146,6 +158,7 @@ async function cambiarColumnas(id, columns) {
 }
 
 module.exports = {
+    levantaColumns,
     recent,
     getUltimo,
     getUltimos,
