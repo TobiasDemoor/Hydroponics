@@ -1,8 +1,8 @@
 const request = require('supertest');
 const config = require('config');
-const { startServer } = require("../../start");
-const User = require('../../models/User');
-const { createToken } = require('../../auth/tokenServices');
+const { startServer } = require("../../../start");
+const User = require('../../../models/User');
+const { createToken } = require('../../../auth/tokenServices');
 const { noCookieInRequest, invalidToken } = config.strings
 
 const username = "sadfasdfa";

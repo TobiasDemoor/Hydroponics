@@ -1,7 +1,7 @@
 const request = require('supertest');
-const { startServer } = require("../../start");
-const User = require("../../models/User");
-const { saveUser } = require("../../auth/userRepository");
+const { startServer } = require("../../../start");
+const User = require("../../../models/User");
+const { saveUser } = require("../../../auth/userRepository");
 const { badLogin } = require("config").strings;
 
 const username = "sadfasdfa";
