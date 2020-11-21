@@ -1,7 +1,7 @@
 const request = require('supertest');
-const authAux = require('../authAux');
+const authAux = require('../../authAux');
 const config = require('config');
-const { recent } = require("../../data/dataRepository");
+const { recent } = require("../../../data/dataRepository");
 const { sections, cantRecientes } = config.get("data");
 const { noCookieInRequest, invalidId } = config.get("strings");
 
