@@ -1,2 +1,1 @@
-import '@testing-library/jest-dom';
-console.log("hola")
+import '@testing-library/jest-dom/extend-expect';

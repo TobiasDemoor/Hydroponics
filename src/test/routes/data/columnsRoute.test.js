@@ -1,5 +1,5 @@
 const request = require('supertest');
-const authAux = require('../authAux');
+const authAux = require('../testAuthAux');
 const config = require('config');
 const { levantaColumns, cambiarColumnas } = require("../../../data/dataRepository");
 const { sections } = config.get("data");

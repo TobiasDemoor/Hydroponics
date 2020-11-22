@@ -11,7 +11,7 @@
     "compress": "tar -zcf build.tar.gz -C build .",
     "build": "npm run init-build && npm run build-client && npm run build-srv && npm run compress",
     "start": "nodemon",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "author": "Tobias Demoor",
   "dependencies": {

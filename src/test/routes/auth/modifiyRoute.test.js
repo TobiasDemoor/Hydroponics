@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { saveUser } = require('../../../auth/userRepository');
 const User = require('../../../models/User');
-const authAux = require('../authAux');
+const authAux = require('../testAuthAux');
 const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
 
 

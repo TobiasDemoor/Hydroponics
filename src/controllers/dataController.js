@@ -12,7 +12,8 @@ async function getRecent(req, res) {
             if (err instanceof IdError) {
                 res.status(400).send({ message: invalidId })
             } else {
-                console.error(err);
+                // console.error(err);
+                console.debug(`error con id = ${req.params.id}`)
                 res.status(500).send(err)
             }
         });
