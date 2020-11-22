@@ -16,7 +16,7 @@ module.exports = {
     },
     data: {
         log: id => path.join(datadir, `${id}.log`),
-        columns: id => path.join(datadir, `${id}.json`),
+        columns: id => path.join(datadir, `${id}.test.json`),
         sections: {
             ambient: {
                 title: "Ambient",
