@@ -5,10 +5,11 @@
   "main": "/src/index.js",
   "scripts": {
     "deploy": "pm2 start ecosystem.config.js --env production",
-    "build-client": "cd client && npm run build && cp -r client/build build/client",
+    "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
+    "build-client": "cd client && npm run build && cp -r build ../build/client",
     "build-srv": "npx webpack && cp -r config build/config && cp -r testFiles build/testFiles",
     "compress": "tar -zcf build.tar.gz -C build .",
-    "build": "mkdir build && npm run build-client && npm run build-srv && npm run compress",
+    "build": "npm run init-build && npm run build-client && npm run build-srv && npm run compress",
     "start": "nodemon",
     "test": "jest"
   },
