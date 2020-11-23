@@ -1,8 +1,10 @@
 const request = require('supertest');
+const config = require("config");
+const fs = require('fs');
 const { startServer } = require("../../../start");
 const User = require("../../../models/User");
 const { saveUser } = require("../../../auth/userRepository");
-const { badLogin } = require("config").strings;
+const { badLogin } = config.get("strings");
 
 const username = "sadfasdfa";
 const password = "asdfauierf";
@@ -18,14 +20,14 @@ beforeAll(async () => {
 
 afterAll(async () => { await server.close(); });
 
-test('login con usuario y contraseña correctos', async () => {
+it('login con usuario y contraseña correctos', async () => {
     const res = await request(app).post('/api/auth/login')
         .send({ username, password });
     expect(res.status).toBe(200);
     expect(res.body.token).not.toBe(undefined);
 })
 
-test('login con usuario incorrecto y contraseña correcta', async () => {
+it('login con usuario incorrecto y contraseña correcta', async () => {
     const res = await request(app).post('/api/auth/login')
         .send({ username: username + ' ', password });
     expect(res.status).toBe(401);
@@ -33,7 +35,7 @@ test('login con usuario incorrecto y contraseña correcta', async () => {
     expect(res.body.message).toBe(badLogin);
 })
 
-test('login con usuario correcto y contraseña incorrecta', async () => {
+it('login con usuario correcto y contraseña incorrecta', async () => {
     const res = await request(app).post('/api/auth/login')
         .send({ username, password: password + ' ' });
     expect(res.status).toBe(401);
@@ -41,17 +43,25 @@ test('login con usuario correcto y contraseña incorrecta', async () => {
     expect(res.body.message).toBe(badLogin);
 })
 
-test('login con usuario y contraseña undefined', async () => {
+it('login con usuario y contraseña undefined', async () => {
     const res = await request(app).post('/api/auth/login')
         .send({});
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
 })
 
-test('login con usuario y contraseña vacios', async () => {
+it('login con usuario y contraseña vacios', async () => {
     const res = await request(app).post('/api/auth/login')
         .send({ username: '', password: '' });
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
 })
 
+it('login sin usuario guardado', async () => {
+    const auth = config.get("auth");
+    fs.unlinkSync(auth.routeUser);
+    const res = await request(app).post('/api/auth/login')
+        .send({ username: auth.default, password: auth.default });
+    expect(res.status).toBe(200);
+    expect(res.body.token).not.toBe(undefined);
+})

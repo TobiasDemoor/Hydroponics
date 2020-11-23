@@ -4,7 +4,7 @@ const datadir = "./testFiles/logs/";
 
 module.exports = {
     jwt: {
-        "TOKEN_SECRET": "tokensecreto",
+        "TOKEN_SECRET": "test",
         "expTime": [2, "m"]
     },
     express: {
@@ -12,7 +12,7 @@ module.exports = {
     },
     auth: {
         "routeUser": path.resolve("./testFiles/user.test.json"),
-        "default": "admin"
+        "default": "test"
     },
     data: {
         log: id => path.join(datadir, `${id}.log`),
