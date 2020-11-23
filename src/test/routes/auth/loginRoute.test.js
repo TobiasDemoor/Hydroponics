@@ -1,7 +1,7 @@
 const request = require('supertest');
 const config = require("config");
 const fs = require('fs');
-const User = require("../../../models/User");
+const User = require("../../../auth/User");
 const { saveUser } = require("../../../auth/userRepository");
 const { badLogin } = config.get("strings");
 

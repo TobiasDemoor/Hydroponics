@@ -1,6 +1,6 @@
 const request = require('supertest');
 const config = require('config');
-const User = require('../models/User');
+const User = require('../auth/User');
 const { createToken } = require('../auth/tokenServices');
 const { noCookieInRequest, invalidToken } = config.strings
 

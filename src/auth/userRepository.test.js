@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('./User');
 const { saveUser, getUser } = require('./userRepository');
 const user = new User("asdfasf", "adfadf");
 

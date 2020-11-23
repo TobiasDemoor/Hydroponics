@@ -1,7 +1,7 @@
 "use strict";
 const { getUser, saveUser } = require('./userRepository');
 const AuthenticationError = require('../errors/AuthenticationError');
-const User = require('../models/User');
+const User = require('./User');
 const { login, modifyUser } = require('./authServices');
 const { verifySaltHashPassword } = require('./hashServices');
 

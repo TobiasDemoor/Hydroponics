@@ -5,7 +5,7 @@ const { sections } = config.get("data");
 const { noCookieInRequest, invalidId } = config.get("strings");
 const { levantaColumns, cambiarColumnas } = require("../../../data/dataRepository");
 const { createToken } = require('../../../auth/tokenServices');
-const User = require('../../../models/User');
+const User = require('../../../auth/User');
 
 const app = require('../../../server');
 

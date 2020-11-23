@@ -1,6 +1,6 @@
 const request = require('supertest');
 const { saveUser } = require('../../../auth/userRepository');
-const User = require('../../../models/User');
+const User = require('../../../auth/User');
 const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
 const { createToken } = require('../../../auth/tokenServices');
 

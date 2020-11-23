@@ -1,5 +1,5 @@
 "use strict";
-const hash = require("../auth/hashServices");
+const hash = require("./hashServices");
 
 module.exports = class User {
     /**

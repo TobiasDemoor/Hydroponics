@@ -1,7 +1,7 @@
 "use strict";
 const config = require('config');
 const fs = require('fs');
-const User = require('../models/User');
+const User = require('./User');
 
 
 /**

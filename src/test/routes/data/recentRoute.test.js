@@ -4,7 +4,7 @@ const { recent } = require("../../../data/dataRepository");
 const { sections, cantRecientes } = config.get("data");
 const { noCookieInRequest, invalidId } = config.get("strings");
 const { createToken } = require('../../../auth/tokenServices');
-const User = require('../../../models/User');
+const User = require('../../../auth/User');
 
 const app = require('../../../server')
 

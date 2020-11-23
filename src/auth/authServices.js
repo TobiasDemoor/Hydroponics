@@ -3,7 +3,7 @@ const { getUser, saveUser } = require('./userRepository');
 const { verifySaltHashPassword } = require('./hashServices');
 const config = require('config');
 const AuthenticationError = require('../errors/AuthenticationError');
-const User = require('../models/User');
+const User = require('./User');
 
 
 /**
