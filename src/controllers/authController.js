@@ -2,7 +2,7 @@
 const config = require('config');
 const moment = require('moment');
 const AuthenticationError = require('../errors/AuthenticationError');
-const { login, modifyUser } = require('../services/authServices');
+const { login, modifyUser } = require('../auth/authServices');
 
 const strings = config.strings
 

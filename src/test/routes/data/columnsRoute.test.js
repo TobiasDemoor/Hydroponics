@@ -1,10 +1,10 @@
-const { execSync } = require('child_process');
 const request = require('supertest');
-const authAux = require('../testAuthAux');
+const { execSync } = require('child_process');
 const config = require('config');
-const { levantaColumns, cambiarColumnas } = require("../../../data/dataRepository");
 const { sections } = config.get("data");
 const { noCookieInRequest, invalidId } = config.get("strings");
+const authAux = require('../testAuthAux');
+const { levantaColumns, cambiarColumnas } = require("../../../data/dataRepository");
 
 let ids = Object.entries(sections).map(([, { id }]) => id);
 ids = ids.filter(element => element)
@@ -17,49 +17,66 @@ beforeAll(async () => {
     token = res.token;
 })
 
-beforeEach(() => {
+afterAll(async () => server.close());
+
+describe('columns todas las secciones valido', () => {
+
+    afterAll(() => {
+        for (id of ids) {
+            execSync(`cp ./testFiles/logs/${id}.json ./testFiles/logs/${id}.test.json`)
+        }
+    })
+
     for (id of ids) {
-        execSync(`cp ./testFiles/logs/${id}.json ./testFiles/logs/${id}.test.json`)
+        test(`column id=${id} valido`, async () => {
+            const colNew = {
+                a: 1, b: 2, c: {
+                    d: ["1", "2", "3"]
+                }
+            }
+            const res = await request(app).post(`/api/data/columns`)
+                .send({ id, columns: colNew })
+                .set('Cookie', [`token=${token}`]);
+            expect(res.status).toBe(200);
+            expect(res.body.id).toBe(id);
+            return expect(levantaColumns(id)).resolves.toMatchObject(colNew)
+        })
     }
 })
 
-afterAll(async () => { await server.close(); });
+describe('casos limite', () => {
+    let id, colOrig;
+    beforeAll(async () => {
+        id = ids[0];
+        return levantaColumns(id).then(col => { colOrig = col });
+    })
 
-test('columns todas las secciones valido', async () => {
-    for (id of ids) {
-        // const colOrig = await levantaColumns(id);
-        const colNew = {
-            a: 1, b: 2, c: {
-                d: ["1", "2", "3"]
-            }
-        }
+    test('columns id invalido', async () => {
         const res = await request(app).post(`/api/data/columns`)
-            .send({ id, columns: colNew })
+            .send({ id: "invalido", columns: { a: 1, b: 2 } })
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(invalidId);
+    })
+
+    test('columns sin cookie', async () => {
+        const res = await request(app).post(`/api/data/columns`)
+            .send({ id, columns: {} })
+        expect(res.status).toBe(403);
+        expect(res.body.message).toBe(noCookieInRequest);
+        expect(levantaColumns(id)).resolves.toMatchObject(colOrig);
+    })
+
+    test('columns con objeto vacio', async done => {
+        const res = await request(app).post(`/api/data/columns`)
+            .send({ id, columns: {} })
             .set('Cookie', [`token=${token}`]);
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(id);
-        expect(await levantaColumns(id)).toMatchObject(colNew)
-        // await cambiarColumnas(id, colOrig);
-    }
-})
-
-test('columns con objeto vacio', async () => {
-    // const colOrig = await levantaColumns(id);
-    const res = await request(app).post(`/api/data/columns`)
-        .send({ id: ids[0], columns: {} })
-        .set('Cookie', [`token=${token}`]);
-    expect(res.status).toBe(200);
-    expect(res.body.id).toBe(ids[0]);
-    expect(await levantaColumns(id)).toMatchObject({})
-    // await cambiarColumnas(ids[0], colOrig);
-})
-
-test('columns id invalido', async () => {
-    const res = await request(app).post(`/api/data/columns`)
-        .send({ id: "invalido", columns: { a: 1, b: 2 } })
-        .set('Cookie', [`token=${token}`]);
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBe(invalidId);
+        expect(await levantaColumns(id)).toMatchObject({})
+        await cambiarColumnas(id, colOrig);
+        done();
+    })
 })
 
 

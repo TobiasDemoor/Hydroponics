@@ -12,56 +12,63 @@ const password = "asdfauierf";
 let server, app;
 
 beforeAll(async () => {
-    const res = await startServer(3001);
-    await saveUser(new User(username, password))
-    server = res.server
-    app = res.app
+    return startServer(3001).then(async res => {
+        server = res.server
+        app = res.app
+        return saveUser(new User(username, password))
+    });
 })
 
-afterAll(async () => { await server.close(); });
+afterAll(async () => server.close());
 
-it('login con usuario y contraseña correctos', async () => {
+it('login con usuario y contraseña correctos', async done => {
     const res = await request(app).post('/api/auth/login')
         .send({ username, password });
     expect(res.status).toBe(200);
     expect(res.body.token).not.toBe(undefined);
+    done();
 })
 
-it('login con usuario incorrecto y contraseña correcta', async () => {
+it('login con usuario incorrecto y contraseña correcta', async done => {
     const res = await request(app).post('/api/auth/login')
         .send({ username: username + ' ', password });
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
     expect(res.body.message).toBe(badLogin);
+    done();
 })
 
-it('login con usuario correcto y contraseña incorrecta', async () => {
+it('login con usuario correcto y contraseña incorrecta', async done => {
     const res = await request(app).post('/api/auth/login')
         .send({ username, password: password + ' ' });
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
     expect(res.body.message).toBe(badLogin);
+    done();
 })
 
-it('login con usuario y contraseña undefined', async () => {
+it('login con usuario y contraseña undefined', async done => {
     const res = await request(app).post('/api/auth/login')
         .send({});
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
+    done();
 })
 
-it('login con usuario y contraseña vacios', async () => {
+it('login con usuario y contraseña vacios', async done => {
     const res = await request(app).post('/api/auth/login')
         .send({ username: '', password: '' });
     expect(res.status).toBe(401);
     expect(res.body.token).toBe(undefined);
+    done();
 })
 
-it('login sin usuario guardado', async () => {
+it('login sin usuario guardado', async done => {
     const auth = config.get("auth");
     fs.unlinkSync(auth.routeUser);
     const res = await request(app).post('/api/auth/login')
         .send({ username: auth.default, password: auth.default });
     expect(res.status).toBe(200);
     expect(res.body.token).not.toBe(undefined);
+    done();
 })

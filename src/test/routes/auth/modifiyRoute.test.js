@@ -13,26 +13,26 @@ const newPassword = "reiowpqf;asdj";
 let server, app, token;
 
 beforeAll(async () => {
-    const res = await authAux(3001, currentUsername, currentPassword);
-    server = res.server;
-    app = res.app;
-    token = res.token;
+    return authAux(3001, currentUsername, currentPassword)
+    .then(res => {
+        server = res.server;
+        app = res.app;
+        token = res.token;
+    });
 })
 
-afterAll(async () => { await server.close(); });
+afterAll(async () => server.close() );
 
-beforeEach(async () => {
-    await saveUser(new User(currentUsername, currentPassword))
-})
-
+beforeEach(async () => saveUser(new User(currentUsername, currentPassword)))
 
 test('modify con usuario y contraseña correctos y usuario y contraseña nuevos válidos',
-    async () => {
+    async done => {
         const res = await request(app).post('/api/auth/modify')
             .send({ currentUsername, currentPassword, newUsername, newPassword })
             .set('Cookie', [`token=${token}`]);
         expect(res.status).toBe(200);
         expect(res.body.message).toBe(successChangeLogin);
+        done();
     }
 )
 

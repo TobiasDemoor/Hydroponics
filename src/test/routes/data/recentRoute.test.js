@@ -16,7 +16,9 @@ beforeAll(async () => {
     token = res.token;
 })
 
-afterAll(async () => { await server.close(); });
+afterAll(async () => server.close() );
+
+
 
 test('get recent todas las secciones', async () => {
     for (id of ids) {

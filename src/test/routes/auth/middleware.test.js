@@ -10,14 +10,15 @@ const password = "asdfauierf";
 let server, app, token, user;
 
 beforeAll(async () => {
-    let res = await startServer(3001);
-    server = res.server;
-    app = res.app;
     user = new User(username, password);
     token = createToken(user);
+    return startServer(3001).then(res => {
+        server = res.server;
+        app = res.app;
+    });
 })
 
-afterAll(async () => { await server.close(); });
+afterAll(async () => server.close() );
 
 test('get recent con token ok', async () => {
     const res = await request(app).get('/api/data/recent/ambient')

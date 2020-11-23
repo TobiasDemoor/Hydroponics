@@ -10,7 +10,7 @@ const User = require('../models/User');
  */
 async function saveUser(user) {
     return new Promise((resolve, reject) => {
-        console.log("Saving new user");
+        console.log(`Saving new user, username: ${user.username}`);
         let data;
         try {
             data = JSON.stringify(user);
