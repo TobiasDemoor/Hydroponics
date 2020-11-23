@@ -1,24 +1,19 @@
 const request = require('supertest');
 const config = require('config');
-const { startServer } = require("../../../start");
 const User = require('../../../models/User');
 const { createToken } = require('../../../auth/tokenServices');
 const { noCookieInRequest, invalidToken } = config.strings
 
+const app = require('../../../server');
+
 const username = "sadfasdfa";
 const password = "asdfauierf";
-let server, app, token, user;
+let token, user;
 
 beforeAll(async () => {
     user = new User(username, password);
     token = createToken(user);
-    return startServer(3001).then(res => {
-        server = res.server;
-        app = res.app;
-    });
 })
-
-afterAll(async () => server.close() );
 
 test('get recent con token ok', async () => {
     const res = await request(app).get('/api/data/recent/ambient')

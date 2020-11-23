@@ -5,7 +5,7 @@ const { sections } = config.get("data");
 let ids = Object.entries(sections).map(([, { id }]) => id);
 ids = ids.filter(element => element)
 
-module.exports = () => {
+module.exports = async () => {
     for (id of ids) {
         execSync(`cp ./testFiles/logs/${id}.json ./testFiles/logs/${id}.test.json`)
     }

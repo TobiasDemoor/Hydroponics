@@ -3,21 +3,21 @@ const { execSync } = require('child_process');
 const config = require('config');
 const { sections } = config.get("data");
 const { noCookieInRequest, invalidId } = config.get("strings");
-const authAux = require('../testAuthAux');
 const { levantaColumns, cambiarColumnas } = require("../../../data/dataRepository");
+const { createToken } = require('../../../auth/tokenServices');
+const User = require('../../../models/User');
 
+const app = require('../../../server');
+
+const username = "sadfasdfa";
+const password = "asdfauierf";
 let ids = Object.entries(sections).map(([, { id }]) => id);
 ids = ids.filter(element => element)
-let server, app, token;
+let token;
 
-beforeAll(async () => {
-    const res = await authAux();
-    server = res.server;
-    app = res.app;
-    token = res.token;
+beforeAll(() => {
+    token = createToken(new User(username, password));
 })
-
-afterAll(async () => server.close());
 
 describe('columns todas las secciones valido', () => {
 

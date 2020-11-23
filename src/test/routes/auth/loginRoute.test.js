@@ -1,25 +1,18 @@
 const request = require('supertest');
 const config = require("config");
 const fs = require('fs');
-const { startServer } = require("../../../start");
 const User = require("../../../models/User");
 const { saveUser } = require("../../../auth/userRepository");
 const { badLogin } = config.get("strings");
 
+const app = require('../../../server')
+
 const username = "sadfasdfa";
 const password = "asdfauierf";
 
-let server, app;
-
 beforeAll(async () => {
-    return startServer(3001).then(async res => {
-        server = res.server
-        app = res.app
-        return saveUser(new User(username, password))
-    });
+    return saveUser(new User(username, password))
 })
-
-afterAll(async () => server.close());
 
 it('login con usuario y contraseña correctos', async done => {
     const res = await request(app).post('/api/auth/login')

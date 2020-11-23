@@ -8,7 +8,9 @@ const ignorePaths = [
 
 module.exports = {
   testEnvironment: "node",
-  globalSetup: "./src/test/setupTests.js",
+  setupFiles: [
+    "./src/test/setupTests.js",
+  ],
   coveragePathIgnorePatterns: ignorePaths,
   modulePathIgnorePatterns: ignorePaths
 }

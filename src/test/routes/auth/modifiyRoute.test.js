@@ -1,29 +1,24 @@
 const request = require('supertest');
 const { saveUser } = require('../../../auth/userRepository');
 const User = require('../../../models/User');
-const authAux = require('../testAuthAux');
 const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
+const { createToken } = require('../../../auth/tokenServices');
 
+const app = require('../../../server');
 
 const currentUsername = "sadfasdfa";
 const currentPassword = "asdfauierf";
 const newUsername = "uiorpoqiwupioqewr";
 const newPassword = "reiowpqf;asdj";
 
-let server, app, token;
+let token, user;
 
 beforeAll(async () => {
-    return authAux(3001, currentUsername, currentPassword)
-    .then(res => {
-        server = res.server;
-        app = res.app;
-        token = res.token;
-    });
+    user = new User(currentUsername, currentPassword);
+    token = createToken(user);
 })
 
-afterAll(async () => server.close() );
-
-beforeEach(async () => saveUser(new User(currentUsername, currentPassword)))
+beforeEach(async () => saveUser(user))
 
 test('modify con usuario y contraseña correctos y usuario y contraseña nuevos válidos',
     async done => {
