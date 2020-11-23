@@ -49,7 +49,6 @@ async function levantaRecientes(id, nro) {
  * @param {string} id identificador de la seccion
  */
 async function levantaColumns(id) {
-    console.debug(`Levanta columns con id = ${id}`)
     const archivo = getColumnsRoute(id)
     return new Promise((resolve, reject) => {
         fs.readFile(archivo, 'utf8', (err, data) => {
@@ -88,7 +87,6 @@ async function recent(id, nro) {
         return data.map(l => {
             const row = {};
             l.map((valor, i) => {
-                if (id === "ambient") console.debug(i, res.columns[i])
                 row[res.columns[i].id] = valor
             })
             return row

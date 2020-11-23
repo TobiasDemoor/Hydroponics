@@ -10,13 +10,13 @@ const User = require('../models/User');
  */
 async function saveUser(user) {
     return new Promise((resolve, reject) => {
-        console.log("Guardando usuario");
+        console.log("Saving new user");
         let data;
         try {
             data = JSON.stringify(user);
         } catch (err) {
             if (err instanceof TypeError) {
-                console.error("El objeto user esta mal formado")
+                console.error("The user object is badly formed")
                 throw err
             }
         }
@@ -36,7 +36,6 @@ async function saveUser(user) {
  */
 async function getUser() {
     return new Promise((resolve, reject) => {
-        console.log("Cargando usuario");
         fs.readFile(config.auth.routeUser, 'utf8', (err, data) => {
             if (err || !data) {
                 reject(err || data)
@@ -46,7 +45,7 @@ async function getUser() {
                     resolve(JSON.parse(data.toString()))
                 } catch (err) {
                     if (err instanceof SyntaxError) {
-                        console.error("La cadena guardada en el archivo de usuarios no es JSON válido")
+                        console.error("The string stored in users file is badly formed")
                         console.error(`data: ${data.toString()}`)
                         throw err
                     }

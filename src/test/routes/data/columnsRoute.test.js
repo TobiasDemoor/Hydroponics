@@ -1,3 +1,4 @@
+const { execSync } = require('child_process');
 const request = require('supertest');
 const authAux = require('../testAuthAux');
 const config = require('config');
@@ -16,11 +17,17 @@ beforeAll(async () => {
     token = res.token;
 })
 
+beforeEach(() => {
+    for (id of ids) {
+        execSync(`cp ./testFiles/logs/${id}.json ./testFiles/logs/${id}.test.json`)
+    }
+})
+
 afterAll(async () => { await server.close(); });
 
 test('columns todas las secciones valido', async () => {
     for (id of ids) {
-        const colOrig = await levantaColumns(id);
+        // const colOrig = await levantaColumns(id);
         const colNew = {
             a: 1, b: 2, c: {
                 d: ["1", "2", "3"]
@@ -32,19 +39,19 @@ test('columns todas las secciones valido', async () => {
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(id);
         expect(await levantaColumns(id)).toMatchObject(colNew)
-        await cambiarColumnas(id, colOrig);
+        // await cambiarColumnas(id, colOrig);
     }
 })
 
 test('columns con objeto vacio', async () => {
-    const colOrig = await levantaColumns(id);
+    // const colOrig = await levantaColumns(id);
     const res = await request(app).post(`/api/data/columns`)
         .send({ id: ids[0], columns: {} })
         .set('Cookie', [`token=${token}`]);
     expect(res.status).toBe(200);
     expect(res.body.id).toBe(ids[0]);
     expect(await levantaColumns(id)).toMatchObject({})
-    await cambiarColumnas(ids[0], colOrig);
+    // await cambiarColumnas(ids[0], colOrig);
 })
 
 test('columns id invalido', async () => {

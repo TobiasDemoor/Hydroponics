@@ -12,13 +12,12 @@ async function userLogin(req, res) {
         res.cookie("token", token, {
             maxAge: moment.duration(...config.jwt.expTime), SameSite: "Strict"
         })
-        console.log(`Usuario username:${user.username}`);
+        console.log(`Login username:${user.username}`);
         res.status(200).send({ id: user.id, token })
     }).catch(err => {
         if (err instanceof AuthenticationError) {
             console.log(
-                `Login attempt with  wrong ${err.field}` +
-                `{username: ${username}}`//, password: ${password}}`
+                `Login attempt with  wrong ${err.field} username: ${username}`
             )
             res.status(401).send({ message: strings.badLogin });
         } else {
