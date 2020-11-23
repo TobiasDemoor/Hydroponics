@@ -7,6 +7,7 @@ const User = require('../models/User');
 /**
  * Persiste el usuario en disco en la ruta routeUser
  * @param {User} user 
+ * @returns {Promise<void>}
  */
 async function saveUser(user) {
     return new Promise((resolve, reject) => {
@@ -32,7 +33,7 @@ async function saveUser(user) {
 }
 
 /**
- * @returns {User} usuario recuperado
+ * @returns {Promise<User>} usuario recuperado
  */
 async function getUser() {
     return new Promise((resolve, reject) => {

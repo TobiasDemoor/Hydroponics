@@ -3,7 +3,7 @@ const jwt = require('jwt-simple');
 const config = require('config');
 const { noCookieInRequest, invalidToken } = config.get("strings");
 
-async function ensureAuthenticated(req, res, next) {
+async function authMiddleware(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
         res.status(403).send({ message: noCookieInRequest });
@@ -18,4 +18,4 @@ async function ensureAuthenticated(req, res, next) {
     }
 };
 
-module.exports = { ensureAuthenticated }
+module.exports = authMiddleware;

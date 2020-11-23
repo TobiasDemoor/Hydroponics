@@ -13,7 +13,7 @@ const newPassword = "reiowpqf;asdj";
 
 let token, user;
 
-beforeAll(async () => {
+beforeAll( () => {
     user = new User(currentUsername, currentPassword);
     token = createToken(user);
 })
@@ -42,18 +42,20 @@ test('modify con usuario incorrecto y contraseña correcta y usuario y contr nue
 )
 
 test('modify con usuario correcto y contraseña incorrecta y usuario y contr nuevos validos',
-    async () => {
+    async done => {
         const res = await request(app).post('/api/auth/modify')
             .send({ currentUsername, currentPassword: currentPassword + '4', newUsername, newPassword })
             .set('Cookie', [`token=${token}`]);
         expect(res.status).toBe(400);
         expect(res.body.message).toBe(badLogin);
+        done();
     }
 )
 
-test('modify sin token el resto correcto', async () => {
+test('modify sin token el resto correcto', async done => {
     const res = await request(app).post('/api/auth/modify')
         .send({ currentUsername, currentPassword, newUsername, newPassword });
     expect(res.status).toBe(403);
     expect(res.body.message).toBe(noCookieInRequest);
+    done();
 })

@@ -6,22 +6,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const bodyParser = require('body-parser')
 const { getRoutes } = require('./routes');
-
-// here's our generic error handler for situations where we didn't handle
-// errors properly
-function errorMiddleware(error, req, res, next) {
-    if (res.headersSent) {
-        next(error)
-    } else {
-        console.error(error)
-        res.status(500)
-        res.json({
-            message: error.message,
-            // we only add a `stack` property in non-production environments
-            ...(process.env.NODE_ENV === 'production' ? null : { stack: error.stack }),
-        })
-    }
-}
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express()
 
@@ -38,8 +23,10 @@ app.use(errorMiddleware)
 
 // routes
 app.use('/api', getRoutes())
-app.get('*', (req, res) => {
-    res.sendFile(path.join(config.express.client, 'index.html'));
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(config.express.client, 'index.html'));
+    });
+}
 
 module.exports = app;
