@@ -19,6 +19,35 @@ beforeAll(() => {
 })
 
 
+describe('test recent routes', () => {
+    const { recent } = require("../data/dataRepository");
+
+    test('get recent todas las secciones', async () => {
+        for (id of ids) {
+            const res = await request(app).get(`/api/data/recent/${id}`)
+                .set('Cookie', [`token=${token}`]);
+            const data = await recent(id, cantRecientes)
+            expect(res.status).toBe(200);
+            expect(res.body).toMatchObject(data);
+        }
+    })
+
+    test('get recent todas las secciones sin token', async () => {
+        for (id of ids) {
+            const res = await request(app).get(`/api/data/recent/${id}`);
+            expect(res.status).toBe(403);
+            expect(res.body.message).toBe(noCookieInRequest);
+        }
+    })
+
+    test('get recent con id incorrecto', async () => {
+        const res = await request(app).get(`/api/data/recent/invalido`)
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(invalidId);
+    })
+})
+
 describe('test columns route', () => {
     const { execSync } = require('child_process');
     const { levantaColumns, cambiarColumnas } = require("../data/dataRepository");
@@ -87,31 +116,8 @@ describe('test columns route', () => {
 
 })
 
-describe('test recent routes', () => {
-    const { recent } = require("../data/dataRepository");
-
-    test('get recent todas las secciones', async () => {
-        for (id of ids) {
-            const res = await request(app).get(`/api/data/recent/${id}`)
-                .set('Cookie', [`token=${token}`]);
-            const data = await recent(id, cantRecientes)
-            expect(res.status).toBe(200);
-            expect(res.body).toMatchObject(data);
-        }
-    })
-
-    test('get recent todas las secciones sin token', async () => {
-        for (id of ids) {
-            const res = await request(app).get(`/api/data/recent/${id}`);
-            expect(res.status).toBe(403);
-            expect(res.body.message).toBe(noCookieInRequest);
-        }
-    })
-
-    test('get recent con id incorrecto', async () => {
-        const res = await request(app).get(`/api/data/recent/invalido`)
-            .set('Cookie', [`token=${token}`]);
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe(invalidId);
+describe('test update route', () => {
+    test('update', () => {
+        expect(true).toBe(true);
     })
 })

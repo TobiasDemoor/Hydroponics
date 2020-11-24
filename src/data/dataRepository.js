@@ -17,8 +17,6 @@ function getColumnsRoute(id) {
     return sections[id].columns || columns(sections[id].id || id);
 }
 
-// recent("prueba.log", 20).then(console.log)
-
 async function tailN(archivo, nro) {
     return new Promise(resolve => {
         exec(`tail -${nro} ${archivo} | tac`, (err, stdout, stderr) => {
@@ -47,6 +45,7 @@ async function levantaRecientes(id, nro) {
 /**
  * pre: el id es valido
  * @param {string} id identificador de la seccion
+ * @returns {Promise<object>}
  */
 async function levantaColumns(id) {
     const archivo = getColumnsRoute(id)
@@ -74,7 +73,7 @@ async function levantaColumns(id) {
  * Retorna las nro lineas mas recientes del archivo solicitado
  * @param {string} id identificador de seccion
  * @param {number} nro
- * @returns {object} objeto con rows columns
+ * @returns {Promise<object>} objeto con rows columns
  * @throws {IdError} si el id es invalido
  */
 async function recent(id, nro) {
@@ -98,6 +97,7 @@ async function recent(id, nro) {
 /**
  * Retorna los ultimos valores de la seccion
  * @param {string} id identificador de seccion
+ * @returns {Promise<object>}
  * @throws {IdError} si el id es invalido
  */
 async function getUltimo(id) {
@@ -106,6 +106,7 @@ async function getUltimo(id) {
 
 /**
  * Retorna los ultimos valores de todas las secciones
+ * @returns {Promise<object>}
  */
 async function getUltimos() {
     const data = {}
@@ -131,6 +132,7 @@ async function getUltimos() {
  * Actualiza las columnas
  * @param {string} id 
  * @param {object} columns 
+ * @returns {Promise<void>}
  * @throws {IdError} si el id es invalido
  */
 async function cambiarColumnas(id, columns) {

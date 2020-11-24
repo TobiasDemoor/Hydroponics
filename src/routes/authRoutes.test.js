@@ -73,7 +73,7 @@ describe('test login route', () => {
 
 })
 
-describe('tests de ruta de modify', () => {
+describe('tests modify route', () => {
     const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
     const { createToken } = require('../auth/tokenServices');
 
