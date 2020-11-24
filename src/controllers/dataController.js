@@ -10,7 +10,7 @@ async function getRecent(req, res) {
         .then(data => res.status(200).send(data))
         .catch(err => {
             if (err instanceof IdError) {
-                res.status(400).send({ message: invalidId })
+                res.status(400).send({ message: invalidId, id: err.id })
             } else {
                 console.error(err);
                 res.status(500).send(err)
@@ -26,7 +26,7 @@ async function changeColumns(req, res) {
         })
         .catch(err => {
             if (err instanceof IdError) {
-                res.status(400).send({ message: invalidId })
+                res.status(400).send({ message: invalidId, id: err.id })
             } else {
                 console.error(err);
                 res.status(500).send(err)

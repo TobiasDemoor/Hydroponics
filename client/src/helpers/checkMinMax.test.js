@@ -2,11 +2,11 @@ const checkMinMax = require('./checkMinMax');
 
 
 it('checks value es NaN', () => {
-    expect(checkMinMax("Codigo error", "0.6", "0.8")).toBe(null);
+    expect(checkMinMax("Codigo error", "0.6", "0.8")).toBeNull();
 })
 
 it('checks value es number no hay rango', () => {
-    expect(checkMinMax("0.9", null, null)).toBe(null);
+    expect(checkMinMax("0.9", null, null)).toBeNull();
 })
 
 it('checks value es number rango no tiene techo', () => {

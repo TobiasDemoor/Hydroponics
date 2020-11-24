@@ -22,29 +22,34 @@ beforeAll(() => {
 describe('test recent routes', () => {
     const { recent } = require("../data/dataRepository");
 
-    test('get recent todas las secciones', async () => {
+    test('get recent todas las secciones', async done => {
         for (id of ids) {
+            const data = await recent(id, cantRecientes)
             const res = await request(app).get(`/api/data/recent/${id}`)
                 .set('Cookie', [`token=${token}`]);
-            const data = await recent(id, cantRecientes)
             expect(res.status).toBe(200);
             expect(res.body).toMatchObject(data);
         }
+        done();
     })
 
-    test('get recent todas las secciones sin token', async () => {
+    test('get recent todas las secciones sin token', async done => {
         for (id of ids) {
             const res = await request(app).get(`/api/data/recent/${id}`);
             expect(res.status).toBe(403);
             expect(res.body.message).toBe(noCookieInRequest);
         }
+        done();
     })
 
-    test('get recent con id incorrecto', async () => {
-        const res = await request(app).get(`/api/data/recent/invalido`)
+    test('get recent con id incorrecto', async done => {
+        const id = "invalido";
+        const res = await request(app).get(`/api/data/recent/${id}`)
             .set('Cookie', [`token=${token}`]);
         expect(res.status).toBe(400);
         expect(res.body.message).toBe(invalidId);
+        expect(res.body.id).toBe(id)
+        done();
     })
 })
 
@@ -74,7 +79,7 @@ describe('test columns route', () => {
                 expect(res.status).toBe(200);
                 expect(res.body.id).toBe(id);
                 return expect(levantaColumns(id)).resolves.toMatchObject(colNew)
-            })
+        })
         }
     })
 
@@ -86,20 +91,24 @@ describe('test columns route', () => {
             return levantaColumns(id).then(col => { colOrig = col });
         })
 
-        test('columns id invalido', async () => {
+        test('columns id invalido', async done => {
+            const id = "invalido";
             const res = await request(app).post(`/api/data/columns`)
-                .send({ id: "invalido", columns: { a: 1, b: 2 } })
-                .set('Cookie', [`token=${token}`]);
+            .send({ id, columns: { a: 1, b: 2 } })
+            .set('Cookie', [`token=${token}`]);
             expect(res.status).toBe(400);
             expect(res.body.message).toBe(invalidId);
-        })
+            expect(res.body.id).toBe(id)
+            done();
+    })
 
-        test('columns sin cookie', async () => {
+        test('columns sin cookie', async done => {
             const res = await request(app).post(`/api/data/columns`)
                 .send({ id, columns: {} })
             expect(res.status).toBe(403);
             expect(res.body.message).toBe(noCookieInRequest);
             expect(levantaColumns(id)).resolves.toMatchObject(colOrig);
+            done();
         })
 
         test('columns con objeto vacio', async done => {
@@ -117,7 +126,12 @@ describe('test columns route', () => {
 })
 
 describe('test update route', () => {
-    test('update', () => {
-        expect(true).toBe(true);
+    // test.only('nada', () => expect(null).toBeNull())
+    test('update', async done => {
+        const res = await request(app).post('/api/data/update')
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(200);
+        expect(res.body.sections).not.toBeUndefined();
+        done();
     })
 })

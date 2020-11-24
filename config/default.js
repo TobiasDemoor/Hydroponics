@@ -14,6 +14,13 @@ module.exports = {
     data: {
         separador: ',',
         cantRecientes: 100,
+        types: {
+            actuator: "actuator"
+        },
+        actuators: {
+            on: "on",
+            off: "off"
+        }
     },
     strings: {
         // auth

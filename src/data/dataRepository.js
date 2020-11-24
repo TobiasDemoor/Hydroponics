@@ -5,10 +5,6 @@ const IdError = require('../errors/IdError');
 const config = require('config');
 const { log, columns, sections, separador } = config.get("data");
 
-function isIdValido(id) {
-    return sections[id] != undefined;
-}
-
 function getLogRoute(id) {
     return sections[id].log || log(sections[id].id || id);
 }
@@ -40,6 +36,15 @@ async function levantaRecientes(id, nro) {
         data.push(...await tailN(archivo + '.0', nro - data.length))
     }
     return data
+}
+
+/**
+ * Informa si el id pasado como parametro es válido o no
+ * @param {string} id identificador de sección
+ * @returns {boolean}
+ */
+function isIdValido(id) {
+    return sections[id] != undefined;
 }
 
 /**
@@ -160,6 +165,7 @@ async function cambiarColumnas(id, columns) {
 }
 
 module.exports = {
+    isIdValido,
     levantaColumns,
     recent,
     getUltimo,

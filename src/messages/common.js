@@ -3,6 +3,12 @@ const fs = require('fs');
 const path = require('path')
 const config = require('config');
 
+/**
+ * 
+ * @param {string} name nombre que indica el tipo de comando
+ * @param {number} timeout tiempo máximo de espera
+ * @returns {Promise<void>}
+ */
 async function comunication(name, timeout) {
     return new Promise(function (resolve, reject) {
         const dir = config.comunication.path
@@ -34,6 +40,12 @@ async function comunication(name, timeout) {
 
 }
 
+/**
+ * 
+ * @param {string} data información a escribir en el archivo de comunicación
+ * @param {string} name nombre que indica el tipo de comando
+ * @returns {Promise<void>}
+ */
 async function control(data, name) {
     const file = path.join(config.comunication.path, `request.${name}`)
     fs.writeFile(file, data, err => {
