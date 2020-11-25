@@ -5,7 +5,7 @@ module.exports = {
       script: 'index.js',
       exp_backoff_restart_delay: 100,
       env: {
-        PORT: 8080,
+        PORT: 5000,
         NODE_ENV: "development"
       },
       env_production: {

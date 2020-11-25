@@ -8,8 +8,8 @@ import getStore from './store';
 
 if (process.env.NODE_ENV === 'production') {
     console.debug = function () {};
+    console.log(process.env)
 }
-console.log(process.env)
 
 ReactDOM.render(
     <Provider store={getStore()}>

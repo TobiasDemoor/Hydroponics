@@ -2,14 +2,15 @@
   "name": "serverhydroponics",
   "version": "1.0.0",
   "description": "",
-  "main": "/src/index.js",
+  "main": "index.js",
   "scripts": {
-    "deploy": "pm2 start ecosystem.config.js --env production",
+    "deploy": "npm install --only=prod && pm2 start ecosystem.config.js --env production",
     "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
     "build-client": "cd client && npm run build && cp -r build ../build/client",
-    "build-srv": "npx webpack && cp -r config build/config && rm -f build/config/test.js*",
+    "build-srv": "npx webpack && cp -r config build/config && cp ecosystem.config.js build && cp package.json build",
+    "build": "npm run init-build && npm run build-client && npm run build-srv",
     "compress": "tar -zcf build.tar.gz -C build .",
-    "build": "npm run init-build && npm run build-client && npm run build-srv && npm run compress",
+    "send": "scp ./build.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz",
     "start": "nodemon",
     "test": "jest"
   },
@@ -24,7 +25,8 @@
     "jwt-simple": "^0.5.6",
     "log-timestamp": "^0.3.0",
     "moment": "^2.29.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -34,7 +36,6 @@
     "nodemon": "^2.0.6",
     "supertest": "^6.0.1",
     "webpack": "^5.6.0",
-    "webpack-cli": "^4.2.0",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-cli": "^4.2.0"
   }
 }
