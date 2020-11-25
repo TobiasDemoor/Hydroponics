@@ -1,7 +1,9 @@
 'use strict';
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
 const config = require('config');
+const TimeoutError = require('../errors/TimeoutError');
+const com = config.get('comunication');
 
 /**
  * 
@@ -11,7 +13,7 @@ const config = require('config');
  */
 async function comunication(name, timeout) {
     return new Promise(function (resolve, reject) {
-        const dir = config.comunication.path
+        const dir = com.path
 
         const watcher = fs.watch(dir, function (eventType, filename) {
             const split = filename.split('.')
@@ -22,9 +24,9 @@ async function comunication(name, timeout) {
                 const file = path.join(dir, filename)
                 if (split[0] === "error") {
                     const msg = fs.readFileSync(file, 'utf8')
-                    console.log(msg)
+                    console.log(`Control program returned error: ${msg}`)
                     fs.unlink(file, () => { })
-                    reject(msg)
+                    reject(new Error(msg));
                 } else {
                     fs.unlink(file, () => { })
                     resolve();
@@ -34,7 +36,7 @@ async function comunication(name, timeout) {
 
         const timer = setTimeout(function () {
             watcher.close();
-            reject(new Error('No response from control program'));
+            reject(new TimeoutError());
         }, timeout);
     });
 
@@ -47,13 +49,15 @@ async function comunication(name, timeout) {
  * @returns {Promise<void>}
  */
 async function control(data, name) {
-    const file = path.join(config.comunication.path, `request.${name}`)
+    const file = path.join(com.path, `request.${name}`)
     fs.writeFile(file, data, err => {
         if (err) throw err
     })
     return comunication(name, 2000)
         .catch(err => {
-            fs.unlink(file, () => {})
+            if (err instanceof TimeoutError){
+                fs.unlink(file, () => { })
+            }
             throw err;
         })
 }

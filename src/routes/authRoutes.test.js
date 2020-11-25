@@ -1,6 +1,10 @@
 const request = require('supertest');
 const User = require("../auth/User");
 const { saveUser } = require("../auth/userRepository");
+const config = require('config');
+const {
+    badLogin, successChangeLogin, parameterMissing, noCookieInRequest
+} = config.get('strings')
 
 const app = require('../server')
 
@@ -13,9 +17,7 @@ beforeAll(() => {
 })
 
 describe('test login route', () => {
-    const config = require("config");
     const fs = require('fs');
-    const { badLogin } = config.get("strings");
 
     beforeAll(async () => saveUser(user));
 
@@ -45,10 +47,22 @@ describe('test login route', () => {
         done();
     })
 
-    test('login con usuario y contraseña undefined', async done => {
+    test('login con usuario undefined', async done => {
         const res = await request(app).post('/api/auth/login')
-            .send({});
-        expect(res.status).toBe(401);
+            .send({ password });
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing)
+        expect(res.body.param).toBe('username')
+        expect(res.body.token).toBe(undefined);
+        done();
+    })
+
+    test('login con contraseña undefined', async done => {
+        const res = await request(app).post('/api/auth/login')
+            .send({ username });
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing)
+        expect(res.body.param).toBe('password')
         expect(res.body.token).toBe(undefined);
         done();
     })
@@ -74,7 +88,6 @@ describe('test login route', () => {
 })
 
 describe('tests modify route', () => {
-    const { successChangeLogin, badLogin, noCookieInRequest } = require('config').get("strings");
     const { createToken } = require('../auth/tokenServices');
 
     const newUsername = "uiorpoqiwupioqewr";
@@ -118,6 +131,46 @@ describe('tests modify route', () => {
             done();
         }
     )
+
+    test('modify con usuario actual undefined el resto correcto', async done => {
+        const res = await request(app).post('/api/auth/modify')
+            .send({ currentPassword: password, newUsername, newPassword })
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing);
+        expect(res.body.param).toBe('currentUsername')
+        done();
+    })
+
+    test('modify con contraseña actual undefined el resto correcto', async done => {
+        const res = await request(app).post('/api/auth/modify')
+            .send({ currentUsername: username, newUsername, newPassword })
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing);
+        expect(res.body.param).toBe('currentPassword')
+        done();
+    })
+
+    test('modify con usuario nuevo undefined el resto correcto', async done => {
+        const res = await request(app).post('/api/auth/modify')
+            .send({ currentUsername: username, currentPassword: password, newPassword })
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing);
+        expect(res.body.param).toBe('newUsername')
+        done();
+    })
+
+    test('modify con contraseña nueva undefined el resto correcto', async done => {
+        const res = await request(app).post('/api/auth/modify')
+            .send({ currentUsername: username, currentPassword: password, newUsername })
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe(parameterMissing);
+        expect(res.body.param).toBe('newPassword')
+        done();
+    })
 
     test('modify sin token el resto correcto', async done => {
         const res = await request(app).post('/api/auth/modify')

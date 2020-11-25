@@ -25,11 +25,15 @@ module.exports = {
     strings: {
         // auth
         badLogin: "Incorrect username or password",
-        unkErrorLogin: "An unknown error ocurred at log in",
         successChangeLogin: "The user has been successfuly modified",
-        unkErrorChangeLogin: "An unkown error ocurred while changing the login credentials",
         noCookieInRequest: "Request must contain token as cookie",
+
+        // general
         invalidToken: "Invalid token",
         invalidId: "Invalid section id",
+        parameterMissing: "Parameter is missing",
+
+        //control
+        timeoutErrorMsg: 'No response from control program',
     }
 }
