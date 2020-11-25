@@ -1,10 +1,12 @@
 [
     {
         "id": "pump00",
+        "type": "actuator",
         "label": "Pump"
     },
     {
         "id": "pump01",
+        "type": "actuator",
         "label": "Pump"
     }
 ]

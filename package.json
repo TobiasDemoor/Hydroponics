@@ -7,7 +7,7 @@
     "deploy": "pm2 start ecosystem.config.js --env production",
     "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
     "build-client": "cd client && npm run build && cp -r build ../build/client",
-    "build-srv": "npx webpack && cp -r config build/config && cp -r testFiles build/testFiles",
+    "build-srv": "npx webpack && cp -r config build/config && rm -f build/config/test.js*",
     "compress": "tar -zcf build.tar.gz -C build .",
     "build": "npm run init-build && npm run build-client && npm run build-srv && npm run compress",
     "start": "nodemon",
