@@ -165,6 +165,7 @@ async function cambiarColumnas(id, columns) {
 }
 
 module.exports = {
+    levantaRecientes,
     isIdValido,
     levantaColumns,
     recent,

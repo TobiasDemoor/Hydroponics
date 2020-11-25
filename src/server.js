@@ -19,7 +19,6 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
-app.use(errorMiddleware)
 
 // routes
 app.use('/api', getRoutes())
@@ -28,5 +27,7 @@ if (process.env.NODE_ENV !== 'test') {
         res.sendFile(path.join(config.express.client, 'index.html'));
     });
 }
+
+app.use(errorMiddleware) ;
 
 module.exports = app;

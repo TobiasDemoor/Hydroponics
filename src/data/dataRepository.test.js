@@ -1,7 +1,7 @@
 const {
-    levantaColumns, recent, getUltimo, getUltimos, cambiarColumnas
+    levantaRecientes
 } = require('./dataRepository');
 
-test('', () => {
-    expect(true).toBe(true)
+test('request de muchos datos', async () => {
+    return expect(levantaRecientes('ambient', 500)).resolves.not.toBeNull();
 })

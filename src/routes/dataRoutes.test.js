@@ -1,7 +1,7 @@
 const request = require('supertest');
 const config = require('config');
 const User = require('../auth/User');
-const { noCookieInRequest, invalidId, parameterMissing } = config.get("strings");
+const { noCookieInRequest, invalidId, parameterMissing, timeoutErrorMsg } = config.get("strings");
 const { createToken } = require('../auth/tokenServices');
 
 const app = require('../server');
@@ -147,12 +147,34 @@ describe('test columns route', () => {
 })
 
 describe('test update route', () => {
-    // test.only('nada', () => expect(null).toBeNull())
-    test('update', async done => {
-        const res = await request(app).post('/api/data/update')
-            .set('Cookie', [`token=${token}`]);
-        expect(res.status).toBe(200);
-        expect(res.body.sections).not.toBeUndefined();
-        done();
+    describe('con control app', () => {
+        const { spawn } = require('child_process');
+        let child;
+        beforeAll(() => {
+            child = spawn(
+                './escucha.py',
+                { cwd: config.get('comunication').path, detached: true }
+            );
+        })
+        afterAll(() => {
+            process.kill(-child.pid)
+        })
+        test('update', async done => {
+            const res = await request(app).post('/api/data/update')
+                .set('Cookie', [`token=${token}`]);
+            expect(res.status).toBe(200);
+            expect(res.body.sections).not.toBeUndefined();
+            done();
+        })
+    })
+
+    describe('sin app de control', () => {
+        test('error', async done => {
+            const res = await request(app).post('/api/data/update')
+                .set('Cookie', [`token=${token}`]);
+            expect(res.status).toBe(500);
+            expect(res.body.message).toBe(timeoutErrorMsg);
+            done();
+        })
     })
 })
