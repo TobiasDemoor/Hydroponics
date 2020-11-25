@@ -13,12 +13,13 @@ const { actuator } = require('config').get('data').types;
  * @throws {IdError} si el identificador no es valido
  */
 async function actuatorControl(id, idActuator, state) {
-    if (!isIdValido(id)) throw new IdError(id);
-    const exists = await levantaColumns(id).then(columns =>
-        columns.find(({ id, type }) => id === idActuator && type === actuator)
-    )
-    if (!exists) throw new IdError(idActuator);
-
+    if (id != "general") {
+        if (!isIdValido(id)) throw new IdError(id);
+        const exists = await levantaColumns(id).then(columns =>
+            columns.find(({ id, type }) => id === idActuator && type === actuator)
+        )
+        if (!exists) throw new IdError(idActuator);
+    }
     const data = JSON.stringify({ id: idActuator, state })
 
     return control(data, "actuator");
