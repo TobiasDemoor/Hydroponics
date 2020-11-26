@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "Tobias Demoor",
   "scripts": {
     "deploy": "npm install --only=prod && pm2 start ecosystem.config.js --env production",
     "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
@@ -14,7 +15,6 @@
     "start": "nodemon",
     "test": "jest"
   },
-  "author": "Tobias Demoor",
   "dependencies": {
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
