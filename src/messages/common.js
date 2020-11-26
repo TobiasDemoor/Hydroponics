@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const TimeoutError = require('../errors/TimeoutError');
-const com = config.get('comunication');
+const comms = config.get('comunication');
 
 /**
  * 
@@ -13,7 +13,7 @@ const com = config.get('comunication');
  */
 async function comunication(name, timeout) {
     return new Promise(function (resolve, reject) {
-        const dir = com.path
+        const dir = comms.path
 
         const watcher = fs.watch(dir, function (eventType, filename) {
             const split = filename.split('.')
@@ -49,11 +49,11 @@ async function comunication(name, timeout) {
  * @returns {Promise<void>}
  */
 async function control(data, name) {
-    const file = path.join(com.path, `request.${name}`)
+    const file = path.join(comms.path, `request.${name}`)
     fs.writeFile(file, data, err => {
         if (err) throw err
     })
-    return comunication(name, 2000)
+    return comunication(name, comms.timeout)
         .catch(err => {
             if (err instanceof TimeoutError){
                 fs.unlink(file, () => { })

@@ -7,7 +7,7 @@ const commsDir = path.join(rootDir, 'comms');
 module.exports = {
     express: {
         port: process.env.PORT || 5000,
-        'client': path.resolve('client/build'),
+        client: path.resolve('client/build'),
     },
     jwt: {
         "TOKEN_SECRET": process.env.TOKEN_SECRET || "77aa1f16ed3d211d6ca12625",
@@ -72,6 +72,7 @@ module.exports = {
         },
     },
     comunication: {
-        path: commsDir
+        path: commsDir,
+        timeout: 8000
     },
 }

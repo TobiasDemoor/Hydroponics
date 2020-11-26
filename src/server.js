@@ -1,6 +1,7 @@
 const express = require('express');
 const compression = require('compression');
 const config = require('config');
+const { client } = config.get('express');
 const path = require('path')
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -14,7 +15,7 @@ const app = express()
 app.use(compression());
 app.use(cookieParser());
 app.use(morgan('common'));
-app.use(express.static(config.express.client));
+app.use(express.static(client));
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -24,10 +25,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use('/api', getRoutes())
 if (process.env.NODE_ENV !== 'test') {
     app.get('*', (req, res) => {
-        res.sendFile(path.join(config.express.client, 'index.html'));
+        res.sendFile(path.join(client, 'index.html'));
     });
 }
 
-app.use(errorMiddleware) ;
+app.use(errorMiddleware);
 
 module.exports = app;

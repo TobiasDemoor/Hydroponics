@@ -22,7 +22,7 @@ async function userLogin(req, res, next) {
     } else {
         login(username, password).then(({ user, token }) => {
             res.cookie("token", token, {
-                maxAge: moment.duration(...config.get('jwt').expTime), SameSite: "Strict", secure: true
+                maxAge: moment.duration(...config.get('jwt').expTime), SameSite: "Lax"
             })
             console.log(`Login username:${user.username}`);
             res.status(200).send({ id: user.id, token })
