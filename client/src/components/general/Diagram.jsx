@@ -2,21 +2,23 @@ import { Box, CircularProgress, Container, Grid, withStyles } from '@material-ui
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import checkMinMax from '../../helpers/checkMinMax'
 import { changeOnOffGeneral, update } from '../../store/data/actions'
 import LoadingSwitch from '../common/LoadingSwitch'
 import { ErrorMessage } from '../common/messages'
 
 const config = require('../../config')
 const { goToSection } = config.strings
-const { colors } = config.constants
+const { colors, sections, general, actuator } = config.constants
 const {
     ambient,
     fishtank,
     upperbed,
     mediumbed,
     lowerbed
-} = config.constants.sections
-const { on } = config.constants.actuator
+} = sections
+const { actuators } = general
+const { on } = actuator
 
 
 const styles = theme => ({
@@ -45,8 +47,7 @@ function BoxSection({ id, classes, data, xs, height }) {
     const ok = columns.every(column => {
         if (column.alarma) {
             const { id, min, max } = column
-            const v = parseFloat(row[id])
-            return (isNaN(min) || min < v) && (isNaN(max) || v < max)
+            return checkMinMax(row[id], min, max) ?? true;
         } else {
             return true;
         }
@@ -116,8 +117,8 @@ class Diagram extends Component {
                             <div className={classes.item}>
                                 <LoadingSwitch
                                     color="primary"
-                                    id="pump0"
-                                    checked={sections.general.row.pump0 === on}
+                                    id={actuators[0]}
+                                    checked={sections.general.row[actuators[0]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />
@@ -157,8 +158,8 @@ class Diagram extends Component {
                             <div className={classes.item}>
                                 <LoadingSwitch
                                     color="primary"
-                                    id="pump1"
-                                    checked={sections.general.row.pump1 === on}
+                                    id={actuators[1]}
+                                    checked={sections.general.row[actuators[1]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />

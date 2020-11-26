@@ -1,37 +1,55 @@
 "use strict";
 const config = require("config");
+const webpackNodeExternals = require("webpack-node-externals");
 const { recent, cambiarColumnas, getUltimos } = require("../data/dataRepository");
+const IdError = require("../errors/IdError");
 const updateMedidas = require("../messages/updateMedidas");
+const { invalidId, parameterMissing } = config.get("strings")
+const { cantRecientes } = config.get('data');
 
-async function getRecent(req, res) {
-    recent(req.params.id, config.data.cantRecientes)
-        .then( data => res.status(200).send(data))
+async function getRecent(req, res, next) {
+    const { id } = req.params;
+    recent(id, cantRecientes)
+        .then(data => res.status(200).send(data))
         .catch(err => {
-            console.error(err);
-            res.status(500).send(err)
+            if (err instanceof IdError) {
+                res.status(400).send({ message: invalidId, id: err.id })
+            } else {
+                next(err);
+            }
         });
 }
 
-async function changeColumns(req, res) {
+async function changeColumns(req, res, next) {
     const { columns, id } = req.body;
-    cambiarColumnas(id, columns)
-        .then(() => {
-            res.status(200).send({ id })
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send(err)
-        });
+    if (typeof id === 'undefined') {
+        res.status(400).send(
+            { message: parameterMissing, param: 'id' }
+        )
+    } else if (typeof columns === 'undefined') {
+        res.status(400).send(
+            { message: parameterMissing, param: 'columns' }
+        )
+    } else {
+        cambiarColumnas(id, columns)
+            .then(() => {
+                res.status(200).send({ id })
+            })
+            .catch(err => {
+                if (err instanceof IdError) {
+                    res.status(400).send({ message: invalidId, id: err.id })
+                } else {
+                    next(err);
+                }
+            });
+    }
 }
 
-async function update(req, res) {
+async function update(req, res, next) {
     updateMedidas()
         .then(getUltimos)
-        .then( data => res.status(200).send({sections: data}))
-        .catch(err => {
-            console.error(err);
-            res.status(500).send(err)
-        });
+        .then(data => res.status(200).send({ sections: data }))
+        .catch(err => { next(err); });
 }
 
 module.exports = {

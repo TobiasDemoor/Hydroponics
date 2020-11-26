@@ -1,11 +1,19 @@
 'use strict';
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
 const config = require('config');
+const TimeoutError = require('../errors/TimeoutError');
+const comms = config.get('comunication');
 
+/**
+ * 
+ * @param {string} name nombre que indica el tipo de comando
+ * @param {number} timeout tiempo máximo de espera
+ * @returns {Promise<void>}
+ */
 async function comunication(name, timeout) {
     return new Promise(function (resolve, reject) {
-        const dir = config.comunication.path
+        const dir = comms.path
 
         const watcher = fs.watch(dir, function (eventType, filename) {
             const split = filename.split('.')
@@ -16,9 +24,9 @@ async function comunication(name, timeout) {
                 const file = path.join(dir, filename)
                 if (split[0] === "error") {
                     const msg = fs.readFileSync(file, 'utf8')
-                    console.log(msg)
+                    console.log(`Control program returned error: ${msg}`)
                     fs.unlink(file, () => { })
-                    reject(msg)
+                    reject(new Error(msg));
                 } else {
                     fs.unlink(file, () => { })
                     resolve();
@@ -28,20 +36,28 @@ async function comunication(name, timeout) {
 
         const timer = setTimeout(function () {
             watcher.close();
-            reject(new Error('No response from control program'));
+            reject(new TimeoutError());
         }, timeout);
     });
 
 }
 
+/**
+ * 
+ * @param {string} data información a escribir en el archivo de comunicación
+ * @param {string} name nombre que indica el tipo de comando
+ * @returns {Promise<void>}
+ */
 async function control(data, name) {
-    const file = path.join(config.comunication.path, `request.${name}`)
+    const file = path.join(comms.path, `request.${name}`)
     fs.writeFile(file, data, err => {
         if (err) throw err
     })
-    return comunication(name, 2000)
+    return comunication(name, comms.timeout)
         .catch(err => {
-            fs.unlink(file, () => {})
+            if (err instanceof TimeoutError){
+                fs.unlink(file, () => { })
+            }
             throw err;
         })
 }

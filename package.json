@@ -4,21 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "test": "jest",
-    "clear-old": "rm -rf build & rm -f build.tar.gz",
-    "build-client": "cd client && npm run build",
-    "copy-files": "cp package.json build & cp *.js build",
-    "copy-dirs": "cp -r client/build build/client & cp -r src build/src & cp -r config build/config & cp -r testFiles build/testFiles",
+    "deploy": "npm install --only=prod && pm2 start ecosystem.config.js --env production",
+    "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
+    "build-client": "cd client && npm run build && cp -r build ../build/client",
+    "build-srv": "npx webpack && cp -r config build/config && cp ecosystem.config.js build && cp package.json build",
+    "build": "npm run init-build && npm run build-client && npm run build-srv",
     "compress": "tar -zcf build.tar.gz -C build .",
-    "start-build": "npm run clear-old & npm run build-client",
-    "copy-app": "mkdir build && npm run copy-files & npm run copy-dirs",
-    "build": "npm run start-build && npm run copy-app && npm run compress",
-    "deploy": "npm install && pm2 start ecosystem.config.js --env production"
+    "send": "scp ./build.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz",
+    "start": "nodemon",
+    "test": "jest"
   },
   "author": "Tobias Demoor",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "config": "^3.3.2",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
@@ -26,12 +25,17 @@
     "jwt-simple": "^0.5.6",
     "log-timestamp": "^0.3.0",
     "moment": "^2.29.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.21.4",
-    "jest": "^26.5.3"
+    "jest": "^26.5.3",
+    "nodemon": "^2.0.6",
+    "supertest": "^6.0.1",
+    "webpack": "^5.6.0",
+    "webpack-cli": "^4.2.0"
   }
 }

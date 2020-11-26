@@ -22,8 +22,9 @@ async function modifyLogin(currentUsername, currentPassword, newUsername, newPas
     return fetch("/api/auth/modify", requestOptions).then(handleResponse);
 }
 
-
-export default {
+const services = {
     login,
     modifyLogin
 }
+
+export default services;

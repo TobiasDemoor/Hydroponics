@@ -1,13 +1,14 @@
 "use strict";
 const express = require('express');
 const data = require('../controllers/dataController');
-const { ensureAuthenticated } = require('../controllers/middleware');
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 function getDataRoutes() {
     const router = express.Router();
-    router.get('/recent/:id', ensureAuthenticated, data.getRecent);
-    router.post('/columns', ensureAuthenticated, data.changeColumns);
-    router.post('/update', ensureAuthenticated, data.update);
+    router.get('/recent/:id', authMiddleware, data.getRecent);
+    router.post('/columns', authMiddleware, data.changeColumns);
+    router.post('/update', authMiddleware, data.update);
     return router;
 }
 

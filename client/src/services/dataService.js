@@ -42,9 +42,11 @@ async function update() {
     return fetch('/api/data/update', requestOptions).then(handleResponse);
 }
 
-export default {
+const services = {
     getRecent,
     submitChanges,
     changeOnOff,
     update
 }
+
+export default services;

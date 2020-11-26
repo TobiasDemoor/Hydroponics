@@ -1,9 +1,9 @@
-const tokenServices = require('../auth/tokenServices');
-const { getUser, saveUser } = require('../auth/userRepository');
-const { verifySaltHashPassword } = require('../auth/hashServices');
+const tokenServices = require('./tokenServices');
+const { getUser, saveUser } = require('./userRepository');
+const { verifySaltHashPassword } = require('./hashServices');
 const config = require('config');
 const AuthenticationError = require('../errors/AuthenticationError');
-const User = require('../models/User');
+const User = require('./User');
 
 
 /**
@@ -33,6 +33,13 @@ async function login(username, password) {
         })
 }
 
+
+/**
+ * Guarda un usuario con los datos enviados
+ * @param {string} username 
+ * @param {string} password 
+ * @returns {Promise} 
+ */
 async function modifyUser(username, password) {
     const user = new User(username, password);
     return saveUser(user);

@@ -8,7 +8,7 @@ const initialState = {
     resumen: true,
 }
 
-export default (state = initialState, { type, payload }) => {
+export default function reducer(state = initialState, { type, payload }) {
     switch (type) {
 
         case resumen:

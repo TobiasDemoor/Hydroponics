@@ -1,30 +1,7 @@
 "use strict";
-const express = require('express');
-const config = require('config');
-const path = require('path')
-const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
-const bodyParser = require('body-parser')
-const { getRoutes } = require('./routes');
 
-function startServer(port = process.env.PORT) {
-    const app = express()
-
-    // middleware
-    app.use(cookieParser());
-    app.use(morgan('common'));
-    app.use(express.static(config.express.client));
-    app.use(bodyParser.json());       // to support JSON-encoded bodies
-    app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-        extended: true
-    }));
-    app.use(errorMiddleware)
-
-    // routes
-    app.use('/api', getRoutes())
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(config.express.client, 'index.html'));
-    });
+async function startServer(port = process.env.PORT) {
+    const app = require('./server')
 
     return new Promise(resolve => {
         const server = app.listen(port, () => {
@@ -33,7 +10,7 @@ function startServer(port = process.env.PORT) {
             // this block of code turns `server.close` into a promise API
             const originalClose = server.close.bind(server)
 
-            server.close = () => {
+            server.close = async () => {
                 return new Promise(resolveClose => {
                     originalClose(resolveClose)
                 })
@@ -41,25 +18,9 @@ function startServer(port = process.env.PORT) {
             // this ensures that we properly close the server when the program exists
             setupCloseOnExit(server)
             // resolve the whole promise with the express server
-            resolve(server)
+            resolve({ app, server })
         })
     })
-}
-
-// here's our generic error handler for situations where we didn't handle
-// errors properly
-function errorMiddleware(error, req, res, next) {
-    if (res.headersSent) {
-        next(error)
-    } else {
-        console.error(error)
-        res.status(500)
-        res.json({
-            message: error.message,
-            // we only add a `stack` property in non-production environments
-            ...(process.env.NODE_ENV === 'production' ? null : { stack: error.stack }),
-        })
-    }
 }
 
 // ensures we close the server in the event of an error.

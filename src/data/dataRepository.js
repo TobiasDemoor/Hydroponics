@@ -1,8 +1,9 @@
 "use strict";
 const { exec } = require('child_process');
 const fs = require('fs');
+const IdError = require('../errors/IdError');
 const config = require('config');
-const { log, columns, sections, separador } = config.data;
+const { log, columns, sections, separador } = config.get("data");
 
 function getLogRoute(id) {
     return sections[id].log || log(sections[id].id || id);
@@ -11,8 +12,6 @@ function getLogRoute(id) {
 function getColumnsRoute(id) {
     return sections[id].columns || columns(sections[id].id || id);
 }
-
-// recent("prueba.log", 20).then(console.log)
 
 async function tailN(archivo, nro) {
     return new Promise(resolve => {
@@ -39,6 +38,20 @@ async function levantaRecientes(id, nro) {
     return data
 }
 
+/**
+ * Informa si el id pasado como parametro es válido o no
+ * @param {string} id identificador de sección
+ * @returns {boolean}
+ */
+function isIdValido(id) {
+    return sections[id] != undefined;
+}
+
+/**
+ * pre: el id es valido
+ * @param {string} id identificador de la seccion
+ * @returns {Promise<object>}
+ */
 async function levantaColumns(id) {
     const archivo = getColumnsRoute(id)
     return new Promise((resolve, reject) => {
@@ -63,15 +76,18 @@ async function levantaColumns(id) {
 
 /**
  * Retorna las nro lineas mas recientes del archivo solicitado
- * @param {string} archivo
- * @param {number} nro 
+ * @param {string} id identificador de seccion
+ * @param {number} nro
+ * @returns {Promise<object>} objeto con rows columns
+ * @throws {IdError} si el id es invalido
  */
 async function recent(id, nro) {
-    const data = levantaRecientes(id, nro)
+    if (!isIdValido(id)) throw new IdError(id);
+    const dataPromise = levantaRecientes(id, nro)
     const res = {}
     res.columns = await levantaColumns(id);
     res.rows = [];
-    res.rows = await data.then(data => {
+    res.rows = await dataPromise.then(data => {
         return data.map(l => {
             const row = {};
             l.map((valor, i) => {
@@ -83,10 +99,20 @@ async function recent(id, nro) {
     return res
 }
 
+/**
+ * Retorna los ultimos valores de la seccion
+ * @param {string} id identificador de seccion
+ * @returns {Promise<object>}
+ * @throws {IdError} si el id es invalido
+ */
 async function getUltimo(id) {
     return recent(id, 1).then(res => res.rows[0])
 }
 
+/**
+ * Retorna los ultimos valores de todas las secciones
+ * @returns {Promise<object>}
+ */
 async function getUltimos() {
     const data = {}
     for (let entry of Object.entries(sections)) {
@@ -97,7 +123,7 @@ async function getUltimos() {
                 row: res.rows[0],
                 title: sections[id].title,
             }
-        ))
+        )).catch(err => console.error(err));
     }
     for (let entry of Object.entries(data)) {
         data[entry[0]] = await entry[1]
@@ -106,7 +132,16 @@ async function getUltimos() {
 }
 
 
+
+/**
+ * Actualiza las columnas
+ * @param {string} id 
+ * @param {object} columns 
+ * @returns {Promise<void>}
+ * @throws {IdError} si el id es invalido
+ */
 async function cambiarColumnas(id, columns) {
+    if (!isIdValido(id)) throw new IdError(id);
     return new Promise((resolve, reject) => {
         console.log(`Storing column with id = ${id}`);
         let data;
@@ -130,6 +165,9 @@ async function cambiarColumnas(id, columns) {
 }
 
 module.exports = {
+    levantaRecientes,
+    isIdValido,
+    levantaColumns,
     recent,
     getUltimo,
     getUltimos,

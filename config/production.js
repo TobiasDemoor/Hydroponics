@@ -1,17 +1,19 @@
 "use strict";
-const path = require('path')
-const datadir = "./testFiles/logs/"
+const path = require('path');
+const rootDir = "/opt/hydroponics";
+const logsDir = path.join(rootDir, "logs");
+const commsDir = path.join(rootDir, "comms")
 
 module.exports = {
     express: {
-        "client": path.resolve("client"),
+        "client": path.resolve("./client"),
     },
     auth: {
-        "routeUser": path.resolve("./testFiles/user.json"),
+        "routeUser": path.resolve("./user.json"),
     },
     data: {
-        log: id => path.join(datadir, `${id}.log`),
-        columns: id => path.join(datadir, `${id}.json`),
+        log: id => path.join(logsDir, `${id}.log`),
+        columns: id => path.join(logsDir, `${id}.json`),
         sections: {
             ambient: {
                 title: "Ambient",
@@ -34,12 +36,12 @@ module.exports = {
                 id: "lowerbed",
             },
             general: {
-                log: path.resolve("./testFiles/general/general.state"),
-                columns: path.resolve("./testFiles/general/general.json"),
+                log: path.join(logsDir, "general.state"),
+                columns: path.join(logsDir, "general.json"),
             }
         },
     },
     comunication: {
-        path: path.resolve("./testFiles/interaccion/")
+        path: commsDir
     },
 }

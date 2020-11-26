@@ -1,12 +1,12 @@
 "use strict";
 const express = require('express');
 const control = require('../controllers/controlController');
-const { ensureAuthenticated } = require('../controllers/middleware');
+const authMiddleware = require('../middleware/authMiddleware');
+
 
 function getControlRoutes() {
     const router = express.Router();
-    router.post('/actuator', ensureAuthenticated, control.changeActuators);
-    // router.post('/columns', ensureAuthenticated, control.changeColumns)
+    router.post('/actuator', authMiddleware, control.changeActuators);
     return router;
 }
 

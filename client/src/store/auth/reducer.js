@@ -11,7 +11,7 @@ const initialState = {
     error: null
 }
 
-export default (state = initialState, { type, payload, error }) => {
+export default function reducer(state = initialState, { type, payload, error }) {
     switch (type) {
         case loginRequest:
             return { ...state, isFetching: true, error }
