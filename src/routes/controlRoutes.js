@@ -7,6 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 function getControlRoutes() {
     const router = express.Router();
     router.post('/actuator', authMiddleware, control.changeActuators);
+    router.post('/update', authMiddleware, control.update);
     return router;
 }
 

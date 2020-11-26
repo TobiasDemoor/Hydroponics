@@ -112,12 +112,13 @@ describe('tests modify route', () => {
     )
 
     test('modify con usuario incorrecto y contraseña correcta y usuario y contr nuevos validos',
-        async () => {
+        async done => {
             const res = await request(app).post('/api/auth/modify')
                 .send({ currentUsername: username + '4', currentPassword: password, newUsername, newPassword })
                 .set('Cookie', [`token=${token}`]);
             expect(res.status).toBe(400);
             expect(res.body.message).toBe(badLogin);
+            done();
         }
     )
 

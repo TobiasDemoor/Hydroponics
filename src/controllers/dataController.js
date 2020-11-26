@@ -1,9 +1,7 @@
 "use strict";
 const config = require("config");
-const webpackNodeExternals = require("webpack-node-externals");
-const { recent, cambiarColumnas, getUltimos } = require("../data/dataRepository");
+const { recent, cambiarColumnas } = require("../data/dataRepository");
 const IdError = require("../errors/IdError");
-const updateMedidas = require("../messages/updateMedidas");
 const { invalidId, parameterMissing } = config.get("strings")
 const { cantRecientes } = config.get('data');
 
@@ -45,15 +43,8 @@ async function changeColumns(req, res, next) {
     }
 }
 
-async function update(req, res, next) {
-    updateMedidas()
-        .then(getUltimos)
-        .then(data => res.status(200).send({ sections: data }))
-        .catch(err => { next(err); });
-}
 
 module.exports = {
     getRecent,
-    changeColumns,
-    update
+    changeColumns
 }

@@ -1,7 +1,7 @@
 const request = require('supertest');
 const config = require('config');
 const User = require('../auth/User');
-const { noCookieInRequest, invalidId, parameterMissing, timeoutErrorMsg } = config.get("strings");
+const { noCookieInRequest, invalidId, parameterMissing } = config.get("strings");
 const { createToken } = require('../auth/tokenServices');
 
 const app = require('../server');
@@ -9,9 +9,9 @@ const app = require('../server');
 const username = "sadfasdfa";
 const password = "asdfauierf";
 
-const { sections, cantRecientes } = config.get("data");
+const { columnsOrig, columns, sections, cantRecientes } = config.get("data");
 let ids = Object.entries(sections).map(([, { id }]) => id);
-ids = ids.filter(element => element)
+ids = ids.filter(element => element && element !== sections.general.id)
 let token;
 
 beforeAll(() => {
@@ -22,25 +22,25 @@ beforeAll(() => {
 describe('test recent routes', () => {
     const { recent } = require("../data/dataRepository");
 
-    test('get recent todas las secciones', async done => {
-        for (id of ids) {
+    for (id of ids) {
+        test(`get recent seccion = ${id}`, async done => {
             const data = await recent(id, cantRecientes)
             const res = await request(app).get(`/api/data/recent/${id}`)
                 .set('Cookie', [`token=${token}`]);
             expect(res.status).toBe(200);
             expect(res.body).toMatchObject(data);
-        }
-        done();
-    })
+            done();
+        })
+    }
 
-    test('get recent todas las secciones sin token', async done => {
-        for (id of ids) {
+    for (id of ids) {
+        test(`get recent seccion=${id} sin token`, async done => {
             const res = await request(app).get(`/api/data/recent/${id}`);
             expect(res.status).toBe(403);
             expect(res.body.message).toBe(noCookieInRequest);
-        }
-        done();
-    })
+            done();
+        })
+    }
 
     test('get recent con id incorrecto', async done => {
         const id = "invalido";
@@ -61,9 +61,7 @@ describe('test columns route', () => {
     describe('columns todas las secciones valido', () => {
 
         afterAll(() => {
-            for (id of ids) {
-                execSync(`cp ./testFiles/logs/${id}.json ./testFiles/logs/${id}.test.json`)
-            }
+            execSync(`cp ${columnsOrig(id)} ${columns(id)}`)
         })
 
         for (id of ids) {
@@ -144,37 +142,4 @@ describe('test columns route', () => {
         })
     })
 
-})
-
-describe('test update route', () => {
-    describe('con control app', () => {
-        const { spawn } = require('child_process');
-        let child;
-        beforeAll(() => {
-            child = spawn(
-                './escucha.py',
-                { cwd: config.get('comunication').path, detached: true }
-            );
-        })
-        afterAll(() => {
-            process.kill(-child.pid)
-        })
-        test('update', async done => {
-            const res = await request(app).post('/api/data/update')
-                .set('Cookie', [`token=${token}`]);
-            expect(res.status).toBe(200);
-            expect(res.body.sections).not.toBeUndefined();
-            done();
-        })
-    })
-
-    describe('sin app de control', () => {
-        test('error', async done => {
-            const res = await request(app).post('/api/data/update')
-                .set('Cookie', [`token=${token}`]);
-            expect(res.status).toBe(500);
-            expect(res.body.message).toBe(timeoutErrorMsg);
-            done();
-        })
-    })
 })

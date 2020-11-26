@@ -1,7 +1,8 @@
 "use strict";
 const { invalidId, parameterMissing } = require('config').get('strings');
 const controlActuator = require("../messages/actuatorControl");
-const { getUltimo } = require("../data/dataRepository");
+const updateMedidas = require("../messages/updateMedidas");
+const { getUltimo, getUltimos } = require("../data/dataRepository");
 const IdError = require("../errors/IdError");
 
 async function changeActuators(req, res, next) {
@@ -33,6 +34,14 @@ async function changeActuators(req, res, next) {
     }
 }
 
+async function update(req, res, next) {
+    updateMedidas()
+        .then(getUltimos)
+        .then(data => res.status(200).send({ sections: data }))
+        .catch(err => { next(err); });
+}
+
 module.exports = {
-    changeActuators
+    changeActuators,
+    update
 }

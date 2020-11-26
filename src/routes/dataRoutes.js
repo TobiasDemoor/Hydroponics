@@ -8,7 +8,6 @@ function getDataRoutes() {
     const router = express.Router();
     router.get('/recent/:id', authMiddleware, data.getRecent);
     router.post('/columns', authMiddleware, data.changeColumns);
-    router.post('/update', authMiddleware, data.update);
     return router;
 }
 

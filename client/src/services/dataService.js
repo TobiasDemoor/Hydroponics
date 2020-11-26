@@ -39,7 +39,7 @@ async function update() {
     };
     console.debug(requestOptions);
     
-    return fetch('/api/data/update', requestOptions).then(handleResponse);
+    return fetch('/api/control/update', requestOptions).then(handleResponse);
 }
 
 const services = {
