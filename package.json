@@ -6,12 +6,10 @@
   "author": "Tobias Demoor",
   "scripts": {
     "deploy": "npm install --only=prod && pm2 start ecosystem.config.js",
-    "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
     "build-client": "cd client && npm run build && cp -r build ../build/client",
     "build-srv": "npx webpack && cp -r config build/config && cp ecosystem.config.js build && cp package.json build",
-    "build": "npm run init-build && npm run build-client && npm run build-srv",
-    "compress": "tar -zcf build.tar.gz -C build .",
-    "send": "scp ./build.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz",
+    "build": "rm -rf build && mkdir build && npm run build-client && npm run build-srv",
+    "send": "tar -zcf build.tar.gz -C build . && scp ./build.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz && rm build.tar.gz",
     "start": "nodemon",
     "test": "jest"
   },
