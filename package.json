@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Tobias Demoor",
   "scripts": {
-    "deploy": "npm install --only=prod && pm2 start ecosystem.config.js --env production",
+    "deploy": "npm install --only=prod && pm2 start ecosystem.config.js",
     "init-build": "rm -f build.tar.gz & rm -rf build && mkdir build",
     "build-client": "cd client && npm run build && cp -r build ../build/client",
     "build-srv": "npx webpack && cp -r config build/config && cp ecosystem.config.js build && cp package.json build",
