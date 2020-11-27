@@ -36,8 +36,8 @@ module.exports = {
                 id: "lowerbed",
             },
             general: {
-                log: path.join(logsDir, "general.state"),
-                columns: path.join(logsDir, "general.json"),
+                log: path.join(logsDir, "main.log"),
+                columns: path.join(logsDir, "main.json"),
             }
         },
     },

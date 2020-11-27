@@ -43,7 +43,7 @@ class Resumen extends Component {
             < >
                 <div className={classes.elements}>
                     <TablaResumen
-                        columns={columns.filter(c => c.type === sensor)}
+                        columns={columns.filter(c => c.type && c.type.toLowerCase() === sensor)}
                         handlerTexto={this.handlerValorChange}
                         handlerAlarma={this.handleAlarmaChange}
                         isPushing={isPushing}
@@ -54,7 +54,7 @@ class Resumen extends Component {
                 </div>
                 <div className={classes.elements}>
                 <TablaControles
-                    columns={columns.filter(c => c.type === actuator)}
+                    columns={columns.filter(c => c.type && c.type.toLowerCase() === actuator)}
                     handlerOnOff={this.handleOnOff}
                     valoresAct={valoresAct}
                     executing={executing}

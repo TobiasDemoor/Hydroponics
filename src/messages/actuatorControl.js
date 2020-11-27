@@ -15,7 +15,7 @@ const { actuator } = require('config').get('data').types;
 async function actuatorControl(id, idActuator, state) {
     if (!isIdValido(id)) throw new IdError(id);
     const exists = await levantaColumns(id).then(columns =>
-        columns.find(({ id, type }) => id === idActuator && type === actuator)
+        columns.find(({ id, type }) => id === idActuator && type && type.toLowerCase() === actuator)
     )
     if (!exists) throw new IdError(idActuator);
     const data = JSON.stringify({ id: idActuator, state })

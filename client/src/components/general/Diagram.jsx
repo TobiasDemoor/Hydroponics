@@ -17,7 +17,6 @@ const {
     mediumbed,
     lowerbed
 } = sections
-const { actuators } = general
 const { on } = actuator
 
 
@@ -100,6 +99,10 @@ class Diagram extends Component {
     render() {
         const { height } = this.state;
         const { isFetching, sections, executing, error, classes } = this.props;
+        let actuators = ['','']
+        if (sections) {
+            actuators = sections.general.columns.filter(elem => elem.type && elem.type.toLowerCase() === actuator)
+        }
         return (
             <Container maxWidth="lg" className={classes.root} >
                 <ErrorMessage error={error} />
