@@ -9,7 +9,7 @@ import { ErrorMessage } from '../common/messages'
 
 const config = require('../../config')
 const { goToSection } = config.strings
-const { colors, sections, general, actuator } = config.constants
+const { colors, sections, actuator } = config.constants
 const {
     ambient,
     fishtank,
