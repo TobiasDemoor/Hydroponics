@@ -12,9 +12,6 @@ module.exports = {
             mediumbed: "mediumbed",  // mediciones del primer deep water grow bed
             lowerbed: "lowerbed"    // mediciones del segundo deep water grow bed
         },
-        general: {
-            actuators: ["pump00", "pump01"]
-        },
         actuator: {
             on: "on",
             off: "off"
@@ -48,7 +45,7 @@ module.exports = {
         changeLoginLink: "Change login",
         logOutLink: "Log out",
         changeView: "Change View",
-        goToSection: "Go to Section ",
+        goToSection: "",
 
         // tabla resumen
         resumenLabel: "Name",

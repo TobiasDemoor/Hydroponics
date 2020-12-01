@@ -64,8 +64,8 @@ module.exports = {
                 title: 'Second deep water grow bed',
                 id: 'lowerbed',
             },
-            general: {
-                id: 'general',
+            main: {
+                id: 'main',
                 log: path.resolve('./testFiles/general/general.state'),
                 columns: path.resolve('./testFiles/general/general.json'),
             }

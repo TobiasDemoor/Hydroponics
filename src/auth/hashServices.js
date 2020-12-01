@@ -7,6 +7,12 @@ var genRandomString = function(length){
             .slice(0,length);   /** return required number of characters */
 };
 
+function cleanString(str) {
+    const clean = str
+    clean.replace('"', "'")
+    return clean
+}
+
 /**
  * hash password with sha512.
  * @function
@@ -24,7 +30,7 @@ function sha512(password, salt) {
 }
 
 function saltHashPassword(userpassword) {
-    var salt = genRandomString(16); /** Gives us salt of length 16 */
+    const salt = genRandomString(16); /** Gives us salt of length 16 */
     return sha512(userpassword, salt);
 }
 

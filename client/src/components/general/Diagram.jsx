@@ -101,7 +101,7 @@ class Diagram extends Component {
         const { isFetching, sections, executing, error, classes } = this.props;
         let actuators = ['','']
         if (sections) {
-            actuators = sections.general.columns.filter(elem => elem.type && elem.type.toLowerCase() === actuator)
+            actuators = sections.main.columns.filter(elem => elem.type && elem.type.toLowerCase() === actuator)
         }
         return (
             <Container maxWidth="lg" className={classes.root} >
@@ -121,7 +121,7 @@ class Diagram extends Component {
                                 <LoadingSwitch
                                     color="primary"
                                     id={actuators[0]}
-                                    checked={sections.general.row[actuators[0]] === on}
+                                    checked={sections.main.row[actuators[0]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />
@@ -162,7 +162,7 @@ class Diagram extends Component {
                                 <LoadingSwitch
                                     color="primary"
                                     id={actuators[1]}
-                                    checked={sections.general.row[actuators[1]] === on}
+                                    checked={sections.main.row[actuators[1]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />

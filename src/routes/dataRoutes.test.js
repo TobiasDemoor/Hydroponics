@@ -11,7 +11,7 @@ const password = "asdfauierf";
 
 const { columnsOrig, columns, sections, cantRecientes } = config.get("data");
 let ids = Object.entries(sections).map(([, { id }]) => id);
-ids = ids.filter(element => element && element !== sections.general.id)
+ids = ids.filter(element => element && element !== sections.main.id)
 let token;
 
 beforeAll(() => {

@@ -63,9 +63,9 @@ export function changeOnOff(idActuator) {
 export function changeOnOffGeneral(idActuator) {
     return (dispatch, getState) => {
         const state = getState().data
-        const newState = state.sections.general.row[idActuator] === on ? off : on
+        const newState = state.sections.main.row[idActuator] === on ? off : on
         dispatch({ type: onOffRequest })
-        service.changeOnOff("general", idActuator, newState)
+        service.changeOnOff("main", idActuator, newState)
             .then(
                 response => dispatch({ type: onOffSuccessGeneral, payload: response }),
                 err => dispatch({ type: onOffError, error: err })
