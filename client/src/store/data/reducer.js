@@ -85,8 +85,8 @@ export default function reducer(state = initialState, { type, payload, error }) 
                 ...state,
                 sections: {
                     ...state.sections,
-                    general: {
-                        ...state.sections.general,
+                    main: {
+                        ...state.sections.main,
                         row: payload.row
                     }
                 },

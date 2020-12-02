@@ -35,9 +35,8 @@ module.exports = {
                 title: "Second deep water grow bed",
                 id: "lowerbed",
             },
-            general: {
-                log: path.join(logsDir, "main.log"),
-                columns: path.join(logsDir, "main.json"),
+            main: {
+                id: "main"
             }
         },
     },

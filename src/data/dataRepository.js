@@ -31,19 +31,25 @@ async function tailN(archivo, nro) {
 
 async function levantaRecientes(id, nro) {
     let archivo = getLogRoute(id)
-    return new Promise( resolve => {
+    return new Promise(resolve => {
         fs.access(archivo, fs.constants.F_OK, async err => {
-            if (err) resolve([]);
-            const data = await tailN(archivo, nro)
-            if (data.length < nro) {
-                archivo += '.0';
-                fs.access(archivo, fs.constants.F_OK, async err => {
-                    if (err) resolve(data);
-                    data.push(...await tailN(archivo, nro - data.length));
-                    resolve(data);
-                })
+            if (err) {
+                resolve([])
             } else {
-                resolve(data);
+                const data = await tailN(archivo, nro)
+                if (data.length < nro) {
+                    archivo += '.0';
+                    fs.access(archivo, fs.constants.F_OK, async err => {
+                        if (err) {
+                            resolve(data);
+                        } else {
+                            data.push(...await tailN(archivo, nro - data.length));
+                            resolve(data);
+                        }
+                    })
+                } else {
+                    resolve(data);
+                }
             }
         })
     })

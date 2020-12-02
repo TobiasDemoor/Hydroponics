@@ -2,6 +2,7 @@
 const config = require("config");
 const { recent, cambiarColumnas } = require("../data/dataRepository");
 const IdError = require("../errors/IdError");
+const notifyChanges = require("../messages/notifyChanges");
 const { invalidId, parameterMissing } = config.get("strings")
 const { cantRecientes } = config.get('data');
 
@@ -31,7 +32,8 @@ async function changeColumns(req, res, next) {
     } else {
         cambiarColumnas(id, columns)
             .then(() => {
-                res.status(200).send({ id })
+                notifyChanges();
+                res.status(200).send({ id });
             })
             .catch(err => {
                 if (err instanceof IdError) {

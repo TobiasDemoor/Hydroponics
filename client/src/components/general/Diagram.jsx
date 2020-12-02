@@ -9,7 +9,7 @@ import { ErrorMessage } from '../common/messages'
 
 const config = require('../../config')
 const { goToSection } = config.strings
-const { colors, sections, actuator } = config.constants
+const { colors, sections, actuator: { on }, types: { actuator } } = config.constants
 const {
     ambient,
     fishtank,
@@ -17,7 +17,6 @@ const {
     mediumbed,
     lowerbed
 } = sections
-const { on } = actuator
 
 
 const styles = theme => ({
@@ -33,7 +32,9 @@ const styles = theme => ({
     },
     link: {
         display: "table-cell",
-        verticalAlign: "middle"
+        verticalAlign: "middle",
+        textDecoration: "none",
+        color: "black"
     },
     loading: {
         marginLeft: "50%",
@@ -99,9 +100,11 @@ class Diagram extends Component {
     render() {
         const { height } = this.state;
         const { isFetching, sections, executing, error, classes } = this.props;
-        let actuators = ['','']
+        let actuators = ['', '']
         if (sections) {
-            actuators = sections.general.columns.filter(elem => elem.type && elem.type.toLowerCase() === actuator)
+            actuators = sections.main.columns
+                .filter(elem => elem.type && elem.type.toLowerCase() === actuator)
+                .map(elem => elem.id)
         }
         return (
             <Container maxWidth="lg" className={classes.root} >
@@ -121,7 +124,7 @@ class Diagram extends Component {
                                 <LoadingSwitch
                                     color="primary"
                                     id={actuators[0]}
-                                    checked={sections.general.row[actuators[0]] === on}
+                                    checked={sections.main.row[actuators[0]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />
@@ -162,7 +165,7 @@ class Diagram extends Component {
                                 <LoadingSwitch
                                     color="primary"
                                     id={actuators[1]}
-                                    checked={sections.general.row[actuators[1]] === on}
+                                    checked={sections.main.row[actuators[1]] === on}
                                     onChange={this.handleOnOff}
                                     loading={executing}
                                 />

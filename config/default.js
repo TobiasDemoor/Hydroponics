@@ -64,15 +64,13 @@ module.exports = {
                 title: 'Second deep water grow bed',
                 id: 'lowerbed',
             },
-            general: {
-                id: 'general',
-                log: path.resolve('./testFiles/general/general.state'),
-                columns: path.resolve('./testFiles/general/general.json'),
+            main: {
+                id: 'main',
             }
         },
     },
     comunication: {
         path: commsDir,
-        timeout: 8000
+        timeout: 15000
     },
 }

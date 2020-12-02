@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 files = [
-    "../general/general.state",
+    "../logs/main.log",
     "../logs/ambient.log",
     "../logs/upperbed.log"
 ]

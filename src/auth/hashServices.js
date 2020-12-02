@@ -1,11 +1,16 @@
 "use strict";
-var crypto = require("crypto");
+const crypto = require("crypto");
 
-var genRandomString = function(length){
-    return crypto.randomBytes(Math.ceil(length/2))
-            .toString("hex") /** convert to hexadecimal format */
-            .slice(0,length);   /** return required number of characters */
+function genRandomString(length) {
+    return crypto.randomBytes(Math.ceil(length / 2))
+        .toString("hex") /** convert to hexadecimal format */
+        .slice(0, length);   /** return required number of characters */
 };
+
+function cleanString(str) {
+    const pieces = str.split('"');
+    return pieces.join("'")
+}
 
 /**
  * hash password with sha512.
@@ -14,17 +19,18 @@ var genRandomString = function(length){
  * @param {string} salt - Data to be validated.
  */
 function sha512(password, salt) {
-    var hash = crypto.createHmac("sha512", salt); /** Hashing algorithm sha512 */
+    const saltClean = cleanString(salt);
+    const hash = crypto.createHmac("sha512", saltClean); /** Hashing algorithm sha512 */
     hash.update(password);
-    var value = hash.digest("hex");
+    const value = cleanString(hash.digest("hex"));
     return {
-        salt:salt,
-        passwordHash:value
+        salt: saltClean,
+        passwordHash: value
     };
 }
 
 function saltHashPassword(userpassword) {
-    var salt = genRandomString(16); /** Gives us salt of length 16 */
+    const salt = genRandomString(16); /** Gives us salt of length 16 */
     return sha512(userpassword, salt);
 }
 
@@ -33,6 +39,7 @@ function verifySaltHashPassword(userpassword, salt) {
 }
 
 module.exports = {
+    sha512,
     saltHashPassword,
     verifySaltHashPassword
 };
