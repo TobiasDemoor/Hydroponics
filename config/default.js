@@ -10,12 +10,12 @@ module.exports = {
         client: path.resolve('client/build'),
     },
     jwt: {
-        "TOKEN_SECRET": process.env.TOKEN_SECRET || "77aa1f16ed3d211d6ca12625",
+        TOKEN_SECRET: process.env.TOKEN_SECRET || "77aa1f16ed3d211d6ca12625",
         expTime: [1, 'd'],
     },
     auth: {
         default: "hydroponics",
-        'routeUser': path.resolve('./testFiles/user.json'),
+        routeUser: path.resolve('./testFiles/user.json'),
     },
     strings: {
         // auth

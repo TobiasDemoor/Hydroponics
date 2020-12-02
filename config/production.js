@@ -6,10 +6,10 @@ const commsDir = path.join(rootDir, "comms")
 
 module.exports = {
     express: {
-        "client": path.resolve("./client"),
+        client: path.resolve("./client"),
     },
     auth: {
-        "routeUser": path.resolve("./user.json"),
+        routeUser: path.resolve("./user.json"),
     },
     data: {
         log: id => path.join(logsDir, `${id}.log`),

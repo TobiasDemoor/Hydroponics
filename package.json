@@ -9,7 +9,7 @@
     "build-client": "cd client && npm run build && cp -r build ../build/client",
     "build-srv": "npx webpack && cp -r config build/config && cp ecosystem.config.js build && cp package.json build",
     "build": "rm -rf build && mkdir build && npm run build-client && npm run build-srv",
-    "send": "tar -zcf build.tar.gz -C build . && scp ./build.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz && rm build.tar.gz",
+    "send": "tar -zcf ./webapp.tar.gz -C ./build/ . && scp ./webapp.tar.gz  chlab@181.170.140.199:/opt/hydroponics/webapp.tar.gz && rm webapp.tar.gz",
     "start": "nodemon",
     "test": "jest"
   },

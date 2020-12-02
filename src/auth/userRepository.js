@@ -38,10 +38,9 @@ async function saveUser(user) {
 async function getUser() {
     return new Promise((resolve, reject) => {
         fs.readFile(config.auth.routeUser, 'utf8', (err, data) => {
-            if (err || !data) {
+            if (!data || err) {
                 reject(err || data)
-            }
-            if (data) {
+            } else {
                 try {
                     resolve(JSON.parse(data.toString()))
                 } catch (err) {
@@ -54,7 +53,7 @@ async function getUser() {
             }
         });
     })
-    
+
 }
 
-module.exports = {saveUser, getUser};
+module.exports = { saveUser, getUser };
