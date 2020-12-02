@@ -45,7 +45,7 @@ module.exports = {
         changeLoginLink: "Change login",
         logOutLink: "Log out",
         changeView: "Change View",
-        goToSection: "Go to Section ",
+        goToSection: "",
 
         // tabla resumen
         resumenLabel: "Name",
