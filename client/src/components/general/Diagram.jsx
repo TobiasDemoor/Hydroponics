@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Grid, withStyles } from '@material-ui/core'
+import { Box, CircularProgress, Container, Grid, Typography, withStyles } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import LoadingSwitch from '../common/LoadingSwitch'
 import { ErrorMessage } from '../common/messages'
 
 const config = require('../../config')
-const { goToSection } = config.strings
+const { mainTitle, goToSection } = config.strings
 const { colors, sections, actuator: { on }, types: { actuator } } = config.constants
 const {
     ambient,
@@ -22,6 +22,9 @@ const {
 const styles = theme => ({
     root: {
         position: 'relative'
+    },
+    title: {
+        marginBottom: theme.spacing(4)
     },
     item: {
         height: "100%",
@@ -108,6 +111,9 @@ class Diagram extends Component {
         }
         return (
             <Container maxWidth="lg" className={classes.root} >
+                <Typography className={classes.title} variant="h4" align="center">
+                    {mainTitle}
+                </Typography>
                 <ErrorMessage error={error} />
                 {!isFetching && sections ?
                     <Grid container spacing={1} height="100%">

@@ -22,6 +22,9 @@ module.exports = {
         }
     },
     strings: {
+        // main
+        mainTitle: "Hydroponics Control System",
+
         // general
         confirmar: "CONFIRM",
 

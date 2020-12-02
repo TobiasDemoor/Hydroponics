@@ -1,11 +1,11 @@
 import {
     Button,
-    CircularProgress, Container, IconButton, withStyles
+    CircularProgress, Container, IconButton, Typography, withStyles
 } from '@material-ui/core';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { getRecent } from '../../store/data/actions'
+import { getRecent, update } from '../../store/data/actions'
 import DataTable from '../common/DataTable'
 import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
@@ -21,6 +21,9 @@ const styles = theme => ({
     loading: {
         marginLeft: "50%",
         left: -20
+    },
+    title: {
+        marginBottom: theme.spacing(4)
     },
     elements: {
         marginTop: theme.spacing(4)
@@ -40,6 +43,9 @@ class Recientes extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.getRecent(id)
+        if (!this.props.sections) {
+            this.props.update()   
+        }
     }
 
     changeView() {
@@ -47,7 +53,12 @@ class Recientes extends Component {
     }
 
     render() {
-        const { classes, isFetching, error, columns, rows, resumen } = this.props;
+        const { classes, sections, isFetching, error, columns, rows, resumen } = this.props;
+        const { id } = this.props.match.params;
+        let title = id;
+        if (sections) {
+            title = sections[id].title
+        }
         return (
             < >
                 <NavBar>
@@ -67,6 +78,9 @@ class Recientes extends Component {
                     </Button>
                 </NavBar>
                 <Container className={classes.container} maxWidth="lg">
+                    <Typography className={classes.title} variant="h4" align="center">
+                        {title}
+                    </Typography>
                     <ErrorMessage error={error} />
                     {!isFetching && columns ?
                         <div className={classes.elements}>
@@ -89,6 +103,7 @@ class Recientes extends Component {
 }
 
 const mapStateToProps = state => ({
+    sections: state.data.sections,
     isFetching: state.data.isFetching,
     error: state.data.error,
     columns: state.data.columns,
@@ -97,6 +112,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    update: () => dispatch(update()),
     getRecent: id => dispatch(getRecent(id)),
     changeResumen: () => dispatch(changeResumen())
 })

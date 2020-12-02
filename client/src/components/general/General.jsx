@@ -49,7 +49,7 @@ class General extends Component {
             < >
                 <NavBar>
                     <IconButton style={{ marginLeft: 'auto' }} onClick={this.props.update}>
-                        <Refresh color="primary"/>
+                        <Refresh color="primary" />
                     </IconButton>
                     <IconButton onClick={this.handleMenu} >
                         <UserIcon color="primary" />
