@@ -11,18 +11,18 @@ test('request de muchos datos', async () => {
     return expect(levantaRecientes(id, 500)).resolves.not.toBeNull();
 })
 
-describe('tests sin .0', () => {
+describe('tests sin .1', () => {
     const route = log(id);
 
     beforeAll(() => {
-        fs.renameSync(route + '.0', route + '.0.no')
+        fs.renameSync(route + '.1', route + '.1.no')
     })
 
     afterAll(() => {
-        fs.renameSync(route + '.0.no', route + '.0')
+        fs.renameSync(route + '.1.no', route + '.1')
     })
 
-    test('request de muchos datos sin .0', async () => {
+    test('request de muchos datos sin .1', async () => {
         return expect(levantaRecientes(id, 500)).resolves.not.toBeNull();
     })
 

@@ -1,6 +1,6 @@
 import {
     Button,
-    CircularProgress, Container, IconButton, Typography, withStyles
+    CircularProgress, Container, IconButton, withStyles
 } from '@material-ui/core';
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -10,7 +10,7 @@ import DataTable from '../common/DataTable'
 import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
 import { changeResumen } from '../../store/view';
-import { ErrorMessage } from '../common/messages';
+import { ErrorMessage, Title } from '../common/messages';
 
 const { changeView } = require('../../config').strings
 
@@ -44,7 +44,7 @@ class Recientes extends Component {
         const { id } = this.props.match.params;
         this.props.getRecent(id)
         if (!this.props.sections) {
-            this.props.update()   
+            this.props.update()
         }
     }
 
@@ -68,6 +68,7 @@ class Recientes extends Component {
                     >
                         <BackIcon color="primary" size="medium" />
                     </IconButton>
+
                     <Button
                         variant="contained"
                         color="primary"
@@ -77,10 +78,9 @@ class Recientes extends Component {
                         {changeView}
                     </Button>
                 </NavBar>
+
                 <Container className={classes.container} maxWidth="lg">
-                    <Typography className={classes.title} variant="h4" align="center">
-                        {title}
-                    </Typography>
+                    <Title text={title} />
                     <ErrorMessage error={error} />
                     {!isFetching && columns ?
                         <div className={classes.elements}>
@@ -93,8 +93,8 @@ class Recientes extends Component {
                                 />
                             }
                         </div>
-                    :
-                    <CircularProgress className={classes.loading} color="primary" />
+                        :
+                        <CircularProgress className={classes.loading} color="primary" />
                     }
                 </Container>
             </ >

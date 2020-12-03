@@ -13,8 +13,7 @@ const strings = require("../../config").strings
 
 const styles = theme => ({
     form: {
-        position: 'absolute', left: '50%', top: '50%',
-        transform: 'translate(-50%, -60%)'
+        
     },
     card: {
         padding: theme.spacing(4),
@@ -85,7 +84,7 @@ class ChangeLogin extends Component {
             newUsername, newPassword, newPasswordVerify
         } = this.state
         return (
-            <div className={classes.root}>
+            <>
                 <NavBar>
                     <IconButton edge="start" onClick={() => this.props.history.push('/')}>
                         <BackIcon color="primary" size="medium" />
@@ -160,7 +159,7 @@ class ChangeLogin extends Component {
                         </form>
                     </Card>
                 </Container>
-            </div>
+            </>
         )
     }
 }

@@ -38,7 +38,7 @@ async function levantaRecientes(id, nro) {
             } else {
                 const data = await tailN(archivo, nro)
                 if (data.length < nro) {
-                    archivo += '.0';
+                    archivo += '.1';
                     fs.access(archivo, fs.constants.F_OK, async err => {
                         if (err) {
                             resolve(data);

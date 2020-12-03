@@ -11,8 +11,7 @@ const strings = require("../../config").strings
 
 const styles = theme => ({
     form: {
-        position: 'absolute', left: '50%', top: '50%',
-        transform: 'translate(-50%, -80%)'
+        marginTop: "5%",
     },
     card: {
         padding: theme.spacing(4),

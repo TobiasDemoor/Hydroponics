@@ -1,11 +1,11 @@
-import { Box, CircularProgress, Container, Grid, Typography, withStyles } from '@material-ui/core'
+import { Box, CircularProgress, Container, Grid, withStyles } from '@material-ui/core'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import checkMinMax from '../../helpers/checkMinMax'
 import { changeOnOffGeneral, update } from '../../store/data/actions'
 import LoadingSwitch from '../common/LoadingSwitch'
-import { ErrorMessage } from '../common/messages'
+import { ErrorMessage, Title } from '../common/messages'
 
 const config = require('../../config')
 const { mainTitle, goToSection } = config.strings
@@ -20,12 +20,6 @@ const {
 
 
 const styles = theme => ({
-    root: {
-        position: 'relative'
-    },
-    title: {
-        marginBottom: theme.spacing(4)
-    },
     item: {
         height: "100%",
         width: "100%",
@@ -110,13 +104,15 @@ class Diagram extends Component {
                 .map(elem => elem.id)
         }
         return (
-            <Container maxWidth="lg" className={classes.root} >
-                <Typography className={classes.title} variant="h4" align="center">
-                    {mainTitle}
-                </Typography>
+            <Container maxWidth="lg">
+
+                <Title text={mainTitle} />
+
                 <ErrorMessage error={error} />
+
                 {!isFetching && sections ?
                     <Grid container spacing={1} height="100%">
+
                         <BoxSection
                             id={ambient}
                             key={ambient}
@@ -125,17 +121,17 @@ class Diagram extends Component {
                             height={height * 0.15}
                             xs={12}
                         />
-                        <Grid item xs={12}>
-                            <div className={classes.item}>
-                                <LoadingSwitch
-                                    color="primary"
-                                    id={actuators[0]}
-                                    checked={sections.main.row[actuators[0]] === on}
-                                    onChange={this.handleOnOff}
-                                    loading={executing}
-                                />
-                            </div>
+
+                        <Grid item xs={12} className={classes.item}>
+                            <LoadingSwitch
+                                color="primary"
+                                id={actuators[0]}
+                                checked={sections.main.row[actuators[0]] === on}
+                                onChange={this.handleOnOff}
+                                loading={executing}
+                            />
                         </Grid>
+
                         <BoxSection
                             id={fishtank}
                             key={fishtank}
@@ -143,7 +139,9 @@ class Diagram extends Component {
                             classes={classes}
                             xs={6}
                         />
+
                         <Grid container item spacing={1} xs={6} direction="column">
+
                             <BoxSection
                                 id={upperbed}
                                 key={upperbed}
@@ -151,6 +149,7 @@ class Diagram extends Component {
                                 classes={classes}
                                 height={height * 0.15}
                             />
+
                             <BoxSection
                                 id={mediumbed}
                                 key={mediumbed}
@@ -158,6 +157,7 @@ class Diagram extends Component {
                                 classes={classes}
                                 height={height * 0.15}
                             />
+
                             <BoxSection
                                 id={lowerbed}
                                 key={lowerbed}
@@ -165,18 +165,19 @@ class Diagram extends Component {
                                 classes={classes}
                                 height={height * 0.15}
                             />
+
                         </Grid>
-                        <Grid item xs={12}>
-                            <div className={classes.item}>
-                                <LoadingSwitch
-                                    color="primary"
-                                    id={actuators[1]}
-                                    checked={sections.main.row[actuators[1]] === on}
-                                    onChange={this.handleOnOff}
-                                    loading={executing}
-                                />
-                            </div>
+
+                        <Grid item xs={12} className={classes.item}>
+                            <LoadingSwitch
+                                color="primary"
+                                id={actuators[1]}
+                                checked={sections.main.row[actuators[1]] === on}
+                                onChange={this.handleOnOff}
+                                loading={executing}
+                            />
                         </Grid>
+
                     </Grid>
                     :
                     <CircularProgress className={classes.loading} />

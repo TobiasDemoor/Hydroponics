@@ -10,6 +10,10 @@ const styles = theme => ({
     },
     error: {
         color: theme.palette.error.main
+    },
+    title: {
+        marginBottom: theme.spacing(4),
+        color: theme.palette.text.primary
     }
 })
 
@@ -45,5 +49,15 @@ export const ErrorMessage = withStyles(styles)(
         } else {
             return null
         }
+    }
+)
+
+export const Title = withStyles(styles)(
+    ({ text, classes, ...props }) => {
+        return (
+            <Typography className={classes.title} variant="h4" align="center" {...props}>
+                {text}
+            </Typography>
+        )
     }
 )
