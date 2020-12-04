@@ -1,7 +1,7 @@
 {
   "name": "serverhydroponics",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for hydroponics control webapp to monitor the state and toggle actuators",
   "main": "index.js",
   "author": "Tobias Demoor",
   "scripts": {
