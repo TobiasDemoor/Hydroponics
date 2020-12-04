@@ -1,33 +1,65 @@
 import React, { Component } from 'react'
 import UserIcon from '@material-ui/icons/AccountCircle'
 import Refresh from '@material-ui/icons/Refresh'
-import NavBar from '../common/NavBar'
 import {
-    IconButton, Menu, MenuItem
+    CircularProgress,
+    Container,
+    IconButton, Menu, MenuItem, withStyles
 } from '@material-ui/core'
-import logOut from '../../helpers/logOut'
-import Diagram from './Diagram'
-import { update } from '../../store/data/actions'
 import { connect } from 'react-redux'
+import NavBar from '../common/NavBar'
+import logOut from '../../helpers/logOut'
+import { changeOnOffGeneral, update } from '../../store/data/actions'
+import { ErrorMessage, Title } from '../common/messages'
+import Diagram from './Diagram'
 
-const { changeLoginLink, logOutLink } = require('../../config').strings
+const config = require('../../config')
+const { mainTitle, changeLoginLink, logOutLink } = config.strings
+const { types: { actuator } } = config.constants
 
+const styles = theme => ({
+    loading: {
+        marginLeft: "50%",
+        left: -20
+    },
+})
 
 class General extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            height: null,
             anchorEl: null,
+            requestedUpdate: false,
         }
 
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
         this.handleUpdate = this.handleUpdate.bind(this)
         this.handleMenu = this.handleMenu.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleLogOut = this.handleLogOut.bind(this)
+        this.handleOnOff = this.handleOnOff.bind(this)
+    }
+
+    updateWindowDimensions() {
+        this.setState({ height: window.innerHeight });
+    }
+
+    componentDidMount() {
+        this.props.update()
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
     handleUpdate() {
         this.props.update();
+        this.setState({
+            requestedUpdate: true,
+        })
     }
 
     handleMenu(e) {
@@ -47,8 +79,20 @@ class General extends Component {
         this.props.history.push('/')
     }
 
+    handleOnOff(e) {
+        this.props.changeOnOff(e.target.id)
+    }
+
     render() {
-        const { anchorEl } = this.state;
+        const { anchorEl, height, requestedUpdate } = this.state;
+        const { isFetching, sections, executing, error, classes } = this.props;
+
+        let actuators = ['', '']
+        if (sections) {
+            actuators = sections.main.columns
+                .filter(elem => elem.type && elem.type.toLowerCase() === actuator)
+                .map(elem => elem.id)
+        }
 
         return (
             < >
@@ -78,14 +122,38 @@ class General extends Component {
                         </MenuItem>
                     </Menu>
                 </NavBar>
-                <Diagram />
+                <Container maxWidth="lg">
+                    <Title text={mainTitle} />
+                    <ErrorMessage error={error} />
+    
+                    { (!isFetching || !requestedUpdate) && sections ?
+                        <Diagram
+                            sections={sections}
+                            executing={executing}
+                            error={error}
+                            height={height}
+                            actuators={actuators}
+                            handleOnOff={this.handleOnOff}
+                        />
+                        : isFetching &&
+                        <CircularProgress className={classes.loading} />
+                    }
+                </Container>
             </ >
         )
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    update: () => dispatch(update())
+const mapStateToProps = state => ({
+    isFetching: state.data.isFetching,
+    sections: state.data.sections,
+    executing: state.data.executing,
+    error: state.data.error,
 })
 
-export default connect(null, mapDispatchToProps)(General);
+const mapDispatchToProps = dispatch => ({
+    update: () => dispatch(update()),
+    changeOnOff: id => dispatch(changeOnOffGeneral(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(General));
