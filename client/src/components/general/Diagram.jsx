@@ -44,7 +44,7 @@ function BoxSection({ id, classes, data, xs, height }) {
     const ok = columns.every(column => {
         if (column.alarma) {
             const { id, min, max } = column
-            return checkMinMax(row[id], min, max) ?? true;
+            return checkMinMax(row[id], min, max) ?? false;
         } else {
             return true;
         }
@@ -110,7 +110,7 @@ class Diagram extends Component {
 
                 <ErrorMessage error={error} />
 
-                {!isFetching && sections ?
+                { sections ?
                     <Grid container spacing={1} height="100%">
 
                         <BoxSection
@@ -179,7 +179,7 @@ class Diagram extends Component {
                         </Grid>
 
                     </Grid>
-                    :
+                    : isFetching &&
                     <CircularProgress className={classes.loading} />
                 }
             </Container>

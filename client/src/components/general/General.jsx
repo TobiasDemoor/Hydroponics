@@ -20,9 +20,14 @@ class General extends Component {
             anchorEl: null,
         }
 
+        this.handleUpdate = this.handleUpdate.bind(this)
         this.handleMenu = this.handleMenu.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleLogOut = this.handleLogOut.bind(this)
+    }
+
+    handleUpdate() {
+        this.props.update();
     }
 
     handleMenu(e) {
@@ -48,7 +53,7 @@ class General extends Component {
         return (
             < >
                 <NavBar>
-                    <IconButton style={{ marginLeft: 'auto' }} onClick={this.props.update}>
+                    <IconButton style={{ marginLeft: 'auto' }} onClick={this.handleUpdate}>
                         <Refresh color="primary" />
                     </IconButton>
                     <IconButton onClick={this.handleMenu} >
