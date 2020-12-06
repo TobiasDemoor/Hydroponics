@@ -143,3 +143,13 @@ describe('test columns route', () => {
     })
 
 })
+
+describe('test sections route', () => {
+    test('update', async done => {
+        const res = await request(app).get('/api/data/sections')
+            .set('Cookie', [`token=${token}`]);
+        expect(res.status).toBe(200);
+        expect(res.body.sections).not.toBeUndefined();
+        done();
+    })
+})

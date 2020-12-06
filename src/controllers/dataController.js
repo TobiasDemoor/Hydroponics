@@ -1,6 +1,6 @@
 "use strict";
 const config = require("config");
-const { recent, cambiarColumnas } = require("../data/dataRepository");
+const { recent, cambiarColumnas, getUltimos } = require("../data/dataRepository");
 const IdError = require("../errors/IdError");
 const notifyChanges = require("../messages/notifyChanges");
 const { invalidId, parameterMissing } = config.get("strings")
@@ -45,8 +45,15 @@ async function changeColumns(req, res, next) {
     }
 }
 
+async function getSections(req, res, nect) {
+    getUltimos()
+        .then(data => res.status(200).send({ sections: data }))
+        .catch(err => { next(err); });
+}
+
 
 module.exports = {
     getRecent,
-    changeColumns
+    changeColumns,
+    getSections
 }
