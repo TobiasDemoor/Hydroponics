@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Grid, withStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import checkMinMax from '../../helpers/checkMinMax'
 import LoadingSwitch from '../common/LoadingSwitch'
+import sectionStatus from './sectionStatus'
 
 const config = require('../../config')
 const { goToSection } = config.strings
@@ -35,14 +35,7 @@ const styles = theme => ({
 const BoxSection = withStyles(styles)(
     ({ id, classes, data, xs, height }) => {
         const { title, columns, row } = data
-        const ok = columns.every(column => {
-            if (column.alarma) {
-                const { id, min, max } = column
-                return checkMinMax(row[id], min, max) ?? false;
-            } else {
-                return true;
-            }
-        })
+        const ok = columns.every(column => sectionStatus(column, row))
         return (
             <Grid item xs={xs}>
                 <Box

@@ -1,9 +1,10 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import {
     Button,
     CircularProgress, Container, IconButton, withStyles
 } from '@material-ui/core';
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import BackIcon from '@material-ui/icons/ArrowBack'
 import { getRecent, update } from '../../store/data/actions'
 import DataTable from '../common/DataTable'
@@ -40,6 +41,7 @@ class Recientes extends Component {
         }
         this.changeView = this.changeView.bind(this)
     }
+
     componentDidMount() {
         const { id } = this.props.match.params;
         this.props.getRecent(id)

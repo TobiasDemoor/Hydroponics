@@ -46,7 +46,7 @@ function CeldaTexto({ cellProps, handler, ...props }) {
 }
 
 function Row({ index, data, value, id, handlerTexto, handlerAlarma, ...props }) {
-    const { min, max, alarma, label } = data
+    const { min, max, alarm, label } = data
     return (
         <TableRow hover>
             <TableCell
@@ -80,7 +80,7 @@ function Row({ index, data, value, id, handlerTexto, handlerAlarma, ...props }) 
                 <Checkbox
                     id={id}
                     color="secondary"
-                    checked={alarma}
+                    checked={alarm}
                     onChange={handlerAlarma}
                 />
             </TableCell>
@@ -96,7 +96,7 @@ function TablaResumen({
         { label: resumenValue, id: "value", align: "center" },
         { label: resumenMin, id: "min", align: "center" },
         { label: resumenMax, id: "max", align: "center" },
-        { label: resumenAlarm, id: "alarma", align: "center", padding: "checkbox" }
+        { label: resumenAlarm, id: "alarm", align: "center", padding: "checkbox" }
     ]
     return (
         <Paper className={classes.root}>

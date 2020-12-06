@@ -1,7 +1,7 @@
 import service from '../../services/dataService'
 import {
     recentRequest, recentSuccess, recentError,
-    valor, alarma,
+    valor, alarm,
     changesSent, changesSuccess, changesError,
     onOffRequest, onOffSuccess, onOffSuccessGeneral, onOffError, 
     updateRequest, updateSuccess, updateError
@@ -27,7 +27,7 @@ export function changeValor(id, campo, value) {
 
 export function changeAlarma(id) {
     return {
-        type: alarma,
+        type: alarm,
         payload: { id }
     }
 }

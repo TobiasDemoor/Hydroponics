@@ -5,7 +5,7 @@ module.exports =  {
 
     valor:                  "CHANGE_VALOR",
 
-    alarma:                 "CHANGE_ALARMA",
+    alarm:                 "CHANGE_ALARMA",
 
     changesSent:            "CHANGES_SENT",
     changesSuccess:         "CHANGES_SUCCESS",

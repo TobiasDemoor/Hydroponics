@@ -1,6 +1,6 @@
 import {
     recentRequest, recentSuccess, recentError,
-    valor, alarma,
+    valor, alarm,
     changesSent, changesSuccess, changesError,
     onOffRequest, onOffSuccess, onOffSuccessGeneral, onOffError, 
     updateRequest, updateSuccess, updateError
@@ -49,13 +49,13 @@ export default function reducer(state = initialState, { type, payload, error }) 
                 })
             }
 
-        case alarma:
+        case alarm:
             return {
                 ...state, modified: true,
                 columns: state.columns.map(column => {
                     if (column.id === payload.id) {
                         const newColumn = column
-                        newColumn.alarma = !column.alarma
+                        newColumn.alarm = !column.alarm
                         return newColumn
                     } else {
                         return column

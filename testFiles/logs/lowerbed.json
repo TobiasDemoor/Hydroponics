@@ -11,7 +11,7 @@
         "id": "temp1",
         "min": 0,
         "max": 40,
-        "alarma": false
+        "alarm": false
     },
     {
         "type": "sensor",
@@ -20,7 +20,7 @@
         "id": "temp2",
         "min": 0.01,
         "max": 99.99,
-        "alarma": true
+        "alarm": true
     },
     {
         "type": "sensor",
@@ -29,6 +29,6 @@
         "id": "temp3",
         "min": 0,
         "max": 100,
-        "alarma": true
+        "alarm": true
     }
 ]
