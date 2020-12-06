@@ -1,20 +1,12 @@
 import { TextField } from '@material-ui/core'
 import React from 'react'
 
-export default function FormFields({ campos, className, onChange, fullWidth }) {
+export default function FormFields({ campos, ...props }) {
     return (
         < >
-            {campos.map(campo => {
-                return (
-                    <TextField
-                        className={className}
-                        {...campo}
-                        key={campo.id || JSON.stringify(campo)}
-                        fullWidth={fullWidth}
-                        onChange={onChange}
-                    />
-                )
-            })}
+            {campos.map((campo, index) =>
+                <TextField {...campo} {...props} key={index} />
+            )}
         </ >
     )
 }

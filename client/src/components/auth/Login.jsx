@@ -40,9 +40,7 @@ class Login extends Component {
 
     handleChange(e) {
         const { id, value } = e.target
-        this.setState(() => {
-            return { [id]: value }
-        })
+        this.setState({ [id]: value })
     }
 
     handleSubmit(e) {

@@ -1,15 +1,14 @@
 import { CircularProgress, Switch } from '@material-ui/core'
 import React from 'react'
 
-export default function LoadingSwitch({ loading, id, checked, onChange, color }) {
+export default function LoadingSwitch({ loading, id, color, ...props }) {
     if (!loading) {
         return (
             <Switch
                 key={`switch${id}`}
                 id={id}
-                checked={checked}
-                onChange={onChange}
                 color={color}
+                {...props}
             />
         )
     } else {

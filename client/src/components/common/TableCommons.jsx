@@ -33,9 +33,9 @@ export function ColorCell({ min, max, value, ...props }) {
     }
 }
 
-export function ColoredTableHead({ columns, }) {
+export function ColoredTableHead({ columns, ...props }) {
     return (
-        <TableHead>
+        <TableHead {...props}>
             <TableRow>
                 {columns.map(({ label, align, minWidth }, index) => (
                     <HeaderCell

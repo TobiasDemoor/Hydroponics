@@ -13,7 +13,7 @@ const strings = require("../../config").strings
 
 const styles = theme => ({
     form: {
-        
+
     },
     card: {
         padding: theme.spacing(4),
@@ -61,17 +61,13 @@ class ChangeLogin extends Component {
             newUsername, newPassword, newPasswordVerify
         } = this.state
         if (newPassword === newPasswordVerify) {
-            this.setState(() => {
-                return { error: null }
-            })
+            this.setState({ error: null })
             this.props.modifyLogin(currentUsername, currentPassword, newUsername, newPassword);
         } else {
-            this.setState(() => {
-                return {
-                    newPassword: "",
-                    newPasswordVerify: "",
-                    error: strings.passNoMatchError
-                }
+            this.setState({
+                newPassword: "",
+                newPasswordVerify: "",
+                error: strings.passNoMatchError
             })
         }
     }

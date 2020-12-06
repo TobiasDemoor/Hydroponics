@@ -8,9 +8,9 @@ const styles = () => ({
     }
 })
 
-function NavBar({ children, classes }) {
+function NavBar({ children, classes, ...props }) {
     return (
-        <AppBar position="static" className={classes.bar}>
+        <AppBar position="static" className={classes.bar} {...props}>
             <Container maxWidth="xl">
                 <Toolbar>
                     {children}

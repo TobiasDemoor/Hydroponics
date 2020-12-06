@@ -16,12 +16,6 @@ const styles = theme => ({
         width: '100%',
         backgroundColor: theme.palette.background.paper
     },
-    cellOk: {
-        backgroundColor: theme.palette.success.light
-    },
-    cellWarn: {
-        backgroundColor: theme.palette.error.light
-    },
     button: {
         margin: theme.spacing(1),
         float: 'right'
@@ -112,7 +106,7 @@ function TablaResumen({
                                     index={index}
                                     id={id}
                                     data={row}
-                                    value={valoresAct[id]}
+                                    value={valoresAct ? valoresAct[id] : 'No data'}
                                     handlerTexto={handlerTexto}
                                     handlerAlarma={handlerAlarma}
                                     align="center"

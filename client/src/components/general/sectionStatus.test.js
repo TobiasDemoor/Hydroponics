@@ -65,3 +65,18 @@ describe('sectionStatus con alarm: false', () => {
         ).toBe(true)
     })
 })
+
+describe('sectionStatus No Data', () => {
+    const column = {
+        id: "test",
+        min: 0,
+        max: 40,
+        alarm: true
+    }
+
+    test('row undefined', () => {
+        expect(
+            sectionStatus(column, undefined)
+        ).toBe(true)
+    })
+})

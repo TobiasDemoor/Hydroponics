@@ -17,6 +17,7 @@ export default function TablaControles({
         rows.push({
             label,
             value:
+                valoresAct ?
                 <LoadingSwitch
                     loading={executing}
                     id={id}
@@ -24,6 +25,8 @@ export default function TablaControles({
                     onChange={handlerOnOff}
                     color="secondary"
                 />
+                :
+                "No data"
         })
     })
     const length = rows.length
