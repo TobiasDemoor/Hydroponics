@@ -77,6 +77,6 @@ describe('sectionStatus No Data', () => {
     test('row undefined', () => {
         expect(
             sectionStatus(column, undefined)
-        ).toBe(true)
+        ).toBe(false)
     })
 })

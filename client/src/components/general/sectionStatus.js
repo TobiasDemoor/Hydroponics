@@ -5,6 +5,6 @@ export default function sectionStatus(column, row) {
         const { id, min, max } = column
         return checkMinMax(row[id], min, max) ?? false;
     } else {
-        return true;
+        return !!row;
     }
 }
