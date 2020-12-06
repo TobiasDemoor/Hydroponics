@@ -83,3 +83,14 @@ export function update() {
             )
     }
 }
+
+export function getSections() {
+    return dispatch => {
+        dispatch({ type: updateRequest })
+        service.getSections()
+            .then(
+                response => dispatch({ type: updateSuccess, payload: response }),
+                err => dispatch({ type: updateError, error: err })
+            )
+    }
+}

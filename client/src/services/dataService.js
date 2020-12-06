@@ -1,12 +1,7 @@
 import handleResponse from "./responseService";
 
 async function getRecent(id) {
-    const requestOptions = {
-        method: 'GET'
-    };
-    console.debug(requestOptions);
-
-    return fetch(`/api/data/recent/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/api/data/recent/${id}`).then(handleResponse);
 }
 
 async function submitChanges(columns, id) {
@@ -42,11 +37,17 @@ async function update() {
     return fetch('/api/control/update', requestOptions).then(handleResponse);
 }
 
+async function getSections() {
+    return fetch('/api/data/sections').then(handleResponse);
+}
+
+
 const services = {
     getRecent,
     submitChanges,
     changeOnOff,
-    update
+    update,
+    getSections
 }
 
 export default services;

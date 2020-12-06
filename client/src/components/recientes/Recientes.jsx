@@ -6,7 +6,7 @@ import {
     CircularProgress, Container, IconButton, withStyles
 } from '@material-ui/core';
 import BackIcon from '@material-ui/icons/ArrowBack'
-import { getRecent, update } from '../../store/data/actions'
+import { getRecent, getSections } from '../../store/data/actions'
 import DataTable from '../common/DataTable'
 import NavBar from '../common/NavBar';
 import Resumen from './Resumen';
@@ -46,7 +46,7 @@ class Recientes extends Component {
         const { id } = this.props.match.params;
         this.props.getRecent(id)
         if (!this.props.sections) {
-            this.props.update()
+            this.props.getSections()
         }
     }
 
@@ -114,7 +114,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    update: () => dispatch(update()),
+    getSections: () => dispatch(getSections()),
     getRecent: id => dispatch(getRecent(id)),
     changeResumen: () => dispatch(changeResumen())
 })
