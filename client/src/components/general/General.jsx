@@ -84,7 +84,7 @@ class General extends Component {
     }
 
     render() {
-        const { anchorEl, height, requestedUpdate } = this.state;
+        const { anchorEl, height } = this.state;
         const { isFetching, sections, executing, error, classes } = this.props;
 
         let actuators = ['', '']
@@ -126,7 +126,7 @@ class General extends Component {
                     <Title text={mainTitle} />
                     <ErrorMessage error={error} />
     
-                    { (!isFetching || !requestedUpdate) && sections ?
+                    { !isFetching && sections ?
                         <Diagram
                             sections={sections}
                             executing={executing}
