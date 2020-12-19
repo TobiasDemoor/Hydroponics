@@ -32,23 +32,22 @@ const styles = theme => ({
     },
 })
 
+
 const BoxSection = withStyles(styles)(
-    ({ id, classes, data, xs, height }) => {
+    ({ id, classes, data, height }) => {
         const { title, columns, row } = data
         const ok = columns.every(column => sectionStatus(column, row))
+        const color = ok ? colors.ok : colors.error
         return (
-            <Grid item xs={xs}>
-                <Box
-                    key={id}
-                    className={classes.item}
-                    style={{ height }}
-                    bgcolor={ok ? colors.ok : colors.error}
-                >
-                    <Link to={id} className={classes.link}>
-                        {`${goToSection} ${title}`}
-                    </Link>
-                </Box>
-            </Grid>
+            <Box
+                className={classes.item}
+                style={{ height }}
+                bgcolor={color}
+            >
+                <Link to={id} className={classes.link}>
+                    {`${goToSection}${title}`}
+                </Link>
+            </Box>
         )
     }
 )
@@ -61,13 +60,13 @@ function Diagram({
     const actState = sections.main.row;
     return (
         <Grid container spacing={1} height="100%">
-            <BoxSection
-                id={ambient}
-                key={ambient}
-                data={sections[ambient]}
-                height={height * 0.15}
-                xs={12}
-            />
+            <Grid item xs={12}>
+                <BoxSection
+                    id={ambient}
+                    data={sections[ambient]}
+                    height={height * 0.15}
+                />
+            </Grid>
             <Grid item xs={12} className={classes.item}>
                 <LoadingSwitch
                     color="primary"
@@ -77,31 +76,34 @@ function Diagram({
                     loading={executing}
                 />
             </Grid>
-            <BoxSection
-                id={fishtank}
-                key={fishtank}
-                data={sections[fishtank]}
-                xs={6}
-            />
+            <Grid item xs={6}>
+                <BoxSection
+                    id={fishtank}
+                    data={sections[fishtank]}
+                />
+            </Grid>
             <Grid container item spacing={1} xs={6} direction="column">
-                <BoxSection
-                    id={upperbed}
-                    key={upperbed}
-                    data={sections[upperbed]}
-                    height={height * 0.15}
-                />
-                <BoxSection
-                    id={mediumbed}
-                    key={mediumbed}
-                    data={sections[mediumbed]}
-                    height={height * 0.15}
-                />
-                <BoxSection
-                    id={lowerbed}
-                    key={lowerbed}
-                    data={sections[lowerbed]}
-                    height={height * 0.15}
-                />
+                <Grid item>
+                    <BoxSection
+                        id={upperbed}
+                        data={sections[upperbed]}
+                        height={height * 0.15}
+                    />
+                </Grid>
+                <Grid item>
+                    <BoxSection
+                        id={mediumbed}
+                        data={sections[mediumbed]}
+                        height={height * 0.15}
+                    />
+                </Grid>
+                <Grid item>
+                    <BoxSection
+                        id={lowerbed}
+                        data={sections[lowerbed]}
+                        height={height * 0.15}
+                    />
+                </Grid>
             </Grid>
             <Grid item xs={12} className={classes.item}>
                 <LoadingSwitch
